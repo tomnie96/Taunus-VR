@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>KD2 Lab - 360&deg;</title>
+    <meta name="description" content="KD2 Lab - 360&deg;">
+    <script src="https://aframe.io/releases/1.1.0/aframe.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/donmccurdy/aframe-extras@v6.1.1/dist/aframe-extras.min.js"></script>
+
+    <script src="https://unpkg.com/aframe-event-set-component@5/dist/aframe-event-set-component.min.js"></script>
+    <!--    <script src="https://unpkg.com/aframe-layout-component@5.3.0/dist/aframe-layout-component.min.js"></script>-->
+    <script src="https://unpkg.com/aframe-template-component@3.2.1/dist/aframe-template-component.min.js"></script>
+    <script src="https://unpkg.com/aframe-proxy-event-component@2.1.0/dist/aframe-proxy-event-component.min.js"></script>
+    <script src="https://unpkg.com/aframe-look-at-component@1.0.0/dist/aframe-look-at-component.min.js"></script>
+
+    <!-- Image link template to be reused. -->
+    <script id="link" type="text/html">
+
+        <a-entity class="link"
+                  geometry="primitive: plane; height: 1; width: 1"
+                  material="shader: flat; opacity: 0"
+                  event-set__mouseenter="scale: 1.2 1.2 1"
+                  event-set__mouseleave="scale: 1 1 1"
+                  proxy-event="event: click; to: #curtain; as: fade"
+                  sound="on: click; src: #click-sound">
+            <a-plane color="#333" width="1.5" height=".8">
+                <a-text value="${text}" color="#FFF" align="center"></a-text>
+            </a-plane>
+        </a-entity>
+
+    </script>
+    <script id="position" type="text/html">
+        <a-entity class="pic360" position="0 0 0" visible="false">
+            <a-sky id="sky" radius="10" src="${skySrc}" rotation="${skyRotation}"></a-sky>
+        </a-entity>
+        <a-entity class="circle" position="0 -2 0">
+            <a-circle color="#565656" size=".4" rotation="-90 0 0"></a-circle>
+        </a-entity>
+        <a-entity template="src: #link" data-text="${text}" look-at="[camera]"></a-entity>
+    </script>
+
+    <script>
+        let currentSphere = null;
+        let initialized = false;
+
+        // Initial sphere
+        AFRAME.registerComponent('initial-sphere', {
+            play: function () {
+                if (!initialized) {
+                    initialized = true;
+
+                    // Set initial sphere
+                    currentSphere = this.el;
+                    this.el.children[0].setAttribute('visible', 'true');
+                    this.el.children[2].setAttribute('visible', 'false');
+                }
+            }
+        });
+
+        // Navigation
+        AFRAME.registerComponent('nav', {
+
+            init: function () {
+                const self = this;
+
+                this.el.addEventListener('click', function () {
+                    // Check target
+                    console.log('Location Update: From ' + currentSphere.id + ' to ' + self.el.id);
+
+                    // wait for dark animation
+                    setTimeout(() => {
+                        // Change 360 sphere
+                        currentSphere.children[0].setAttribute('visible', 'false');
+                        currentSphere.children[2].setAttribute('visible', 'true');
+
+                        // Set current sphere
+                        currentSphere = self.el;
+
+                        // change position
+                        document.querySelector("#cam-rig").setAttribute('position', currentSphere.object3D.position);
+
+                        // Go visible
+                        currentSphere.children[0].setAttribute('visible', 'true');
+                        currentSphere.children[2].setAttribute('visible', 'false');
+                    }, 150);
+                });
+            },
+        });
+    </script>
+</head>
+<body>
+<a-scene>
+    <!--  Assets  -->
+    <a-assets>
+        <img id="city" crossorigin="anonymous" src="https://cdn.aframe.io/360-image-gallery-boilerplate/img/city.jpg">
+        <img id="city-thumb" crossorigin="anonymous"
+             src="https://cdn.aframe.io/360-image-gallery-boilerplate/img/thumb-city.jpg">
+        <img id="cubes-thumb" crossorigin="anonymous"
+             src="https://cdn.aframe.io/360-image-gallery-boilerplate/img/thumb-cubes.jpg">
+        <img id="sechelt-thumb" crossorigin="anonymous"
+             src="https://cdn.aframe.io/360-image-gallery-boilerplate/img/thumb-sechelt.jpg">
+        <audio id="click-sound" crossorigin="anonymous"
+               src="https://cdn.aframe.io/360-image-gallery-boilerplate/audio/click.ogg"></audio>
+        <img id="img-24" crossorigin="anonymous" src="data/R0010024.JPG">
+        <img id="img-25" crossorigin="anonymous" src="data/R0010025.JPG">
+        <img id="img-26" crossorigin="anonymous" src="data/R0010026.JPG">
+        <img id="img-27" crossorigin="anonymous" src="data/R0010027.JPG">
+        <img id="img-28" crossorigin="anonymous" src="data/R0010028.JPG">
+        <img id="img-30" crossorigin="anonymous" src="data/R0010030.JPG">
+        <img id="img-35" crossorigin="anonymous" src="data/R0010035.JPG">
+        <img id="img-52" crossorigin="anonymous" src="data/R0010052.JPG">
+        <img id="img-53" crossorigin="anonymous" src="data/R0010053.JPG">
+        <img id="img-54" crossorigin="anonymous" src="data/R0010054.JPG">
+        <img id="img-55" crossorigin="anonymous" src="data/R0010055.JPG">
+        <img id="img-56" crossorigin="anonymous" src="data/R0010056.JPG">
+        <img id="img-57" crossorigin="anonymous" src="data/R0010057.JPG">
+        <img id="img-58" crossorigin="anonymous" src="data/R0010058.JPG">
+        <img id="img-60" crossorigin="anonymous" src="data/R0010060.JPG">
+        <img id="img-61" crossorigin="anonymous" src="data/R0010061.JPG">
+        <img id="img-62" crossorigin="anonymous" src="data/R0010062.JPG">
+        <img id="img-65" crossorigin="anonymous" src="data/R0010065.JPG">
+    </a-assets>
+
+    <!--  Foyer  -->
+    <a-entity id="sky-52" template="src: #position" position="-4 0 0"
+              data-sky-src="#img-52" data-sky-rotation="0 -90 0" data-text="Foyer" nav></a-entity>
+    <a-entity id="sky-55" template="src: #position" position="0 0 0" data-sky-src="#img-55" data-sky-rotation="0 180 0"
+              data-text="Foyer" initial-sphere nav></a-entity>
+    <a-entity id="sky-54" template="src: #position" position="-4 0 -4" data-sky-src="#img-54"
+              data-sky-rotation="0 180 0" data-text="Foyer" nav></a-entity>
+    <a-entity id="sky-58" template="src: #position" position="-4 0 -12" data-sky-src="#img-58"
+              data-sky-rotation="0 180 0" data-text="Foyer" nav></a-entity>
+    <!--    <a-sky id="sky-52" radius="1" src="#img-52" position="-4 0 0" rotation="0 -90 0"></a-sky>-->
+
+    <!--  A Mitte  -->
+    <a-entity id="sky-24" template="src: #position" position="-11 0 -12" data-sky-src="#img-24"
+              data-sky-rotation="0 180 0" data-text="Foyer" nav></a-entity>
+    <a-entity id="sky-25" template="src: #position" position="-11 0 -8" data-sky-src="#img-25"
+              data-sky-rotation="0 180 0" data-text="Foyer" nav></a-entity>
+    <a-entity id="sky-26" template="src: #position" position="-11 0 -5" data-sky-src="#img-26"
+              data-sky-rotation="0 180 0" data-text="Foyer" nav></a-entity>
+    <a-entity id="sky-27" template="src: #position" position="-11 0 -2" data-sky-src="#img-27"
+              data-sky-rotation="0 180 0" data-text="Foyer" nav></a-entity>
+
+    <!-- A01-10 -->
+    <a-entity id="sky-28" template="src: #position" position="-16 0 -12" data-sky-src="#img-28"
+              data-sky-rotation="0 90 0" data-text="Foyer" nav></a-entity>
+
+    <!--  A11-20  -->
+    <a-entity id="sky-60" template="src: #position" position="-6 0 -12" data-sky-src="#img-60"
+              data-sky-rotation="0 180 0" data-text="Foyer" nav></a-entity>
+    <a-entity id="sky-65" template="src: #position" position="-6 0 -2" data-sky-src="#img-65"
+              data-sky-rotation="0 0 0" data-text="Foyer" nav></a-entity>
+
+    <!-- Camera + cursor. -->
+    <a-entity id="cam-rig" position="0 0 0">
+        <a-entity camera position="0 0 0"
+                  look-controls="pointerLockEnabled: true"
+                  wasd-controls="acceleration: 25">
+
+            <a-cursor
+                    id="cursor"
+                    animation__click="property: scale; startEvents: click; from: 0.1 0.1 0.1; to: 1 1 1; dur: 150"
+                    animation__fusing="property: fusing; startEvents: fusing; from: 1 1 1; to: 0.1 0.1 0.1; dur: 1500"
+                    event-set__mouseenter="_event: mouseenter; color: springgreen"
+                    event-set__mouseleave="_event: mouseleave; color: black"
+                    raycaster="objects: .link"></a-cursor>
+
+            <a-sphere
+                    id="curtain"
+                    radius="1"
+                    color="#000"
+                    opacity="0"
+                    side="double"
+                    animation__fade="property: components.material.material.opacity; type: number; from: 0; to: 1; dur: 150; startEvents: fade"
+                    animation__fadeback="property: components.material.material.opacity; type: number; from: 1; to: 0; delay: 100; dur: 150; startEvents: animationcomplete__fade"></a-sphere>
+        </a-entity>
+    </a-entity>
+</a-scene>
+</body>
+</html>
