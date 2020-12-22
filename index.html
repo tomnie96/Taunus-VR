@@ -12,6 +12,7 @@
     <script src="https://unpkg.com/aframe-template-component@3.2.1/dist/aframe-template-component.min.js"></script>
     <script src="https://unpkg.com/aframe-proxy-event-component@2.1.0/dist/aframe-proxy-event-component.min.js"></script>
     <script src="https://unpkg.com/aframe-look-at-component@1.0.0/dist/aframe-look-at-component.min.js"></script>
+    <script src="https://unpkg.com/aframe-particle-system-component@1.0.x/dist/aframe-particle-system-component.min.js"></script>
 
     <!-- Image link template to be reused. -->
     <script id="link" type="text/html">
@@ -31,7 +32,8 @@
     </script>
     <script id="position" type="text/html">
         <a-entity class="pic360" position="0 0 0" visible="true">
-            <a-sky id="sky" radius=".7" src="${skySrc}" rotation="${skyRotation}" material="shader: flat; opacity: .7; color: #AAA"></a-sky>
+            <a-sky id="sky" radius=".7" src="${skySrc}" rotation="${skyRotation}"
+                   material="shader: flat; opacity: .7; color: #AAA"></a-sky>
         </a-entity>
         <a-entity class="circle" position="0 -2 0" visible="false">
             <a-circle color="#565656" size=".2" rotation="-90 0 0"></a-circle>
@@ -76,9 +78,6 @@
             neighbourIds.forEach((id) => setNeighbour(document.getElementById('sky-' + id)));
         });
 
-
-
-
         // Initial sphere
         AFRAME.registerComponent('initial-sphere', {
 
@@ -92,7 +91,9 @@
                 if (!initialized) {
                     initialized = true;
 
+                    // change position
                     updateMainSphere(this.el, this.data.next);
+                    document.querySelector("#cam-rig").setAttribute('position', currentSphere.object3D.position);
                 }
             }
         });
@@ -114,7 +115,6 @@
                     // wait for dark animation
                     setTimeout(() => {
                         // Set current sphere
-                        const prevSphere = currentSphere;
                         currentSphere = self.el;
 
                         updateMainSphere(currentSphere, self.data.next);
@@ -163,40 +163,52 @@
 
     <!--  Foyer  -->
     <a-entity id="sky-52" template="src: #position" position="-4 0 0"
-              data-sky-src="#img-52" data-sky-rotation="0 -90 0" data-text="Foyer" nav="next: 55, 54"></a-entity>
+              data-sky-src="#img-52" data-sky-rotation="0 -90 0" data-text="Foyer" nav="next: 55, 56, 57"></a-entity>
     <a-entity id="sky-55" template="src: #position" position="0 0 0" data-sky-src="#img-55" data-sky-rotation="0 180 0"
-              data-text="Foyer" initial-sphere="next: 52, 54" nav="next: 52, 54"></a-entity>
-    <a-entity id="sky-54" template="src: #position" position="-4 0 -4" data-sky-src="#img-54"
-              data-sky-rotation="0 180 0" data-text="Foyer" nav="next: 52, 55, 58"></a-entity>
+              data-text="Foyer" nav="next: 52, 56, 57"></a-entity>
+    <a-entity id="sky-56" template="src: #position" position="0 0 -2" data-sky-src="#img-56"
+              data-sky-rotation="0 180 0" data-text="Foyer" nav="next: 52, 55, 57"></a-entity>
+    <a-entity id="sky-54" template="src: #position" position="-4 0 -6" data-sky-src="#img-54"
+              data-sky-rotation="0 180 0" data-text="Foyer" nav="next: 58, 57"></a-entity>
+    <a-entity id="sky-57" template="src: #position" position="-4 0 -2" data-sky-src="#img-57"
+              data-sky-rotation="0 180 0" data-text="Foyer" nav="next: 52, 54, 55, 56"></a-entity>
     <a-entity id="sky-58" template="src: #position" position="-4 0 -12" data-sky-src="#img-58"
-              data-sky-rotation="0 180 0" data-text="Foyer" nav="next: 54"></a-entity>
+              data-sky-rotation="0 180 0" data-text="Foyer" nav="next: 54, 60"></a-entity>
     <!--    <a-sky id="sky-52" radius="1" src="#img-52" position="-4 0 0" rotation="0 -90 0"></a-sky>-->
 
     <!--  A Mitte  -->
     <a-entity id="sky-24" template="src: #position" position="-11 0 -12" data-sky-src="#img-24"
-              data-sky-rotation="0 180 0" data-text="Foyer" nav></a-entity>
+              data-sky-rotation="0 180 0" data-text="Foyer" nav="next: 28, 60, 25"></a-entity>
     <a-entity id="sky-25" template="src: #position" position="-11 0 -8" data-sky-src="#img-25"
-              data-sky-rotation="0 180 0" data-text="Foyer" nav></a-entity>
+              data-sky-rotation="0 180 0" data-text="Foyer" nav="next: 24, 26"></a-entity>
     <a-entity id="sky-26" template="src: #position" position="-11 0 -5" data-sky-src="#img-26"
-              data-sky-rotation="0 180 0" data-text="Foyer" nav></a-entity>
+              data-sky-rotation="0 180 0" data-text="Foyer" nav="next: 25, 27"></a-entity>
     <a-entity id="sky-27" template="src: #position" position="-11 0 -2" data-sky-src="#img-27"
-              data-sky-rotation="0 180 0" data-text="Foyer" nav></a-entity>
+              data-sky-rotation="0 180 0" data-text="Foyer" nav="next: 26, 35, 65"></a-entity>
 
     <!-- A01-10 -->
     <a-entity id="sky-28" template="src: #position" position="-16 0 -12" data-sky-src="#img-28"
-              data-sky-rotation="0 90 0" data-text="Foyer" nav></a-entity>
+              data-sky-rotation="0 90 0" data-text="Foyer" nav="next: 24, 30"></a-entity>
+    <a-entity id="sky-30" template="src: #position" position="-16 0 -8" data-sky-src="#img-30"
+              data-sky-rotation="0 0 0" data-text="Foyer" nav="next: 28, 35"></a-entity>
+    <a-entity id="sky-35" template="src: #position" position="-16 0 -4" data-sky-src="#img-35"
+              data-sky-rotation="0 -90 0" data-text="Foyer" nav="next: 30, 27"></a-entity>
 
     <!--  A11-20  -->
     <a-entity id="sky-60" template="src: #position" position="-6 0 -12" data-sky-src="#img-60"
-              data-sky-rotation="0 180 0" data-text="Foyer" nav></a-entity>
+              data-sky-rotation="0 180 0" data-text="Foyer" nav="next: 58, 24, 61"></a-entity>
+    <a-entity id="sky-61" template="src: #position" position="-6 0 -8" data-sky-src="#img-61"
+              data-sky-rotation="0 180 0" data-text="Foyer" nav="next: 60, 62, 65"></a-entity>
+    <a-entity id="sky-62" template="src: #position" position="-6 0 -5" data-sky-src="#img-62"
+              data-sky-rotation="0 180 0" data-text="Foyer" nav="next: 61, 65"></a-entity>
     <a-entity id="sky-65" template="src: #position" position="-6 0 -2" data-sky-src="#img-65"
-              data-sky-rotation="0 0 0" data-text="Foyer" nav></a-entity>
+              data-sky-rotation="0 0 0" data-text="Foyer" nav="next: 27, 62, 61"></a-entity>
 
     <!-- Camera + cursor. -->
-    <a-entity id="cam-rig" position="0 0 0">
+    <a-entity id="cam-rig" position="0 50 0">
         <a-entity camera position="0 0 0"
-                  look-controls="pointerLockEnabled: true"
-                  wasd-controls="acceleration: 25">
+                  look-controls="pointerLockEnabled: true">
+            <!-- wasd-controls="acceleration: 25">-->
 
             <a-cursor
                     id="cursor"
@@ -212,10 +224,23 @@
                     color="#000"
                     opacity="0"
                     side="double"
+                    visible="false"
                     animation__fade="property: components.material.material.opacity; type: number; from: 0; to: 1; dur: 150; startEvents: fade"
                     animation__fadeback="property: components.material.material.opacity; type: number; from: 1; to: 0; delay: 100; dur: 150; startEvents: animationcomplete__fade"></a-sphere>
         </a-entity>
     </a-entity>
+
+
+    <!--  Welcome / Let it snow  -->
+    <a-entity id="welcome" position="0 50 0">
+        <a-sphere id="w-sphere" radius="100" color="#999" opacity="1" side="double">
+            <a-text value="Willkommen bei der 360° Tour des KD2-Labs!" position="0 0 -2" color="#000" side="double" align="center" look-at="[camera]"></a-text>
+            <a-text value="Laden..." position="0 -.6 -2" color="#000" side="double" align="center" look-at="[camera]"></a-text>
+            <a-entity position="0 2.25 -15" particle-system="preset: snow"></a-entity>
+        </a-sphere>
+    </a-entity>
+
+
 </a-scene>
 </body>
 </html>
