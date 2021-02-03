@@ -21,7 +21,6 @@
                   material="shader: flat; opacity: 0"
                   event-set__mouseenter="scale: 1.2 1.2 1"
                   event-set__mouseleave="scale: 1 1 1"
-                  proxy-event="event: click; to: #curtain; as: fade"
                   sound="on: click; src: #click-sound">
             <a-plane color="#333" width="1.5" height=".8" opacity="0">
                 <a-text value="${text}" color="#000" align="center"></a-text>
@@ -35,8 +34,8 @@
             <a-sky id="sky" radius=".7" src="${skySrc}" rotation="${skyRotation}"
                    material="shader: flat; opacity: .7; color: #AAA"></a-sky>
         </a-entity>
-        <a-entity class="circle" position="0 -5 0" visible="false">
-            <a-circle color="#383332" radius="2" rotation="-90 0 0"></a-circle>
+        <a-entity class="circle" position="0 -6 0" visible="false">
+            <a-circle color="#282424" radius="2" rotation="-90 0 0"></a-circle>
         </a-entity>
         <a-entity template="src: #link" data-text="${text}" look-at="[camera]" visible="false"></a-entity>
         <a-entity class="circle" position="0 -2 0" visible="false">
@@ -64,6 +63,7 @@
         // Vars
         let currentSphere = null; // Current main sphere
         let initialized = false; // Program initialized?
+        let isTransitioning = false; // Allow only one transition at the same time
 
         // Set all spheres invisible
         const setAllInvisible = (() => {
@@ -78,6 +78,7 @@
             // child 0: Sphere
             // child 1: Ground plate
             // child 2: Label
+            // child 3: Floor Ring
             sphere.children[0].children[0].setAttribute('radius', '100');
             sphere.children[0].children[0].setAttribute('material', 'opacity: 1; color: #FFF');
             sphere.children[0].setAttribute('visible', 'true');
@@ -104,6 +105,7 @@
                 sphere.children[1].setAttribute('visible', 'false');
                 sphere.children[2].setAttribute('visible', 'true');
                 if (!useText) sphere.children[2].children[0].children[0].children[0].setAttribute('visible', 'false');
+                if (!useText && !useSpheres) sphere.children[2].setAttribute("position", "0 -2 0") // Set link position to floor ring
                 if (useFloorRings) sphere.children[3].setAttribute('visible', 'true');
             }
         });
@@ -144,20 +146,31 @@
                 const self = this;
 
                 this.el.addEventListener('click', function () {
-                    // Log target
-                    console.log('Location Update: Img ' + currentSphere.id + ' - Img ' + self.el.id);
+                    // Block
+                    if (!isTransitioning) {
+                        isTransitioning = true;
 
-                    // Wait for dark animation
-                    setTimeout(() => {
-                        // Set current sphere
-                        currentSphere = self.el;
+                        // Log target
+                        console.log('Location Update: Img ' + currentSphere.id + ' - Img ' + self.el.id);
 
-                        updateMainSphere(currentSphere, self.data.next);
+                        // Close curtain
+                        document.getElementById('curtain').dispatchEvent(new CustomEvent('fade'));
 
-                        // Change position
-                        document.querySelector("#cam-rig").setAttribute('position', currentSphere.object3D.position);
+                        // Wait for dark animation
+                        setTimeout(() => {
+                            // Set current sphere
+                            currentSphere = self.el;
 
-                    }, 150);
+                            updateMainSphere(currentSphere, self.data.next);
+
+                            // Change position
+                            document.querySelector("#cam-rig").setAttribute('position', currentSphere.object3D.position);
+
+                            // Reset blocker
+                            isTransitioning = false;
+
+                        }, 160);
+                    }
                 });
             },
         });
@@ -175,7 +188,6 @@
 
                     currentSphere.neighbourIds.forEach((neighbourId) => {
                         const neighbour = document.getElementById('sky-' + neighbourId);
-                        const camera = document.querySelector("[camera]").getObject3D('camera');
 
                         if (checkIfVisible(neighbour.children[2].children[0])) {
 
@@ -188,10 +200,8 @@
                     });
 
                     if (minObject != null) {
+                        // Notify close object
                         minObject.dispatchEvent(new CustomEvent('click'));
-                        document.getElementById('curtain').dispatchEvent(new CustomEvent('fade'));
-                        console.log('Jump to ' + minObject.id);
-                        console.log('Distance: ' + minDistance);
                     }
 
                 });
@@ -355,9 +365,22 @@
             let entityMesh = entity.object3DMap.mesh;
             let frustum = new THREE.Frustum();
             let cameraViewProjectionMatrix = new THREE.Matrix4();
-            const camera = document.querySelector("[camera]").getObject3D('camera');
 
+            // Get camera
+            let camera = document.querySelector("[camera]").getObject3D('camera');
+
+            // Update camera attributes
             camera.updateMatrixWorld();
+            camera.updateProjectionMatrix();
+
+            // Set limited FoV
+            camera = camera.clone();
+            camera.aspect = .5; // Reduced from 1
+            camera.fov = 60; // Reduced from 80
+            // camera.zoom = 4; // Alt variant to reduce fov
+
+            camera.updateProjectionMatrix();
+
             // camera.matrixWorldInverse.getInverse(camera.matrixWorld);
             cameraViewProjectionMatrix.multiplyMatrices(camera.projectionMatrix, camera.matrixWorldInverse);
             frustum.setFromProjectionMatrix(cameraViewProjectionMatrix);
@@ -421,7 +444,7 @@
     <a-entity id="sky-26" template="src: #position" position="-11 0 -5" data-sky-src="#img-26"
               data-sky-rotation="0 180 0" data-text="A Mitte" nav="next: 25, 27"></a-entity>
     <a-entity id="sky-27" template="src: #position" position="-11 0 -2" data-sky-src="#img-27"
-              data-sky-rotation="0 180 0" data-text="A Mitte" nav="next: 26, 35, 65"></a-entity>
+              data-sky-rotation="0 180 0" data-text="A Mitte" nav="next: 26"></a-entity>
 
     <!-- A01-10 -->
     <a-entity id="sky-28" template="src: #position" position="-16 0 -14" data-sky-src="#img-28"
@@ -429,7 +452,7 @@
     <a-entity id="sky-30" template="src: #position" position="-16 0 -10" data-sky-src="#img-30"
               data-sky-rotation="0 0 0" data-text="A-03" nav="next: 28, 35"></a-entity>
     <a-entity id="sky-35" template="src: #position" position="-16 0 -6" data-sky-src="#img-35"
-              data-sky-rotation="0 -90 0" data-text="Zu Lab B" nav="next: 30, 27, 43, 51"></a-entity>
+              data-sky-rotation="0 -90 0" data-text="Zu Lab B" nav="next: 30, 43, 51"></a-entity>
 
     <!--  A11-20  -->
     <a-entity id="sky-60" template="src: #position" position="-6 0 -15" data-sky-src="#img-60"
@@ -439,7 +462,7 @@
     <a-entity id="sky-62" template="src: #position" position="-6 0 -5" data-sky-src="#img-62"
               data-sky-rotation="0 180 0" data-text="A-17" nav="next: 61, 65"></a-entity>
     <a-entity id="sky-65" template="src: #position" position="-6 0 -2" data-sky-src="#img-65"
-              data-sky-rotation="0 0 0" data-text="A-20" nav="next: 27, 62"></a-entity>
+              data-sky-rotation="0 0 0" data-text="A-20" nav="next: 62"></a-entity>
 
 
     <!-- B01-05 -->
@@ -480,7 +503,8 @@
                     animation__mouseleave_color="property: components.material.material.color; type: color; to: #000; startEvents: mouseleave; dur: 200"
                     animation__mouseleave_scale="property: scale; startEvents: mouseleave; easing: easeInCubic; dur: 300; to: 1 1 1"
                     raycaster="objects: .link"
-                    proxy-event="event: mousedown; to: #cursor; as: nav-click" click-nav>
+                    proxy-event="event: mousedown; to: #cursor; as: nav-click"
+                    click-nav>
             </a-entity>
 
             <a-sphere
@@ -490,7 +514,7 @@
                     opacity="0"
                     side="double"
                     animation__fade="property: components.material.material.opacity; type: number; from: 0; to: 1; dur: 150; startEvents: fade"
-                    animation__fadeback="property: components.material.material.opacity; type: number; from: 1; to: 0; delay: 100; dur: 150; startEvents: animationcomplete__fade"
+                    animation__fadeback="property: components.material.material.opacity; type: number; from: 1; to: 0; delay: 170; dur: 150; startEvents: animationcomplete__fade"
                     animation__fadelong="property: components.material.material.opacity; type: number; from: 0; to: 1; dur: 500; startEvents: fadelong"
                     animation__fadelongback="property: components.material.material.opacity; type: number; from: 1; to: 0; dur: 1000; startEvents: fadelongback"
             ></a-sphere>
