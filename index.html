@@ -388,7 +388,6 @@
         <img id="img-41" crossorigin="anonymous" src="data/R0010041.JPG">
         <img id="img-43" crossorigin="anonymous" src="data/R0010043.JPG">
         <img id="img-45" crossorigin="anonymous" src="data/R0010045.JPG">
-        <img id="img-47" crossorigin="anonymous" src="data/R0010047.JPG">
         <img id="img-49" crossorigin="anonymous" src="data/R0010049.JPG">
         <img id="img-51" crossorigin="anonymous" src="data/R0010051.JPG">
         <img id="img-53" crossorigin="anonymous" src="data/R0010053.JPG">
@@ -402,7 +401,7 @@
 
     <!--  Foyer  -->
     <a-entity id="sky-52" template="src: #position" position="-4 0 0"
-              data-sky-src="#img-52" data-sky-rotation="0 -90 0" data-text="Foyer" nav="next: 55, 56, 57"></a-entity>
+              data-sky-src="#img-52" data-sky-rotation="0 -90 0" data-text="Foyer" nav="next: 55, 56, 57, 51"></a-entity>
     <a-entity id="sky-55" template="src: #position" position="0 0 0" data-sky-src="#img-55" data-sky-rotation="0 180 0"
               data-text="Eingang" nav="next: 52, 56, 57" click-nav></a-entity>
     <a-entity id="sky-56" template="src: #position" position=".02 0 -2" data-sky-src="#img-56"
@@ -411,11 +410,11 @@
               data-sky-rotation="0 180 0" data-text="Durchgang" nav="next: 58, 57"></a-entity>
     <a-entity id="sky-57" template="src: #position" position="-4 0 -2" data-sky-src="#img-57"
               data-sky-rotation="0 180 0" data-text="Foyer" nav="next: 52, 54, 55, 56"></a-entity>
-    <a-entity id="sky-58" template="src: #position" position="-4 0 -12" data-sky-src="#img-58"
+    <a-entity id="sky-58" template="src: #position" position="-4 0 -15" data-sky-src="#img-58"
               data-sky-rotation="0 180 0" data-text="Zu Lab A" nav="next: 54, 60"></a-entity>
 
     <!--  A Mitte  -->
-    <a-entity id="sky-24" template="src: #position" position="-11 0 -12" data-sky-src="#img-24"
+    <a-entity id="sky-24" template="src: #position" position="-11 0 -14" data-sky-src="#img-24"
               data-sky-rotation="0 180 0" data-text="Cockpit" nav="next: 28, 60, 25"></a-entity>
     <a-entity id="sky-25" template="src: #position" position="-11 0 -8" data-sky-src="#img-25"
               data-sky-rotation="0 180 0" data-text="A Mitte" nav="next: 24, 26"></a-entity>
@@ -425,15 +424,15 @@
               data-sky-rotation="0 180 0" data-text="A Mitte" nav="next: 26, 35, 65"></a-entity>
 
     <!-- A01-10 -->
-    <a-entity id="sky-28" template="src: #position" position="-16 0 -12" data-sky-src="#img-28"
+    <a-entity id="sky-28" template="src: #position" position="-16 0 -14" data-sky-src="#img-28"
               data-sky-rotation="0 90 0" data-text="A-01" nav="next: 24, 30"></a-entity>
-    <a-entity id="sky-30" template="src: #position" position="-16 0 -8" data-sky-src="#img-30"
+    <a-entity id="sky-30" template="src: #position" position="-16 0 -10" data-sky-src="#img-30"
               data-sky-rotation="0 0 0" data-text="A-03" nav="next: 28, 35"></a-entity>
-    <a-entity id="sky-35" template="src: #position" position="-16 0 -4" data-sky-src="#img-35"
-              data-sky-rotation="0 -90 0" data-text="Zu Lab B" nav="next: 30, 27"></a-entity>
+    <a-entity id="sky-35" template="src: #position" position="-16 0 -6" data-sky-src="#img-35"
+              data-sky-rotation="0 -90 0" data-text="Zu Lab B" nav="next: 30, 27, 43, 51"></a-entity>
 
     <!--  A11-20  -->
-    <a-entity id="sky-60" template="src: #position" position="-6 0 -12" data-sky-src="#img-60"
+    <a-entity id="sky-60" template="src: #position" position="-6 0 -15" data-sky-src="#img-60"
               data-sky-rotation="0 180 0" data-text="Lab A" nav="next: 58, 24, 61"></a-entity>
     <a-entity id="sky-61" template="src: #position" position="-6 0 -8" data-sky-src="#img-61"
               data-sky-rotation="0 180 0" data-text="A-14" nav="next: 60, 62"></a-entity>
@@ -444,23 +443,21 @@
 
 
     <!-- B01-05 -->
-    <a-entity id="sky-43" template="src: #position" position="-25 0 -4" data-sky-src="#img-43"
-              data-sky-rotation="0 0 0" data-text="B-01" nav="next: 35, 41, 45"></a-entity>
-    <a-entity id="sky-41" template="src: #position" position="-26 0 -4" data-sky-src="#img-41"
+    <a-entity id="sky-43" template="src: #position" position="-24 0 -6" data-sky-src="#img-43"
+              data-sky-rotation="0 -90 0" data-text="B-01" nav="next: 35, 41, 45"></a-entity>
+    <a-entity id="sky-41" template="src: #position" position="-26 0 -6" data-sky-src="#img-41"
               data-sky-rotation="0 0 0" data-text="B Gang" nav="next: 39, 43"></a-entity>
-    <a-entity id="sky-45" template="src: #position" position="-25 0 -3" data-sky-src="#img-45"
+    <a-entity id="sky-45" template="src: #position" position="-24 0 -4" data-sky-src="#img-45"
               data-sky-rotation="0 0 0" data-text="B-01" nav="next: 43"></a-entity>
 
 
     <!-- B11-20 -->
     <a-entity id="sky-39" template="src: #position" position="-26 0 0" data-sky-src="#img-39"
-              data-sky-rotation="0 0 0" data-text="B Ausgang" nav="next: 41, 51"></a-entity>
+              data-sky-rotation="0 90 0" data-text="B Ausgang" nav="next: 41, 51"></a-entity>
     <a-entity id="sky-51" template="src: #position" position="-16 0 0" data-sky-src="#img-51"
-              data-sky-rotation="0 0 0" data-text="B-18" nav="next: 39, 35, 47, 52"></a-entity>
-    <a-entity id="sky-47" template="src: #position" position="-16 0 -0.5" data-sky-src="#img-47"
-              data-sky-rotation="0 0 0" data-text="B-18" nav="next: 51, 49"></a-entity>
-    <a-entity id="sky-49" template="src: #position" position="-16 0 -1" data-sky-src="#img-49"
-              data-sky-rotation="0 0 0" data-text="B-18" nav="next: 47"></a-entity>
+              data-sky-rotation="0 -90 0" data-text="B-18" nav="next: 39, 35, 49, 52"></a-entity>
+    <a-entity id="sky-49" template="src: #position" position="-16 0 2" data-sky-src="#img-49"
+              data-sky-rotation="0 90 0" data-text="B-18" nav="next: 51"></a-entity>
 
     <!-- Camera + cursor. -->
     <a-entity id="cam-rig" position="0 50 0">
