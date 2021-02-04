@@ -154,6 +154,8 @@
                         console.log('Location Update: Img ' + currentSphere.id + ' - Img ' + self.el.id);
 
                         // Close curtain
+                        // Curtain becomes automatically invisible after fade animation
+                        document.getElementById('curtain').setAttribute('visible', 'true');
                         document.getElementById('curtain').dispatchEvent(new CustomEvent('fade'));
 
                         // Wait for dark animation
@@ -165,6 +167,11 @@
 
                             // Change position
                             document.querySelector("#cam-rig").setAttribute('position', currentSphere.object3D.position);
+                            document.getElementById('nav-map').dispatchEvent(new CustomEvent("change-position", {
+                                detail: {
+                                    position: self.el.getAttribute('position')
+                                }
+                            }));
 
                             // Reset blocker
                             isTransitioning = false;
@@ -206,6 +213,25 @@
 
                 });
             },
+        });
+
+        // Navigation Map
+        AFRAME.registerComponent('nav-map', {
+
+            init: function () {
+                self = this.el;
+
+                this.el.children[2].dispatchEvent(new CustomEvent('blink'));
+
+                this.el.addEventListener('change-position', function (e) {
+                    const position = e.detail.position;
+
+                    let x = (position.x + 28) / ((28 - 11) * 2) * .8 - .4;
+                    let z = (-position.z + 4.3) / ((4.3 + 7) * 2) * .4 - .2;
+
+                    self.children[2].setAttribute('position', '' + x + ' ' + z + ' 0.02');
+                });
+            }
         });
 
         // Attribute: Snow
@@ -396,6 +422,7 @@
     <a-assets timeout="6000">
         <audio id="click-sound" crossorigin="anonymous"
                src="https://cdn.aframe.io/360-image-gallery-boilerplate/audio/click.ogg" preload="auto"></audio>
+        <img id="map" crossorigin="anonymous" src="data/map.png">
         <img id="img-55" crossorigin="anonymous" src="data/R0010055.JPG" preload="auto">
         <img id="img-52" crossorigin="anonymous" src="data/R0010052.JPG" preload="auto">
         <img id="img-56" crossorigin="anonymous" src="data/R0010056.JPG" preload="auto">
@@ -424,7 +451,8 @@
 
     <!--  Foyer  -->
     <a-entity id="sky-52" template="src: #position" position="-4 0 0"
-              data-sky-src="#img-52" data-sky-rotation="0 -90 0" data-text="Foyer" nav="next: 55, 56, 57, 51"></a-entity>
+              data-sky-src="#img-52" data-sky-rotation="0 -90 0" data-text="Foyer"
+              nav="next: 55, 56, 57, 51"></a-entity>
     <a-entity id="sky-55" template="src: #position" position="0 0 0" data-sky-src="#img-55" data-sky-rotation="0 180 0"
               data-text="Eingang" nav="next: 52, 56, 57" click-nav></a-entity>
     <a-entity id="sky-56" template="src: #position" position=".02 0 -2" data-sky-src="#img-56"
@@ -517,7 +545,29 @@
                     animation__fadeback="property: components.material.material.opacity; type: number; from: 1; to: 0; delay: 170; dur: 150; startEvents: animationcomplete__fade"
                     animation__fadelong="property: components.material.material.opacity; type: number; from: 0; to: 1; dur: 500; startEvents: fadelong"
                     animation__fadelongback="property: components.material.material.opacity; type: number; from: 1; to: 0; dur: 1000; startEvents: fadelongback"
+                    animation__fadeend="property: visible; type: boolean; to: false; startEvents: animationcomplete__fadeback"
+                    animation__fadelongend="property: visible; type: boolean; to: false; startEvents: animationcomplete__fadelongback"
             ></a-sphere>
+
+            <!-- Navigation map -->
+            <a-entity
+                    id="nav-map"
+                    position="0 -0.2 -1"
+                    look-at="[camera]"
+                    visible="false"
+                    nav-map
+            >
+                <a-plane color="#666" height=".5" width=".92" position="0 0 -.02" shader="flat"></a-plane>
+                <a-image src="#map" height=".4" width=".8"></a-image>
+                <a-circle radius=".03" position="-0.4 .2 .02" color="#CC0000"
+                          shader="flat"
+                          animation__blink="property: radius; from: .03; to:0.015; dur: 1000; easing: easeInQuad; startEvents: blink, animationcomplete__blinkback;"
+                          animation__blinkback="property: radius; from: .015; to:0.03; dur: 1000; delay: 50; easing: easeOutQuad; startEvents: animationcomplete__blink;"
+                >
+
+                </a-circle>
+            </a-entity>
+
         </a-entity>
     </a-entity>
 
