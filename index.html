@@ -6,16 +6,20 @@
     <meta name="description" content="KD2 Lab - 360&deg;">
     <script src="https://aframe.io/releases/1.1.0/aframe.min.js"></script>
     <script src="https://cdn.jsdelivr.net/gh/donmccurdy/aframe-extras@v6.1.1/dist/aframe-extras.min.js"></script>
-
     <script src="https://unpkg.com/aframe-event-set-component@5/dist/aframe-event-set-component.min.js"></script>
-    <!--    <script src="https://unpkg.com/aframe-layout-component@5.3.0/dist/aframe-layout-component.min.js"></script>-->
     <script src="https://unpkg.com/aframe-template-component@3.2.1/dist/aframe-template-component.min.js"></script>
     <script src="https://unpkg.com/aframe-proxy-event-component@2.1.0/dist/aframe-proxy-event-component.min.js"></script>
     <script src="https://unpkg.com/aframe-look-at-component@1.0.0/dist/aframe-look-at-component.min.js"></script>
 
+    <!--    <script src="scripts/aframe.min.js"></script>-->
+    <!--    <script src="scripts/aframe-extras.min.js"></script>-->
+    <!--    <script src="scripts/aframe-event-set-component.min.js"></script>-->
+    <!--    <script src="scripts/aframe-template-component.min.js"></script>-->
+    <!--    <script src="scripts/aframe-proxy-event-component.min.js"></script>-->
+    <!--    <script src="scripts/aframe-look-at-component.min.js"></script>-->
+
     <!-- Image link template to be reused. -->
     <script id="link" type="text/html">
-
         <a-entity class="link"
                   geometry="primitive: plane; height: 1; width: 1"
                   material="shader: flat; opacity: 0"
@@ -555,16 +559,13 @@
                     position="0 -0.2 -1"
                     look-at="[camera]"
                     visible="false"
-                    nav-map
-            >
+                    nav-map>
                 <a-plane color="#666" height=".5" width=".92" position="0 0 -.02" shader="flat"></a-plane>
                 <a-image src="#map" height=".4" width=".8"></a-image>
                 <a-circle radius=".03" position="-0.4 .2 .02" color="#CC0000"
                           shader="flat"
                           animation__blink="property: radius; from: .03; to:0.015; dur: 1000; easing: easeInQuad; startEvents: blink, animationcomplete__blinkback;"
-                          animation__blinkback="property: radius; from: .015; to:0.03; dur: 1000; delay: 50; easing: easeOutQuad; startEvents: animationcomplete__blink;"
-                >
-
+                          animation__blinkback="property: radius; from: .015; to:0.03; dur: 1000; delay: 50; easing: easeOutQuad; startEvents: animationcomplete__blink;">
                 </a-circle>
             </a-entity>
 
