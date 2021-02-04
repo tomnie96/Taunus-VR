@@ -1,104 +1,145 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <meta charset="utf-8">
     <title>KD2 Lab - 360&deg;</title>
     <meta name="description" content="KD2 Lab - 360&deg;">
     <script src="https://aframe.io/releases/1.1.0/aframe.min.js"></script>
     <script src="https://cdn.jsdelivr.net/gh/donmccurdy/aframe-extras@v6.1.1/dist/aframe-extras.min.js"></script>
-
     <script src="https://unpkg.com/aframe-event-set-component@5/dist/aframe-event-set-component.min.js"></script>
-    <!--    <script src="https://unpkg.com/aframe-layout-component@5.3.0/dist/aframe-layout-component.min.js"></script>-->
     <script src="https://unpkg.com/aframe-template-component@3.2.1/dist/aframe-template-component.min.js"></script>
     <script src="https://unpkg.com/aframe-proxy-event-component@2.1.0/dist/aframe-proxy-event-component.min.js"></script>
     <script src="https://unpkg.com/aframe-look-at-component@1.0.0/dist/aframe-look-at-component.min.js"></script>
 
+    <!--    <script src="scripts/aframe.min.js"></script>-->
+    <!--    <script src="scripts/aframe-extras.min.js"></script>-->
+    <!--    <script src="scripts/aframe-event-set-component.min.js"></script>-->
+    <!--    <script src="scripts/aframe-template-component.min.js"></script>-->
+    <!--    <script src="scripts/aframe-proxy-event-component.min.js"></script>-->
+    <!--    <script src="scripts/aframe-look-at-component.min.js"></script>-->
+
     <!-- Image link template to be reused. -->
     <script id="link" type="text/html">
-
         <a-entity class="link"
                   geometry="primitive: plane; height: 1; width: 1"
                   material="shader: flat; opacity: 0"
                   event-set__mouseenter="scale: 1.2 1.2 1"
                   event-set__mouseleave="scale: 1 1 1"
-                  proxy-event="event: click; to: #curtain; as: fade"
                   sound="on: click; src: #click-sound">
             <a-plane color="#333" width="1.5" height=".8" opacity="0">
                 <a-text value="${text}" color="#000" align="center"></a-text>
             </a-plane>
         </a-entity>
     </script>
+
+    <!-- Position template: Image, circle on floor and include link -->
     <script id="position" type="text/html">
         <a-entity class="pic360" position="0 0 0" visible="false">
             <a-sky id="sky" radius=".7" src="${skySrc}" rotation="${skyRotation}"
                    material="shader: flat; opacity: .7; color: #AAA"></a-sky>
         </a-entity>
-        <a-entity class="circle" position="0 -2 0" visible="false">
-            <a-circle color="#565656" size=".2" rotation="-90 0 0"></a-circle>
+        <a-entity class="circle" position="0 -6 0" visible="false">
+            <a-circle color="#282424" radius="2" rotation="-90 0 0"></a-circle>
         </a-entity>
         <a-entity template="src: #link" data-text="${text}" look-at="[camera]" visible="false"></a-entity>
+        <a-entity class="circle" position="0 -2 0" visible="false">
+            <a-circle color="#888888" radius=".25" rotation="-90 0 0"></a-circle>
+            <a-circle color="#444444" radius=".17" rotation="-90 0 0" position="0 .01 0"></a-circle>
+        </a-entity>
     </script>
 
     <script>
-        let currentSphere = null;
-        let initialized = false;
+        // #################
+        // ## Set options ##
+        // #################
+        // ## Intro ##
+        const introScreen = false;
 
+        // ## Appearance ##
+        const sphereSize = .7; // Default: .7
+        const useSpheres = false;
+        const useGroundPlate = true;
+        const useText = false;
+        const useFloorRings = true;
+
+        // #################
+
+        // Vars
+        let currentSphere = null; // Current main sphere
+        let initialized = false; // Program initialized?
+        let isTransitioning = false; // Allow only one transition at the same time
+
+        // Set all spheres invisible
         const setAllInvisible = (() => {
             document.querySelectorAll('[id^="sky-"]').forEach((sphere => sphere.setAttribute('scale', '.001 .001 .001')));
         });
 
-        const setMainSphere = ((sphere) => {
+        // Set sphere as main
+        const setMainSphere = ((sphere, neighbourIds) => {
             currentSphere = sphere;
             document.getElementById(sphere.id).setAttribute('scale', '1 1 1');
 
             // child 0: Sphere
             // child 1: Ground plate
             // child 2: Label
+            // child 3: Floor Ring
             sphere.children[0].children[0].setAttribute('radius', '100');
             sphere.children[0].children[0].setAttribute('material', 'opacity: 1; color: #FFF');
             sphere.children[0].setAttribute('visible', 'true');
-            sphere.children[1].setAttribute('visible', 'true');
+            if (useGroundPlate) sphere.children[1].setAttribute('visible', 'true');
             sphere.children[2].setAttribute('visible', 'false');
+            sphere.children[3].setAttribute('visible', 'false');
+
+            sphere.neighbourIds = Array.from(neighbourIds);
         });
 
+        // Set sphere as neighbour
         const setNeighbour = ((sphere) => {
             if (sphere != null) {
                 document.getElementById(sphere.id).setAttribute('scale', '1 1 1');
-                sphere.children[0].children[0].setAttribute('radius', '.7');
-                sphere.children[0].children[0].setAttribute('material', 'opacity: .7; color: #AAA');
-                sphere.children[0].setAttribute('visible', 'true');
+
+                // Sphere
+                if (useSpheres) {
+                    sphere.children[0].setAttribute('visible', 'true');
+                    sphere.children[0].children[0].setAttribute('radius', sphereSize.toString());
+                    sphere.children[0].children[0].setAttribute('material', 'opacity: .7; color: #AAA');
+                } else {
+                    sphere.children[0].setAttribute('visible', 'false');
+                }
                 sphere.children[1].setAttribute('visible', 'false');
                 sphere.children[2].setAttribute('visible', 'true');
+                if (!useText) sphere.children[2].children[0].children[0].children[0].setAttribute('visible', 'false');
+                if (!useText && !useSpheres) sphere.children[2].setAttribute("position", "0 -2 0") // Set link position to floor ring
+                if (useFloorRings) sphere.children[3].setAttribute('visible', 'true');
             }
         });
 
+        // Meta function: Sets main and neighbour spheres
         const updateMainSphere = ((sphere, neighbourIds) => {
             setAllInvisible();
-            setMainSphere(sphere);
+            setMainSphere(sphere, neighbourIds);
             neighbourIds.forEach((id) => setNeighbour(document.getElementById('sky-' + id)));
         });
 
-        // Initial sphere
+        // Attribute: Initial sphere
         AFRAME.registerComponent('initial-sphere', {
 
             schema: {
                 next: {type: 'array'}
             },
 
-            // Play function instead on init
-            // Init triggers too early
             init: function () {
                 if (!initialized) {
                     initialized = true;
 
-                    // change position
+                    // Set position
                     updateMainSphere(this.el, this.data.next);
                     document.querySelector("#cam-rig").setAttribute('position', currentSphere.object3D.position);
                 }
             }
         });
 
-        // Navigation
+        // Attribute: Link Navigation
         AFRAME.registerComponent('nav', {
 
             schema: {
@@ -109,51 +150,125 @@
                 const self = this;
 
                 this.el.addEventListener('click', function () {
-                    // Check target
-                    console.log('Location Update: Img ' + currentSphere.id + ' - Img ' + self.el.id);
+                    // Block
+                    if (!isTransitioning) {
+                        isTransitioning = true;
 
-                    // wait for dark animation
-                    setTimeout(() => {
-                        // Set current sphere
-                        currentSphere = self.el;
+                        // Log target
+                        console.log('Location Update: Img ' + currentSphere.id + ' - Img ' + self.el.id);
 
-                        updateMainSphere(currentSphere, self.data.next);
+                        // Close curtain
+                        // Curtain becomes automatically invisible after fade animation
+                        document.getElementById('curtain').setAttribute('visible', 'true');
+                        document.getElementById('curtain').dispatchEvent(new CustomEvent('fade'));
 
-                        // change position
-                        document.querySelector("#cam-rig").setAttribute('position', currentSphere.object3D.position);
+                        // Wait for dark animation
+                        setTimeout(() => {
+                            // Set current sphere
+                            currentSphere = self.el;
 
-                    }, 150);
+                            updateMainSphere(currentSphere, self.data.next);
+
+                            // Change position
+                            document.querySelector("#cam-rig").setAttribute('position', currentSphere.object3D.position);
+                            document.getElementById('nav-map').dispatchEvent(new CustomEvent("change-position", {
+                                detail: {
+                                    position: self.el.getAttribute('position')
+                                }
+                            }));
+
+                            // Reset blocker
+                            isTransitioning = false;
+
+                        }, 160);
+                    }
                 });
             },
         });
 
-        var particles = [];
+        // Attribute: Click anywhere Naviagation
+        AFRAME.registerComponent('click-nav', {
 
+            init: function () {
+                const self = this;
+
+                this.el.addEventListener('nav-click', function () {
+                    let minDistance = 10000;
+                    let minObject = null;
+                    let distance = 10000;
+
+                    currentSphere.neighbourIds.forEach((neighbourId) => {
+                        const neighbour = document.getElementById('sky-' + neighbourId);
+
+                        if (checkIfVisible(neighbour.children[2].children[0])) {
+
+                            distance = document.getElementById('cam-rig').object3D.position.distanceTo(neighbour.object3D.position);
+                            if (distance < minDistance) {
+                                minDistance = distance;
+                                minObject = neighbour;
+                            }
+                        }
+                    });
+
+                    if (minObject != null) {
+                        // Notify close object
+                        minObject.dispatchEvent(new CustomEvent('click'));
+                    }
+
+                });
+            },
+        });
+
+        // Navigation Map
+        AFRAME.registerComponent('nav-map', {
+
+            init: function () {
+                self = this.el;
+
+                this.el.children[2].dispatchEvent(new CustomEvent('blink'));
+
+                this.el.addEventListener('change-position', function (e) {
+                    const position = e.detail.position;
+
+                    let x = (position.x + 28) / ((28 - 11) * 2) * .8 - .4;
+                    let z = (-position.z + 4.3) / ((4.3 + 7) * 2) * .4 - .2;
+
+                    self.children[2].setAttribute('position', '' + x + ' ' + z + ' 0.02');
+                });
+            }
+        });
+
+        // Attribute: Snow
+        const particles = [];
         AFRAME.registerComponent('snow', {
 
             init: function () {
-                const scene = this.el.sceneEl.object3D;
+                if (introScreen) {
+                    const scene = this.el.sceneEl.object3D;
 
-                // Disable curtain
-                document.getElementById('curtain').setAttribute('visible', 'false');
+                    // Disable curtain
+                    document.getElementById('curtain').setAttribute('visible', 'false');
 
-                var particleImage = new Image(); //THREE.ImageUtils.loadTexture( "http://i.imgur.com/cTALZ.png" );
-                particleImage.src = 'data/snow.png';
+                    const particleImage = new Image(); //THREE.ImageUtils.loadTexture( "http://i.imgur.com/cTALZ.png" );
+                    particleImage.src = 'data/snow.png';
 
-                var material = new THREE.PointsMaterial({map: new THREE.Texture(particleImage)});
+                    const material = new THREE.PointsMaterial({map: new THREE.Texture(particleImage)});
 
-                for (var i = 0; i < 500; i++) {
+                    for (let i = 0; i < 500; i++) {
 
-                    particle = new Particle3D(material);
-                    particle.position.x = Math.random() * 200 - 100;
-                    particle.position.y = Math.random() * 200 - 100;
-                    particle.position.z = Math.random() * 200 - 195;
-                    particle.scale.x = particle.scale.y = .25;
-                    scene.add(particle);
+                        particle = new Particle3D(material);
+                        particle.position.x = Math.random() * 200 - 100;
+                        particle.position.y = Math.random() * 200 - 100;
+                        particle.position.z = Math.random() * 200 - 195;
+                        particle.scale.x = particle.scale.y = .25;
+                        scene.add(particle);
 
-                    particles.push(particle);
+                        particles.push(particle);
+                    }
                 }
 
+                // Todo: True onload
+                const waitingTime = introScreen ? 15000 : 1;
                 console.log(document.querySelector('a-assets').fileLoader.manager);
                 document.querySelector('a-assets').fileLoader.manager.onLoad = (() => {
                     console.log('Load!');
@@ -174,26 +289,27 @@
                         }, 600);
 
 
-                    }, 15000);
+                    }, waitingTime);
 
 
                 });
             },
 
             tick: function () {
+                if (introScreen) {
+                    for (var i = 0; i < particles.length; i++) {
 
-                for (var i = 0; i < particles.length; i++) {
+                        var particle = particles[i];
+                        particle.updatePhysics();
 
-                    var particle = particles[i];
-                    particle.updatePhysics();
+                        var pp = particle.position;
 
-                    var pp = particle.position;
-
-                    if (pp.y < -10) pp.y += 110;
-                    if (pp.x > 100) pp.x -= 200;
-                    else if (pp.x < -100) pp.x += 200;
-                    if (pp.z > 5) pp.z -= 100;
-                    else if (pp.z < -100) pp.z += 105;
+                        if (pp.y < -10) pp.y += 110;
+                        if (pp.x > 100) pp.x -= 200;
+                        else if (pp.x < -100) pp.x += 200;
+                        if (pp.z > 5) pp.z -= 100;
+                        else if (pp.z < -100) pp.z += 105;
+                    }
                 }
             },
 
@@ -207,70 +323,100 @@
         });
 
 
-        // Snow
-        var TO_RADIANS = Math.PI / 180;
+        // Snow logic
+        {
+            const TO_RADIANS = Math.PI / 180;
 
-        Particle3D = function (material) {
-            THREE.Sprite.call(this, material);
+            Particle3D = function (material) {
+                THREE.Sprite.call(this, material);
 
-            //this.material = material instanceof Array ? material : [ material ];
-            // define properties
-            this.velocity = new THREE.Vector3(0, -.17, 0);
-            this.velocity.rotateX(randomRange(-45, 45));
-            this.velocity.rotateY(randomRange(0, 360));
-            this.gravity = new THREE.Vector3(0, 0, 0);
-            this.drag = 1;
-            // methods...
-        };
+                //this.material = material instanceof Array ? material : [ material ];
+                // define properties
+                this.velocity = new THREE.Vector3(0, -.17, 0);
+                this.velocity.rotateX(randomRange(-45, 45));
+                this.velocity.rotateY(randomRange(0, 360));
+                this.gravity = new THREE.Vector3(0, 0, 0);
+                this.drag = 1;
+                // methods...
+            };
 
-        Particle3D.prototype = new THREE.Sprite();
-        Particle3D.prototype.constructor = Particle3D;
+            Particle3D.prototype = new THREE.Sprite();
+            Particle3D.prototype.constructor = Particle3D;
 
-        Particle3D.prototype.updatePhysics = function () {
-            this.velocity.multiplyScalar(this.drag);
-            this.velocity.add(this.gravity);
-            this.position.add(this.velocity);
+            Particle3D.prototype.updatePhysics = function () {
+                this.velocity.multiplyScalar(this.drag);
+                this.velocity.add(this.gravity);
+                this.position.add(this.velocity);
+            }
+
+            THREE.Vector3.prototype.rotateY = function (angle) {
+                cosRY = Math.cos(angle * TO_RADIANS);
+                sinRY = Math.sin(angle * TO_RADIANS);
+
+                var tempz = this.z;
+                var tempx = this.x;
+
+                this.x = (tempx * cosRY) + (tempz * sinRY);
+                this.z = (tempx * -sinRY) + (tempz * cosRY);
+            }
+
+            THREE.Vector3.prototype.rotateX = function (angle) {
+                cosRY = Math.cos(angle * TO_RADIANS);
+                sinRY = Math.sin(angle * TO_RADIANS);
+
+                var tempz = this.z;
+                var tempy = this.y;
+
+                this.y = (tempy * cosRY) + (tempz * sinRY);
+                this.z = (tempy * -sinRY) + (tempz * cosRY);
+            }
+
+            THREE.Vector3.prototype.rotateZ = function (angle) {
+                cosRY = Math.cos(angle * TO_RADIANS);
+                sinRY = Math.sin(angle * TO_RADIANS);
+
+                var tempx = this.x;
+                var tempy = this.y;
+
+                this.y = (tempy * cosRY) + (tempx * sinRY);
+                this.x = (tempy * -sinRY) + (tempx * cosRY);
+            }
+
+            // Returns a random number between the two limits provided
+            function randomRange(min, max) {
+                return ((Math.random() * (max - min)) + min);
+            }
         }
 
-        THREE.Vector3.prototype.rotateY = function (angle) {
-            cosRY = Math.cos(angle * TO_RADIANS);
-            sinRY = Math.sin(angle * TO_RADIANS);
+        // Check visibility
+        // From: https://gist.github.com/Strae/7def0f84677e03727f771636709b448f
+        const checkIfVisible = ((entity) => {
 
-            var tempz = this.z;
-            var tempx = this.x;
+            let entityMesh = entity.object3DMap.mesh;
+            let frustum = new THREE.Frustum();
+            let cameraViewProjectionMatrix = new THREE.Matrix4();
 
-            this.x = (tempx * cosRY) + (tempz * sinRY);
-            this.z = (tempx * -sinRY) + (tempz * cosRY);
-        }
+            // Get camera
+            let camera = document.querySelector("[camera]").getObject3D('camera');
 
-        THREE.Vector3.prototype.rotateX = function (angle) {
-            cosRY = Math.cos(angle * TO_RADIANS);
-            sinRY = Math.sin(angle * TO_RADIANS);
+            // Update camera attributes
+            camera.updateMatrixWorld();
+            camera.updateProjectionMatrix();
 
-            var tempz = this.z;
-            var tempy = this.y;
+            // Set limited FoV
+            camera = camera.clone();
+            camera.aspect = .5; // Reduced from 1
+            camera.fov = 60; // Reduced from 80
+            // camera.zoom = 4; // Alt variant to reduce fov
 
-            this.y = (tempy * cosRY) + (tempz * sinRY);
-            this.z = (tempy * -sinRY) + (tempz * cosRY);
-        }
+            camera.updateProjectionMatrix();
 
-        THREE.Vector3.prototype.rotateZ = function (angle) {
-            cosRY = Math.cos(angle * TO_RADIANS);
-            sinRY = Math.sin(angle * TO_RADIANS);
+            // camera.matrixWorldInverse.getInverse(camera.matrixWorld);
+            cameraViewProjectionMatrix.multiplyMatrices(camera.projectionMatrix, camera.matrixWorldInverse);
+            frustum.setFromProjectionMatrix(cameraViewProjectionMatrix);
 
-            var tempx = this.x;
-            var tempy = this.y;
-
-            this.y = (tempy * cosRY) + (tempx * sinRY);
-            this.x = (tempy * -sinRY) + (tempx * cosRY);
-        }
-
-        // returns a random number between the two limits provided
-
-        function randomRange(min, max) {
-            return ((Math.random() * (max - min)) + min);
-        }
-
+            return frustum.intersectsObject(entityMesh);
+        });
 
     </script>
 </head>
@@ -280,6 +426,7 @@
     <a-assets timeout="6000">
         <audio id="click-sound" crossorigin="anonymous"
                src="https://cdn.aframe.io/360-image-gallery-boilerplate/audio/click.ogg" preload="auto"></audio>
+        <img id="map" crossorigin="anonymous" src="data/map.png">
         <img id="img-55" crossorigin="anonymous" src="data/R0010055.JPG" preload="auto">
         <img id="img-52" crossorigin="anonymous" src="data/R0010052.JPG" preload="auto">
         <img id="img-56" crossorigin="anonymous" src="data/R0010056.JPG" preload="auto">
@@ -295,7 +442,6 @@
         <img id="img-41" crossorigin="anonymous" src="data/R0010041.JPG">
         <img id="img-43" crossorigin="anonymous" src="data/R0010043.JPG">
         <img id="img-45" crossorigin="anonymous" src="data/R0010045.JPG">
-        <img id="img-47" crossorigin="anonymous" src="data/R0010047.JPG">
         <img id="img-49" crossorigin="anonymous" src="data/R0010049.JPG">
         <img id="img-51" crossorigin="anonymous" src="data/R0010051.JPG">
         <img id="img-53" crossorigin="anonymous" src="data/R0010053.JPG">
@@ -309,66 +455,64 @@
 
     <!--  Foyer  -->
     <a-entity id="sky-52" template="src: #position" position="-4 0 0"
-              data-sky-src="#img-52" data-sky-rotation="0 -90 0" data-text="Foyer" nav="next: 55, 56, 57"></a-entity>
+              data-sky-src="#img-52" data-sky-rotation="0 -90 0" data-text="Foyer"
+              nav="next: 55, 56, 57, 51"></a-entity>
     <a-entity id="sky-55" template="src: #position" position="0 0 0" data-sky-src="#img-55" data-sky-rotation="0 180 0"
-              data-text="Eingang" nav="next: 52, 56, 57"></a-entity>
+              data-text="Eingang" nav="next: 52, 56, 57" click-nav></a-entity>
     <a-entity id="sky-56" template="src: #position" position=".02 0 -2" data-sky-src="#img-56"
               data-sky-rotation="0 180 0" data-text="Empfang" nav="next: 52, 55, 57"></a-entity>
     <a-entity id="sky-54" template="src: #position" position="-4 0 -6" data-sky-src="#img-54"
               data-sky-rotation="0 180 0" data-text="Durchgang" nav="next: 58, 57"></a-entity>
     <a-entity id="sky-57" template="src: #position" position="-4 0 -2" data-sky-src="#img-57"
               data-sky-rotation="0 180 0" data-text="Foyer" nav="next: 52, 54, 55, 56"></a-entity>
-    <a-entity id="sky-58" template="src: #position" position="-4 0 -12" data-sky-src="#img-58"
+    <a-entity id="sky-58" template="src: #position" position="-4 0 -15" data-sky-src="#img-58"
               data-sky-rotation="0 180 0" data-text="Zu Lab A" nav="next: 54, 60"></a-entity>
-    <!--    <a-sky id="sky-52" radius="1" src="#img-52" position="-4 0 0" rotation="0 -90 0"></a-sky>-->
 
     <!--  A Mitte  -->
-    <a-entity id="sky-24" template="src: #position" position="-11 0 -12" data-sky-src="#img-24"
+    <a-entity id="sky-24" template="src: #position" position="-11 0 -14" data-sky-src="#img-24"
               data-sky-rotation="0 180 0" data-text="Cockpit" nav="next: 28, 60, 25"></a-entity>
     <a-entity id="sky-25" template="src: #position" position="-11 0 -8" data-sky-src="#img-25"
               data-sky-rotation="0 180 0" data-text="A Mitte" nav="next: 24, 26"></a-entity>
     <a-entity id="sky-26" template="src: #position" position="-11 0 -5" data-sky-src="#img-26"
               data-sky-rotation="0 180 0" data-text="A Mitte" nav="next: 25, 27"></a-entity>
     <a-entity id="sky-27" template="src: #position" position="-11 0 -2" data-sky-src="#img-27"
-              data-sky-rotation="0 180 0" data-text="A Mitte" nav="next: 26, 35, 65"></a-entity>
+              data-sky-rotation="0 180 0" data-text="A Mitte" nav="next: 26"></a-entity>
 
     <!-- A01-10 -->
-    <a-entity id="sky-28" template="src: #position" position="-16 0 -12" data-sky-src="#img-28"
+    <a-entity id="sky-28" template="src: #position" position="-16 0 -14" data-sky-src="#img-28"
               data-sky-rotation="0 90 0" data-text="A-01" nav="next: 24, 30"></a-entity>
-    <a-entity id="sky-30" template="src: #position" position="-16 0 -8" data-sky-src="#img-30"
+    <a-entity id="sky-30" template="src: #position" position="-16 0 -10" data-sky-src="#img-30"
               data-sky-rotation="0 0 0" data-text="A-03" nav="next: 28, 35"></a-entity>
-    <a-entity id="sky-35" template="src: #position" position="-16 0 -4" data-sky-src="#img-35"
-              data-sky-rotation="0 -90 0" data-text="Zu Lab B" nav="next: 30, 27"></a-entity>
+    <a-entity id="sky-35" template="src: #position" position="-16 0 -6" data-sky-src="#img-35"
+              data-sky-rotation="0 -90 0" data-text="Zu Lab B" nav="next: 30, 43, 51"></a-entity>
 
     <!--  A11-20  -->
-    <a-entity id="sky-60" template="src: #position" position="-6 0 -12" data-sky-src="#img-60"
+    <a-entity id="sky-60" template="src: #position" position="-6 0 -15" data-sky-src="#img-60"
               data-sky-rotation="0 180 0" data-text="Lab A" nav="next: 58, 24, 61"></a-entity>
     <a-entity id="sky-61" template="src: #position" position="-6 0 -8" data-sky-src="#img-61"
               data-sky-rotation="0 180 0" data-text="A-14" nav="next: 60, 62"></a-entity>
     <a-entity id="sky-62" template="src: #position" position="-6 0 -5" data-sky-src="#img-62"
               data-sky-rotation="0 180 0" data-text="A-17" nav="next: 61, 65"></a-entity>
     <a-entity id="sky-65" template="src: #position" position="-6 0 -2" data-sky-src="#img-65"
-              data-sky-rotation="0 0 0" data-text="A-20" nav="next: 27, 62"></a-entity>
+              data-sky-rotation="0 0 0" data-text="A-20" nav="next: 62"></a-entity>
 
 
     <!-- B01-05 -->
-    <a-entity id="sky-43" template="src: #position" position="-25 0 -4" data-sky-src="#img-43"
-              data-sky-rotation="0 0 0" data-text="B-01" nav="next: 35, 41, 45"></a-entity>
-    <a-entity id="sky-41" template="src: #position" position="-26 0 -4" data-sky-src="#img-41"
+    <a-entity id="sky-43" template="src: #position" position="-24 0 -6" data-sky-src="#img-43"
+              data-sky-rotation="0 -90 0" data-text="B-01" nav="next: 35, 41, 45"></a-entity>
+    <a-entity id="sky-41" template="src: #position" position="-26 0 -6" data-sky-src="#img-41"
               data-sky-rotation="0 0 0" data-text="B Gang" nav="next: 39, 43"></a-entity>
-    <a-entity id="sky-45" template="src: #position" position="-25 0 -3" data-sky-src="#img-45"
+    <a-entity id="sky-45" template="src: #position" position="-24 0 -4" data-sky-src="#img-45"
               data-sky-rotation="0 0 0" data-text="B-01" nav="next: 43"></a-entity>
 
 
     <!-- B11-20 -->
     <a-entity id="sky-39" template="src: #position" position="-26 0 0" data-sky-src="#img-39"
-              data-sky-rotation="0 0 0" data-text="B Ausgang" nav="next: 41, 51"></a-entity>
+              data-sky-rotation="0 90 0" data-text="B Ausgang" nav="next: 41, 51"></a-entity>
     <a-entity id="sky-51" template="src: #position" position="-16 0 0" data-sky-src="#img-51"
-              data-sky-rotation="0 0 0" data-text="B-18" nav="next: 39, 35, 47, 52"></a-entity>
-    <a-entity id="sky-47" template="src: #position" position="-16 0 -0.5" data-sky-src="#img-47"
-              data-sky-rotation="0 0 0" data-text="B-18" nav="next: 51, 49"></a-entity>
-    <a-entity id="sky-49" template="src: #position" position="-16 0 -1" data-sky-src="#img-49"
-              data-sky-rotation="0 0 0" data-text="B-18" nav="next: 47"></a-entity>
+              data-sky-rotation="0 -90 0" data-text="B-18" nav="next: 39, 35, 49, 52"></a-entity>
+    <a-entity id="sky-49" template="src: #position" position="-16 0 2" data-sky-src="#img-49"
+              data-sky-rotation="0 90 0" data-text="B-18" nav="next: 51"></a-entity>
 
     <!-- Camera + cursor. -->
     <a-entity id="cam-rig" position="0 50 0">
@@ -376,13 +520,24 @@
                   look-controls="pointerLockEnabled: true"
                   wasd-controls="acceleration: 25">
 
-            <a-cursor
+            <a-entity
                     id="cursor"
-                    animation__click="property: scale; startEvents: click; from: 0.1 0.1 0.1; to: 1 1 1; dur: 150"
-                    animation__fusing="property: fusing; startEvents: fusing; from: 1 1 1; to: 0.1 0.1 0.1; dur: 1500"
-                    event-set__mouseenter="_event: mouseenter; color: springgreen"
-                    event-set__mouseleave="_event: mouseleave; color: black"
-                    raycaster="objects: .link"></a-cursor>
+                    cursor="fuse: true; fuseTimeout: 2200"
+                    material="color: black; shader: flat"
+                    position="0 0 -1"
+                    geometry="primitive: ring; radiusInner: 0.02; radiusOuter: 0.03"
+                    animation__click_deactivate_fuse="property: cursor.fuse; startEvents: mousedown; to: false; dur: 10; delay: 20"
+                    animation__click_reactivate_fuse="property: cursor.fuse; startEvents: mouseup; to: true; dur: 10"
+                    animation__click="property: scale; startEvents: mousedown; easing: easeInCubic; dur: 170; from: 0.3 0.3 0.3; to: 1 1 1; delay: 20"
+                    animation__fusing="property: scale; startEvents: fusing; easing: easeInCubic; from: 1 1 1; to: 0.3 0.3 0.3; dur: 2000"
+                    animation__fusing2="property: scale; startEvents: animationcomplete__fusing; easing: easeInCubic; to: 1 1 1; dur: 100; delay: 100"
+                    animation__mouseenter="property: components.material.material.color; type: color; to: #999; easing: linear; startEvents: mouseenter; dur: 1500"
+                    animation__mouseleave_color="property: components.material.material.color; type: color; to: #000; startEvents: mouseleave; dur: 200"
+                    animation__mouseleave_scale="property: scale; startEvents: mouseleave; easing: easeInCubic; dur: 300; to: 1 1 1"
+                    raycaster="objects: .link"
+                    proxy-event="event: mousedown; to: #cursor; as: nav-click"
+                    click-nav>
+            </a-entity>
 
             <a-sphere
                     id="curtain"
@@ -391,10 +546,29 @@
                     opacity="0"
                     side="double"
                     animation__fade="property: components.material.material.opacity; type: number; from: 0; to: 1; dur: 150; startEvents: fade"
-                    animation__fadeback="property: components.material.material.opacity; type: number; from: 1; to: 0; delay: 100; dur: 150; startEvents: animationcomplete__fade"
+                    animation__fadeback="property: components.material.material.opacity; type: number; from: 1; to: 0; delay: 170; dur: 150; startEvents: animationcomplete__fade"
                     animation__fadelong="property: components.material.material.opacity; type: number; from: 0; to: 1; dur: 500; startEvents: fadelong"
                     animation__fadelongback="property: components.material.material.opacity; type: number; from: 1; to: 0; dur: 1000; startEvents: fadelongback"
+                    animation__fadeend="property: visible; type: boolean; to: false; startEvents: animationcomplete__fadeback"
+                    animation__fadelongend="property: visible; type: boolean; to: false; startEvents: animationcomplete__fadelongback"
             ></a-sphere>
+
+            <!-- Navigation map -->
+            <a-entity
+                    id="nav-map"
+                    position="0 -0.2 -1"
+                    look-at="[camera]"
+                    visible="false"
+                    nav-map>
+                <a-plane color="#666" height=".5" width=".92" position="0 0 -.02" shader="flat"></a-plane>
+                <a-image src="#map" height=".4" width=".8"></a-image>
+                <a-circle radius=".03" position="-0.4 .2 .02" color="#CC0000"
+                          shader="flat"
+                          animation__blink="property: radius; from: .03; to:0.015; dur: 1000; easing: easeInQuad; startEvents: blink, animationcomplete__blinkback;"
+                          animation__blinkback="property: radius; from: .015; to:0.03; dur: 1000; delay: 50; easing: easeOutQuad; startEvents: animationcomplete__blink;">
+                </a-circle>
+            </a-entity>
+
         </a-entity>
     </a-entity>
 
