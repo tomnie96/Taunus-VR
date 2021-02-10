@@ -422,14 +422,17 @@
 <body>
 <a-scene>
     <!--  Assets  -->
-    <a-assets timeout="10000">
+    <a-assets timeout="30000">
+        <audio id="click-sound" crossorigin="anonymous"
+               src="https://cdn.aframe.io/360-image-gallery-boilerplate/audio/click.ogg" preload="auto"></audio>
         <img id="map" crossorigin="anonymous" src="data/map.png">
         <img id="img-55" crossorigin="anonymous" src="data/R0010055.JPG">
         <img id="img-52" crossorigin="anonymous" src="data/R0010052.JPG">
         <img id="img-56" crossorigin="anonymous" src="data/R0010056.JPG">
         <img id="img-57" crossorigin="anonymous" src="data/R0010057.JPG">
-        <audio id="click-sound" crossorigin="anonymous"
-               src="https://cdn.aframe.io/360-image-gallery-boilerplate/audio/click.ogg" preload="auto"></audio>
+    </a-assets>
+
+    <a-assets timeout="10000">
         <img id="img-24" crossorigin="anonymous" src="data/R0010024.JPG">
         <img id="img-25" crossorigin="anonymous" src="data/R0010025.JPG">
         <img id="img-26" crossorigin="anonymous" src="data/R0010026.JPG">
