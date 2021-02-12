@@ -277,6 +277,7 @@
         <a-entity template="src: #button" data-text="Zum Start" data-icon="#icon-restart" data-xpos=".2"></a-entity>
         <a-entity template="src: #button" data-text="Beenden" data-icon="#icon-exit" data-xpos=".6"></a-entity>
 
+        <!-- Close -->
         <a-entity menu-close template="src: #button" data-text="" data-icon="#icon-minimize" data-xpos="0"
                   position=".75 .15 .1"
                   scale=".4 .4 .4"></a-entity>
@@ -291,14 +292,25 @@
             position="0 -0.2 -1"
             look-at="[camera]"
             visible="false"
+            scale=".0001 .0001 .0001"
+            animation__open="property: scale; startEvents: open; easing: easeInCubic; dur: 300; from: .0001 .0001 .0001; to: 1 1 1"
+            animation__close="property: scale; startEvents: close; easing: easeInCubic; dur: 300; from: 1 1 1; to: .0001 .0001 .0001"
+            animation__closeend="property: visible; type: boolean; to: false; startEvents: animationcomplete__close"
             nav-map>
         <a-plane color="#666" height=".5" width=".92" position="0 0 -.02" shader="flat"></a-plane>
         <a-image src="#img-map" height=".4" width=".8"></a-image>
-        <a-circle radius=".03" position="-0.4 .2 .02" color="#CC0000"
+        <a-circle radius=".03" position="-0.4 .2 .02" color="#AA0000"
                   shader="flat"
                   animation__blink="property: radius; from: .03; to:0.015; dur: 1000; easing: easeInQuad; startEvents: blink, animationcomplete__blinkback;"
                   animation__blinkback="property: radius; from: .015; to:0.03; dur: 1000; delay: 50; easing: easeOutQuad; startEvents: animationcomplete__blink;">
         </a-circle>
+
+        <!-- Close -->
+        <a-entity nav-map-close template="src: #button" data-text="" data-icon="#icon-minimize" data-xpos="0"
+                  position=".38 .17 .1"
+                  scale=".4 .4 .4"></a-entity>
+        <a-circle radius=".12" position=".38 .185 .1" color="#666" shader="flat" opacity="1"
+                  scale=".4 .4 .4"></a-circle>
     </a-entity>
 
 

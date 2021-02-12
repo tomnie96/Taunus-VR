@@ -1,4 +1,27 @@
 // Navigation Map
+
+let isMapOpen = false;
+
+function openMap() {
+    if (!isMapOpen) {
+        isMapOpen = true;
+        const map = document.getElementById('nav-map');
+        map.dispatchEvent(new CustomEvent('open'));
+        const pos = positionInFrontOf(camera, cursor, 1, -.5)
+        map.setAttribute('position', '' + pos.x + ' ' + pos.y + ' ' + pos.z);
+        map.setAttribute('visible', 'true');
+    }
+}
+
+function closeMap() {
+    if (isMapOpen) {
+        const map = document.getElementById('nav-map');
+        map.dispatchEvent(new CustomEvent('close'));
+        map.setAttribute('visible', 'false');
+        isMapOpen = false;
+    }
+}
+
 AFRAME.registerComponent('nav-map', {
 
     init: function () {
@@ -16,14 +39,12 @@ AFRAME.registerComponent('nav-map', {
     }
 });
 
-function openMap() {
-    const map = document.getElementById('nav-map');
-    map.dispatchEvent(new CustomEvent('open'));
-    map.setAttribute('visible', 'true');
-}
+// Close map
+AFRAME.registerComponent('nav-map-close', {
 
-function closeMap() {
-    const map = document.getElementById('nav-map');
-    map.dispatchEvent(new CustomEvent('close'));
-    map.setAttribute('visible', 'false');
-}
+    init: function () {
+        this.el.addEventListener('click', function () {
+            closeMap();
+        });
+    },
+});

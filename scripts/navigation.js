@@ -96,8 +96,9 @@ AFRAME.registerComponent('nav', {
                 document.getElementById('curtain').setAttribute('visible', 'true');
                 document.getElementById('curtain').dispatchEvent(new CustomEvent('fade'));
 
-                // Close menu
+                // Close menu & map
                 closeMenu();
+                closeMap();
 
                 // Wait for dark animation
                 setTimeout(() => {
