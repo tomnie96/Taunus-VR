@@ -1,40 +1,61 @@
 // Menu
 
+// Position in front of camera
+let camera;
+let cursor;
+let isMenuOpen = false;
+
 // Functions
 function openMenu() {
-    const menu = document.getElementById('menu');
-    menu.setAttribute('visible', 'true');
-    menu.setAttribute('position', '' + currentSphere.object3D.position.x + ' ' + (currentSphere.object3D.position.y - .5) + ' ' + (currentSphere.object3D.position.z - 1));
-    menu.dispatchEvent(new CustomEvent('open'));
+    if (!isMenuOpen) {
+        isMenuOpen = true;
 
-    const menuIcon = document.getElementById('open-menu');
-    menuIcon.dispatchEvent(new CustomEvent('close'));
-    // menuIcon.setAttribute('visible', 'false');
+        const menu = document.getElementById('menu');
+        menu.setAttribute('visible', 'true');
+        const pos = positionInFrontOf(camera, cursor, 1, -.5)
+        menu.setAttribute('position', '' + pos.x + ' ' + pos.y + ' ' + pos.z);
+        menu.dispatchEvent(new CustomEvent('open'));
+
+        const menuIcon = document.getElementById('open-menu');
+        menuIcon.dispatchEvent(new CustomEvent('close'));
+        // menuIcon.setAttribute('visible', 'false');
+    }
 }
 
 function closeMenu() {
-    const menu = document.getElementById('menu');
-    menu.dispatchEvent(new CustomEvent('close'));
-    // menu.setAttribute('visible', 'false'); // Set invisible by animation
+    if (isMenuOpen) {
+        const menu = document.getElementById('menu');
+        menu.dispatchEvent(new CustomEvent('close'));
+        // menu.setAttribute('visible', 'false'); // Set invisible by animation
 
-    const menuIcon = document.getElementById('open-menu');
-    menuIcon.dispatchEvent(new CustomEvent('open'));
-    menuIcon.setAttribute('visible', 'true');
+        const menuIcon = document.getElementById('open-menu');
+        menuIcon.dispatchEvent(new CustomEvent('open'));
+        menuIcon.setAttribute('visible', 'true');
+        isMenuOpen = false;
+    }
 }
 
 // Components
-// Open menu
+// Open menu button
 AFRAME.registerComponent('menu-open', {
 
     init: function () {
+        camera = document.getElementById('cam-rig').object3D;
+        cursor = document.getElementById('cursor').object3D;
+
         this.el.addEventListener('click', function () {
             openMenu();
         });
     },
 
     tick: function () {
-        this.el.object3D.position.setFromMatrixPosition(document.getElementById('menu-open-position').object3D.matrixWorld);
-        this.el.object3D.position.y = -.9;
+        const pos = this.el.object3D.position;
+
+        // Calculate target position
+        const pos_target = positionInFrontOf(camera, cursor, .5, -.85);
+
+        // Following the cursor smoothly
+        pos.lerp(pos_target, menuButtonSmoothing);
     }
 });
 
