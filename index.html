@@ -4,19 +4,19 @@
     <meta charset="utf-8">
     <title>KD2 Lab - 360&deg;</title>
     <meta name="description" content="KD2 Lab - 360&deg;">
-    <script src="https://aframe.io/releases/1.1.0/aframe.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/gh/donmccurdy/aframe-extras@v6.1.1/dist/aframe-extras.min.js"></script>
-    <script src="https://unpkg.com/aframe-event-set-component@5/dist/aframe-event-set-component.min.js"></script>
-    <script src="https://unpkg.com/aframe-template-component@3.2.1/dist/aframe-template-component.min.js"></script>
-    <script src="https://unpkg.com/aframe-proxy-event-component@2.1.0/dist/aframe-proxy-event-component.min.js"></script>
-    <script src="https://unpkg.com/aframe-look-at-component@1.0.0/dist/aframe-look-at-component.min.js"></script>
+    <!--    <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>-->
+    <!--    <script src="https://cdn.jsdelivr.net/gh/donmccurdy/aframe-extras@v6.1.1/dist/aframe-extras.min.js"></script>-->
+    <!--    <script src="https://unpkg.com/aframe-event-set-component@5/dist/aframe-event-set-component.min.js"></script>-->
+    <!--    <script src="https://unpkg.com/aframe-template-component@3.2.1/dist/aframe-template-component.min.js"></script>-->
+    <!--    <script src="https://unpkg.com/aframe-proxy-event-component@2.1.0/dist/aframe-proxy-event-component.min.js"></script>-->
+    <!--    <script src="https://unpkg.com/aframe-look-at-component@1.0.0/dist/aframe-look-at-component.min.js"></script>-->
 
-    <!--    <script src="scripts/aframe.min.js"></script>-->
-    <!--    <script src="scripts/aframe-extras.min.js"></script>-->
-    <!--    <script src="scripts/aframe-event-set-component.min.js"></script>-->
-    <!--    <script src="scripts/aframe-template-component.min.js"></script>-->
-    <!--    <script src="scripts/aframe-proxy-event-component.min.js"></script>-->
-    <!--    <script src="scripts/aframe-look-at-component.min.js"></script>-->
+    <script src="scripts/aframe.min.js"></script>
+    <script src="scripts/aframe-extras.min.js"></script>
+    <script src="scripts/aframe-event-set-component.min.js"></script>
+    <script src="scripts/aframe-template-component.min.js"></script>
+    <script src="scripts/aframe-proxy-event-component.min.js"></script>
+    <script src="scripts/aframe-look-at-component.min.js"></script>
 
     <!-- Image link template to be reused. -->
     <script id="link" type="text/html">
@@ -28,6 +28,20 @@
                   sound="on: click; src: #click-sound">
             <a-plane color="#333" width="1.5" height=".8" opacity="0">
                 <a-text value="${text}" color="#000" align="center"></a-text>
+            </a-plane>
+        </a-entity>
+    </script>
+
+
+    <!-- Button template to be reused. -->
+    <script id="button" type="text/html">
+        <a-entity>
+            <a-plane class="link" color="#333" width=".3" height=".3" shader="flat" opacity="0"
+                     position="${xpos} 0 0"
+                     event-set__mouseenter="scale: 1.2 1.2 1" event-set__mouseleave="scale: 1 1 1"
+                     sound="on: click; src: #click-sound">
+                <a-image src="${icon}" height=".25" width=".25" position="0 .03 .001"></a-image>
+                <a-text value="${text}" color="#000" align="center" width="1.5" position="0 -.15 .001"></a-text>
             </a-plane>
         </a-entity>
     </script>
@@ -223,8 +237,7 @@
         AFRAME.registerComponent('nav-map', {
 
             init: function () {
-                self = this.el;
-
+                const self = this.el;
                 this.el.children[2].dispatchEvent(new CustomEvent('blink'));
 
                 this.el.addEventListener('change-position', function (e) {
@@ -238,11 +251,88 @@
             }
         });
 
+        function openMap() {
+            const map = document.getElementById('nav-map');
+            map.dispatchEvent(new CustomEvent('open'));
+            map.setAttribute('visible', 'true');
+        }
+
+        function closeMap() {
+            const map = document.getElementById('nav-map');
+            map.dispatchEvent(new CustomEvent('close'));
+            map.setAttribute('visible', 'false');
+        }
+
+        // Menu
+        // Open menu
+        AFRAME.registerComponent('menu-open', {
+
+            init: function () {
+                const self = this;
+                this.el.addEventListener('click', function () {
+                    openMenu();
+                });
+            },
+
+            tick: function () {
+                this.el.object3D.position.setFromMatrixPosition(document.getElementById('menu-open-position').object3D.matrixWorld);
+                this.el.object3D.position.y = -.9;
+            }
+        });
+
+        // Close menu
+        AFRAME.registerComponent('menu-close', {
+
+            init: function () {
+                const self = this;
+                this.el.addEventListener('click', function () {
+                    closeMenu();
+                });
+            },
+        });
+
+        // Button: Map
+        AFRAME.registerComponent('menu-open-map', {
+
+            init: function () {
+                const self = this;
+                this.el.addEventListener('click', function () {
+                    closeMenu();
+                    openMap();
+                });
+            },
+
+
+        });
+
+        function openMenu() {
+            const menu = document.getElementById('menu');
+            menu.setAttribute('visible', 'true');
+            menu.setAttribute('position', '' + currentSphere.object3D.position.x + ' ' + (currentSphere.object3D.position.y - .5) + ' ' + (currentSphere.object3D.position.z - 1));
+            menu.dispatchEvent(new CustomEvent('open'));
+
+            const menuIcon = document.getElementById('open-menu');
+            menuIcon.dispatchEvent(new CustomEvent('close'));
+            // menuIcon.setAttribute('visible', 'false');
+        }
+
+        function closeMenu() {
+            const menu = document.getElementById('menu');
+            menu.dispatchEvent(new CustomEvent('close'));
+            // menu.setAttribute('visible', 'false'); // Set invisible by animation
+
+            const menuIcon = document.getElementById('open-menu');
+            menuIcon.dispatchEvent(new CustomEvent('open'));
+            menuIcon.setAttribute('visible', 'true');
+        }
+
+
         // Attribute: Snow
         const particles = [];
         AFRAME.registerComponent('snow', {
 
             init: function () {
+                const self = this;
                 if (introScreen) {
                     const scene = this.el.sceneEl.object3D;
 
@@ -285,6 +375,12 @@
                             document.getElementById('welcome').setAttribute('visible', 'false');
 
                             document.getElementById('curtain').emit('fadelongback');
+
+                            document.getElementById('nav-map').dispatchEvent(new CustomEvent("change-position", {
+                                detail: {
+                                    position: self.el.getAttribute('position')
+                                }
+                            }));
                         }, 600);
 
 
@@ -422,17 +518,14 @@
 <body>
 <a-scene>
     <!--  Assets  -->
-    <a-assets timeout="30000">
+    <a-assets timeout="1000">
         <audio id="click-sound" crossorigin="anonymous"
                src="https://cdn.aframe.io/360-image-gallery-boilerplate/audio/click.ogg" preload="auto"></audio>
-        <img id="map" crossorigin="anonymous" src="data/map.png">
+        <img id="img-map" crossorigin="anonymous" src="data/map.png">
         <img id="img-55" crossorigin="anonymous" src="data/R0010055.JPG">
         <img id="img-52" crossorigin="anonymous" src="data/R0010052.JPG">
         <img id="img-56" crossorigin="anonymous" src="data/R0010056.JPG">
         <img id="img-57" crossorigin="anonymous" src="data/R0010057.JPG">
-    </a-assets>
-
-    <a-assets timeout="10000">
         <img id="img-24" crossorigin="anonymous" src="data/R0010024.JPG">
         <img id="img-25" crossorigin="anonymous" src="data/R0010025.JPG">
         <img id="img-26" crossorigin="anonymous" src="data/R0010026.JPG">
@@ -453,6 +546,14 @@
         <img id="img-61" crossorigin="anonymous" src="data/R0010061.JPG">
         <img id="img-62" crossorigin="anonymous" src="data/R0010062.JPG">
         <img id="img-65" crossorigin="anonymous" src="data/R0010065.JPG">
+        <video id="vid-i3" crossorigin="anonymous" src="data/media/i3.mp4" autoplay loop="true"></video>
+        <img id="img-poster" crossorigin="anonymous" src="data/media/poster.png">
+        <img id="icon-signup" crossorigin="anonymous" src="data/icons/signup.png">
+        <img id="icon-map" crossorigin="anonymous" src="data/icons/map.png">
+        <img id="icon-restart" crossorigin="anonymous" src="data/icons/redo.png">
+        <img id="icon-exit" crossorigin="anonymous" src="data/icons/leave.png">
+        <img id="icon-minimize" crossorigin="anonymous" src="data/icons/exit.png">
+        <img id="icon-menu" crossorigin="anonymous" src="data/icons/bars.png">
     </a-assets>
 
     <!--  Foyer  -->
@@ -522,6 +623,7 @@
                   look-controls="pointerLockEnabled: true"
                   wasd-controls="acceleration: 25">
 
+            <!-- Cursor for clicks -->
             <a-entity
                     id="cursor"
                     cursor="fuse: true; fuseTimeout: 2200"
@@ -541,6 +643,14 @@
                     click-nav>
             </a-entity>
 
+            <!-- Cursor for hovers -->
+            <a-entity
+                    id="cursor-invisible"
+                    cursor="fuse: false"
+                    position="0 0 -1"
+                    raycaster="objects: .hover">
+            </a-entity>
+
             <a-sphere
                     id="curtain"
                     radius=".4"
@@ -555,23 +665,86 @@
                     animation__fadelongend="property: visible; type: boolean; to: false; startEvents: animationcomplete__fadelongback"
             ></a-sphere>
 
-            <!-- Navigation map -->
-            <a-entity
-                    id="nav-map"
-                    position="0 -0.2 -1"
-                    look-at="[camera]"
-                    visible="false"
-                    nav-map>
-                <a-plane color="#666" height=".5" width=".92" position="0 0 -.02" shader="flat"></a-plane>
-                <a-image src="#map" height=".4" width=".8"></a-image>
-                <a-circle radius=".03" position="-0.4 .2 .02" color="#CC0000"
-                          shader="flat"
-                          animation__blink="property: radius; from: .03; to:0.015; dur: 1000; easing: easeInQuad; startEvents: blink, animationcomplete__blinkback;"
-                          animation__blinkback="property: radius; from: .015; to:0.03; dur: 1000; delay: 50; easing: easeOutQuad; startEvents: animationcomplete__blink;">
-                </a-circle>
-            </a-entity>
+            <a-entity id="menu-open-position" position="0 0 -.6"></a-entity>
 
         </a-entity>
+    </a-entity>
+
+    <!-- Menu open -->
+    <a-entity
+            id="open-menu"
+            position="0 -.9 -.6"
+            look-at="[camera]"
+            visible="true"
+            animation__open="property: scale; startEvents: open; easing: easeInCubic; dur: 300; from: .0001 .0001 .0001; to: 1 1 1"
+            animation__close="property: scale; startEvents: close; easing: easeInCubic; dur: 300; from: 1 1 1; to: .0001 .0001 .0001"
+            animation__closeend="property: visible; type: boolean; to: false; startEvents: animationcomplete__close"
+            menu-open
+    >
+        <a-entity template="src: #button" data-text="Menu" data-icon="#icon-menu" data-xpos="0" scale=".4 .4 .4"
+                  position="0 0 -.1"></a-entity>
+    </a-entity>
+
+
+    <!-- Menu -->
+    <a-entity
+            id="menu"
+            position="0 -.5 -1"
+            look-at="[camera]"
+            visible="false"
+            scale=".0001 .0001 .0001"
+            animation__open="property: scale; startEvents: open; easing: easeInCubic; dur: 300; from: .0001 .0001 .0001; to: 1 1 1"
+            animation__close="property: scale; startEvents: close; easing: easeInCubic; dur: 300; from: 1 1 1; to: .0001 .0001 .0001"
+            animation__closeend="property: visible; type: boolean; to: false; startEvents: animationcomplete__close"
+    >
+        <a-plane color="#666" height=".4" width="1.7" position="0 0 -.02" shader="flat" opacity=".5"></a-plane>
+        <a-entity template="src: #button" data-text="Anmelden" data-icon="#icon-signup" data-xpos="-.6"></a-entity>
+        <a-entity menu-open-map template="src: #button" data-text="Karte" data-icon="#icon-map"
+                  data-xpos="-.2"></a-entity>
+        <a-entity template="src: #button" data-text="Zum Start" data-icon="#icon-restart" data-xpos=".2"></a-entity>
+        <a-entity template="src: #button" data-text="Beenden" data-icon="#icon-exit" data-xpos=".6"></a-entity>
+
+        <a-entity menu-close template="src: #button" data-text="" data-icon="#icon-minimize" data-xpos="0"
+                  position=".75 .15 .1"
+                  scale=".4 .4 .4"></a-entity>
+        <a-circle radius=".12" position=".75 .165 .1" color="#666" shader="flat" opacity="1"
+                  scale=".4 .4 .4"></a-circle>
+
+    </a-entity>
+
+    <!-- Navigation map -->
+    <a-entity
+            id="nav-map"
+            position="0 -0.2 -1"
+            look-at="[camera]"
+            visible="false"
+            nav-map>
+        <a-plane color="#666" height=".5" width=".92" position="0 0 -.02" shader="flat"></a-plane>
+        <a-image src="#img-map" height=".4" width=".8"></a-image>
+        <a-circle radius=".03" position="-0.4 .2 .02" color="#CC0000"
+                  shader="flat"
+                  animation__blink="property: radius; from: .03; to:0.015; dur: 1000; easing: easeInQuad; startEvents: blink, animationcomplete__blinkback;"
+                  animation__blinkback="property: radius; from: .015; to:0.03; dur: 1000; delay: 50; easing: easeOutQuad; startEvents: animationcomplete__blink;">
+        </a-circle>
+    </a-entity>
+
+
+    <!-- Poster -->
+    <a-entity id="poster" position="2 0 -2">
+        <a-plane class="hover" opacity="0" shader="flat" height="1" width=".5" color="#666"
+                 look-at="[camera]"
+                 animation__increase="property: scale; startEvents: mouseenter; to: 5 5 5; easing: easeOutQuad;"
+                 animation__decrease="property: scale; startEvents: mouseleave; to: 1 1 1; easing: easeOutQuad;">
+            <a-image src="#img-poster" height="1" width=".5"></a-image>
+        </a-plane>
+
+    </a-entity>
+
+    <!-- Video -->
+    <a-entity id="video" position="-1 0 -2">
+        <a-video src="#vid-i3" width="1.6" height=".9"
+                 look-at="[camera]"
+        ></a-video>
     </a-entity>
 
     <!--  Welcome / Let it snow  -->
