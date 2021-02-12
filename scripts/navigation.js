@@ -96,6 +96,10 @@ AFRAME.registerComponent('nav', {
                 document.getElementById('curtain').setAttribute('visible', 'true');
                 document.getElementById('curtain').dispatchEvent(new CustomEvent('fade'));
 
+                // Close menu & map
+                closeMenu();
+                closeMap();
+
                 // Wait for dark animation
                 setTimeout(() => {
                     // Set current sphere
@@ -130,24 +134,25 @@ AFRAME.registerComponent('click-nav', {
             let minObject = null;
             let distance = 10000;
 
-            currentSphere.neighbourIds.forEach((neighbourId) => {
-                const neighbour = document.getElementById('sky-' + neighbourId);
+            if (!isMenuOpen) {
+                currentSphere.neighbourIds.forEach((neighbourId) => {
+                    const neighbour = document.getElementById('sky-' + neighbourId);
 
-                if (checkIfVisible(neighbour.children[2].children[0])) {
+                    if (checkIfVisible(neighbour.children[2].children[0])) {
 
-                    distance = document.getElementById('cam-rig').object3D.position.distanceTo(neighbour.object3D.position);
-                    if (distance < minDistance) {
-                        minDistance = distance;
-                        minObject = neighbour;
+                        distance = document.getElementById('cam-rig').object3D.position.distanceTo(neighbour.object3D.position);
+                        if (distance < minDistance) {
+                            minDistance = distance;
+                            minObject = neighbour;
+                        }
                     }
+                });
+
+                if (minObject != null) {
+                    // Notify close object
+                    minObject.dispatchEvent(new CustomEvent('click'));
                 }
-            });
-
-            if (minObject != null) {
-                // Notify close object
-                minObject.dispatchEvent(new CustomEvent('click'));
             }
-
         });
     },
 });

@@ -27,3 +27,28 @@ function checkIfVisible(entity) {
 
     return frustum.intersectsObject(entityMesh);
 }
+
+/***
+ * Get Vector3 in front of an object.
+ *
+ * @param object Reference object (THREE.object3D)
+ * @param target Object in front of the user
+ * @param distance How far should the object be in front of the object?
+ * @param verticalHeight Vertical height
+ * @return Position as Vector3
+ */
+function positionInFrontOf(object, target, distance, verticalHeight) {
+    const posObj = new THREE.Vector3();
+    const posHelper = new THREE.Vector3();
+
+    posObj.setFromMatrixPosition(object.matrixWorld);
+    posHelper.setFromMatrixPosition(target.matrixWorld);
+
+    posHelper.sub(posObj);
+    posHelper.y = 0;
+    posHelper.normalize();
+    posHelper.multiplyScalar(distance);
+    posHelper.y = verticalHeight;
+
+    return posObj.add(posHelper);
+}
