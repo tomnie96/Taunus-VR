@@ -34,3 +34,6 @@ See https://itnext.io/choosing-the-right-file-structure-for-angular-in-2020-and-
 * Flex Layout: https://github.com/angular/flex-layout
 * API: https://github.com/angular/flex-layout/wiki/Declarative-API-Overview
 * Examples (!): https://tburleson-layouts-demos.firebaseapp.com/#/docs
+
+## Aframe
+* Integrated into Angular following https://medium.com/@pitipon/a-frame-with-angular-setup-project-5797b2f2a03b
