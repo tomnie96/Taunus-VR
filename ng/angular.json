@@ -21,7 +21,37 @@
             "aot": true,
             "assets": [
               "src/favicon.ico",
-              "src/assets"
+              "src/assets",
+              {
+                "glob": "**/*",
+                "input": "./node_modules/aframe/dist/",
+                "output": "./assets/lib/aframe/dist/"
+              },
+              {
+                "glob": "**/*",
+                "input": "./node_modules/aframe-extras/dist/",
+                "output": "./assets/lib/aframe-extras/dist/"
+              },
+              {
+                "glob": "**/*",
+                "input": "./node_modules/aframe-look-at-component/dist/",
+                "output": "./assets/lib/aframe-look-at-component/dist/"
+              },
+              {
+                "glob": "**/*",
+                "input": "./node_modules/aframe-proxy-event-component/dist/",
+                "output": "./assets/lib/aframe-proxy-event-component/dist/"
+              },
+              {
+                "glob": "**/*",
+                "input": "./node_modules/aframe-template-component/dist/",
+                "output": "./assets/lib/aframe-template-component/dist/"
+              },
+              {
+                "glob": "**/*",
+                "input": "./node_modules/aframe-event-set/dist/",
+                "output": "./assets/lib/aframe-event-set/dist/"
+              }
             ],
             "styles": [
               "./node_modules/@angular/material/prebuilt-themes/indigo-pink.css",

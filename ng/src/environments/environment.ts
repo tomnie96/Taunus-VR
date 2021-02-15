@@ -11,7 +11,7 @@ export const environment = {
   // Navigation
   sphereSize: .7, // Default: .7
   useSpheres: false,
-  useGroundPlate: true,
+  useGroundPlate: true, // Todo: Enable toggle
   useText: false,
   useFloorRings: true,
 

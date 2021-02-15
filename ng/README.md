@@ -37,3 +37,4 @@ See https://itnext.io/choosing-the-right-file-structure-for-angular-in-2020-and-
 
 ## Aframe
 * Integrated into Angular following https://medium.com/@pitipon/a-frame-with-angular-setup-project-5797b2f2a03b
+* Integrate further A-Frame Features: https://rasor.github.io/dependency-management-in-angular-cli-lib-a-frame.html

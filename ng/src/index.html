@@ -9,6 +9,61 @@
   <link rel="preconnect" href="https://fonts.gstatic.com">
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+  <!-- Aframe -->
+  <script src="/assets/lib/aframe/dist/aframe.js" type="text/html"></script>
+  <script src="/assets/lib/aframe-extras/dist/aframe-extras.js" type="text/html"></script>
+  <script src="/assets/lib/aframe-template-component/dist/aframe-template-component.js" type="text/html"></script>
+  <script src="/assets/lib/aframe-proxy-event-component/dist/aframe-proxy-event-component.js" type="text/html"></script>
+<!--  <script src="/assets/lib/aframe-look-at-component/dist/aframe-look-at-component.js" type="text/html"></script>-->
+  <script src="/assets/lib/aframe-event-set-component/dist/aframe-event-set-component.js" type="text/html"></script>
+
+  <!-- Image link template to be reused. -->
+  <!-- Todo: Reenable on link class -->
+  <!-- event-set__mouseenter="scale: 1.2 1.2 1"-->
+  <!-- event-set__mouseleave="scale: 1 1 1"-->
+
+  <script id="link" type="text/html">
+    <a-entity class="link"
+              geometry="primitive: plane; height: 1; width: 1"
+              material="shader: flat; opacity: 0"
+              sound="on: click; src: #click-sound">
+      <a-plane color="#333" width="1.5" height=".8" opacity="0">
+        <a-text value="${text}" color="#000" align="center"></a-text>
+      </a-plane>
+    </a-entity>
+  </script>
+
+
+  <!-- Button template to be reused. -->
+
+  <!-- Todo: Reenable on button class -->
+  <!-- event-set__mouseenter="scale: 1.2 1.2 1"-->
+  <!-- event-set__mouseleave="scale: 1 1 1"-->
+  <script id="button" type="text/html">
+    <a-entity>
+      <a-plane class="link" color="#333" width=".3" height=".3" shader="flat" opacity="0"
+               position="${xpos} 0 0"
+               sound="on: click; src: #click-sound">
+        <a-image src="${icon}" height=".25" width=".25" position="0 .03 .001"></a-image>
+        <a-text value="${text}" color="#000" align="center" width="1.5" position="0 -.15 .001"></a-text>
+      </a-plane>
+    </a-entity>
+  </script>
+
+  <!-- Position template: Image, circle on floor and include link -->
+  <script id="position" type="text/html">
+    <a-entity class="pic360" position="0 0 0" visible="false">
+      <a-sky id="sky" radius=".7" src="${skySrc}" rotation="${skyRotation}"
+             material="shader: flat; opacity: .7; color: #AAA"></a-sky>
+    </a-entity>
+    <a-entity template="src: #link" data-text="${text}" look-at="[camera]" visible="false"></a-entity>
+    <a-entity class="circle" position="0 -2 0" visible="false">
+      <a-circle color="#888888" radius=".25" rotation="-90 0 0"></a-circle>
+      <a-circle color="#444444" radius=".17" rotation="-90 0 0" position="0 .01 0"></a-circle>
+    </a-entity>
+  </script>
+
 </head>
 <body class="mat-typography">
   <app-root></app-root>

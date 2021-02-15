@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import * as THREE from 'super-three';
+import {THREE} from 'aframe';
 
 @Injectable({
   providedIn: 'root'
@@ -9,11 +9,11 @@ export class MapService {
   constructor() {
   }
 
-  private isMapOpen = false;
+  private isOpen = false;
 
-  openMap(position: THREE.Vector3): void {
-    if (!this.isMapOpen) {
-      this.isMapOpen = true;
+  open(position: THREE.Vector3): void {
+    if (!this.isOpen) {
+      this.isOpen = true;
       const map = document.getElementById('nav-map');
       map.dispatchEvent(new CustomEvent('open'));
       map.setAttribute('position', '' + position.x + ' ' + position.y + ' ' + position.z);
@@ -21,12 +21,12 @@ export class MapService {
     }
   }
 
-  closeMap(): void {
-    if (this.isMapOpen) {
+  close(): void {
+    if (this.isOpen) {
       const map = document.getElementById('nav-map');
       map.dispatchEvent(new CustomEvent('close'));
       map.setAttribute('visible', 'false');
-      this.isMapOpen = false;
+      this.isOpen = false;
     }
   }
 

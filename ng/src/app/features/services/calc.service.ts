@@ -1,5 +1,7 @@
 import {Injectable} from '@angular/core';
-import * as THREE from 'super-three';
+// import * as THREE from 'super-three';
+// declare var THREE: any;
+import {THREE} from 'aframe';
 
 @Injectable({
   providedIn: 'root'
@@ -16,16 +18,18 @@ export class CalcService {
     const entityMesh = entity.object3DMap.mesh;
     const frustum = new THREE.Frustum();
     const cameraViewProjectionMatrix = new THREE.Matrix4();
+    let camera: THREE.PerspectiveCamera;
 
     // Get camera
     // @ts-ignore
-    let camera = document.querySelector('[camera]').getObject3D('camera');
+    camera = document.querySelector('[camera]').getObject3D('camera');
 
     // Update camera attributes
     camera.updateMatrixWorld();
     camera.updateProjectionMatrix();
 
     // Set limited FoV
+    // @ts-ignore
     camera = camera.clone();
     camera.aspect = .5; // Reduced from 1
     camera.fov = 60; // Reduced from 80

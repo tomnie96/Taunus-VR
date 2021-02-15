@@ -1,4 +1,6 @@
-import * as THREE from 'super-three';
+// import * as THREE from 'super-three';
+// declare var THREE: any;
+import {THREE} from 'aframe';
 import {CustomVector3} from './custom-vector3';
 
 export class Particle3D extends THREE.Sprite {

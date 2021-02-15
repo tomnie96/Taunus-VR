@@ -1,4 +1,5 @@
-import * as THREE from 'super-three';
+// declare var THREE: any;
+import {THREE} from 'aframe';
 
 export class CustomVector3 extends THREE.Vector3 {
 

@@ -29,14 +29,11 @@ export class NavigationService {
     // child 1: Ground plate
     // child 2: Label
     // child 3: Floor Ring
-    sphere.children[0].children[0].setAttribute('radius', '100');
-    sphere.children[0].children[0].setAttribute('material', 'opacity: 1; color: #FFF');
+    sphere.children[0].setAttribute('radius', '100');
+    sphere.children[0].setAttribute('material', 'opacity: 1; color: #FFF');
     sphere.children[0].setAttribute('visible', 'true');
-    if (environment.useGroundPlate) {
-      sphere.children[1].setAttribute('visible', 'true');
-    }
-    sphere.children[2].setAttribute('visible', 'false');
-    sphere.children[3].setAttribute('visible', 'false');
+    // sphere.children[2].setAttribute('visible', 'false');
+    // sphere.children[3].setAttribute('visible', 'false');
 
     sphere.neighbourIds = Array.from(neighbourIds);
   }
@@ -49,22 +46,21 @@ export class NavigationService {
       // Sphere
       if (environment.useSpheres) {
         sphere.children[0].setAttribute('visible', 'true');
-        sphere.children[0].children[0].setAttribute('radius', environment.sphereSize.toString());
-        sphere.children[0].children[0].setAttribute('material', 'opacity: .7; color: #AAA');
+        sphere.children[0].setAttribute('radius', environment.sphereSize.toString());
+        sphere.children[0].setAttribute('material', 'opacity: .7; color: #AAA');
       } else {
         sphere.children[0].setAttribute('visible', 'false');
       }
-      sphere.children[1].setAttribute('visible', 'false');
-      sphere.children[2].setAttribute('visible', 'true');
-      if (!environment.useText) {
-        sphere.children[2].children[0].children[0].children[0].setAttribute('visible', 'false');
-      }
-      if (!environment.useText && !environment.useSpheres) {
-        sphere.children[2].setAttribute('position', '0 -2 0');
-      } // Set link position to floor ring
-      if (environment.useFloorRings) {
-        sphere.children[3].setAttribute('visible', 'true');
-      }
+      // sphere.children[2].setAttribute('visible', 'true');
+      // if (!environment.useText) {
+      //   sphere.children[2].children[0].children[0].children[0].setAttribute('visible', 'false');
+      // }
+      // if (!environment.useText && !environment.useSpheres) {
+      //   sphere.children[2].setAttribute('position', '0 -2 0');
+      // } // Set link position to floor ring
+      // if (environment.useFloorRings) {
+      //   sphere.children[3].setAttribute('visible', 'true');
+      // }
     }
   }
 

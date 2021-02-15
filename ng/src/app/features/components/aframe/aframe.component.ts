@@ -1,6 +1,8 @@
 import {Component, OnInit} from '@angular/core';
-import * as AFRAME from 'aframe';
-import * as THREE from 'super-three';
+// import * as AFRAME from 'aframe';
+// import * as THREE from 'super-three';
+import {THREE} from 'aframe';
+
 import {environment} from '../../../../environments/environment';
 import {MenuService} from '../../services/menu.service';
 import {NavigationService} from '../../services/navigation.service';
@@ -19,24 +21,54 @@ export class AframeComponent implements OnInit {
   private cursor;
 
   constructor(
-    private menuService: MenuService,
-    private navService: NavigationService,
-    private calcService: CalcService,
-    private mapService: MapService) {
+    private nav: NavigationService,
+    private menu: MenuService,
+    private calc: CalcService,
+    private map: MapService) {
   }
 
   ngOnInit(): void {
 
+    this.registerPositions();
     this.registerMenu();
     this.registerNavigation();
     this.registerMap();
     this.registerSnow();
+    this.registerLookAt();
 
+  }
+
+  registerPositions(): void {
   }
 
   registerMenu(): void {
 
     const context = this;
+
+    AFRAME.registerComponent('button', {
+      schema: {
+        imageSrc: {type: 'string'},
+        text: {type: 'string'}
+      },
+
+      init(): void {
+        const img = document.createElement('a-image');
+        img.setAttribute('src', this.data.imageSrc);
+        img.setAttribute('height', .25);
+        img.setAttribute('width', .25);
+        img.setAttribute('position', '0 .03 .001');
+
+        const text = document.createElement('a-text');
+        text.setAttribute('value', this.data.text);
+        text.setAttribute('align', 'center');
+        text.setAttribute('height', 1);
+        text.setAttribute('width', 1.5);
+        text.setAttribute('position', '0 -.15 .001');
+
+        this.el.appendChild(img);
+        this.el.appendChild(text);
+      }
+    });
 
     // Open menu button
     AFRAME.registerComponent('menu-open', {
@@ -48,7 +80,7 @@ export class AframeComponent implements OnInit {
         this.cursor = document.getElementById('cursor').object3D;
 
         this.el.addEventListener('click', () => {
-          this.openMenu(context.calcService.positionInFrontOf(this.camera, this.cursor, 1, -.5));
+          context.menu.open(context.calc.positionInFrontOf(this.camera, this.cursor, 1, -.5));
         });
       },
 
@@ -56,7 +88,7 @@ export class AframeComponent implements OnInit {
         const pos = this.el.object3D.position;
 
         // Calculate target position
-        const posTarget = context.calcService.positionInFrontOf(this.camera, this.cursor, .5, -.85);
+        const posTarget = context.calc.positionInFrontOf(this.camera, this.cursor, 2.2, -2.6);
 
         // Following the cursor smoothly
         pos.lerp(posTarget, environment.menuButtonSmoothing);
@@ -68,7 +100,7 @@ export class AframeComponent implements OnInit {
 
       init(): void {
         this.el.addEventListener('click', () => {
-          context.menuService.closeMenu();
+          context.menu.close();
         });
       },
     });
@@ -78,8 +110,8 @@ export class AframeComponent implements OnInit {
 
       init(): void {
         this.el.addEventListener('click', () => {
-          context.menuService.closeMenu();
-          context.mapService.openMap(context.calcService.positionInFrontOf(this.camera, this.cursor, 1, -.5));
+          context.menu.close();
+          context.map.open(context.calc.positionInFrontOf(this.camera, this.cursor, 1, -.5));
         });
       },
     });
@@ -101,8 +133,8 @@ export class AframeComponent implements OnInit {
           this.initialized = true;
 
           // Set position
-          context.navService.updateMainSphere(this.el, this.data.next);
-          document.querySelector('#cam-rig').setAttribute('position', this.currentSphere.object3D.position);
+          context.nav.updateMainSphere(this.el, this.data.next);
+          document.querySelector('#cam-rig').setAttribute('position', context.nav.currentSphere.object3D.position);
         }
       }
     });
@@ -123,7 +155,7 @@ export class AframeComponent implements OnInit {
             this.isTransitioning = true;
 
             // Log target
-            console.log('Location Update: Img ' + this.currentSphere.id + ' - Img ' + self.el.id);
+            console.log('Location Update: Img ' + context.nav.currentSphere.id + ' - Img ' + self.el.id);
 
             // Close curtain
             // Curtain becomes automatically invisible after fade animation
@@ -131,18 +163,18 @@ export class AframeComponent implements OnInit {
             document.getElementById('curtain').dispatchEvent(new CustomEvent('fade'));
 
             // Close menu & map
-            context.menuService.closeMenu();
-            context.mapService.closeMap();
+            context.menu.close();
+            context.map.close();
 
             // Wait for dark animation
             setTimeout(() => {
               // Set current sphere
-              this.currentSphere = self.el;
+              context.nav.currentSphere = self.el;
 
-              this.updateMainSphere(this.currentSphere, self.data.next);
+              this.updateMainSphere(context.nav.currentSphere, self.data.next);
 
               // Change position
-              document.querySelector('#cam-rig').setAttribute('position', this.currentSphere.object3D.position);
+              document.querySelector('#cam-rig').setAttribute('position', context.nav.currentSphere.object3D.position);
               document.getElementById('nav-map').dispatchEvent(new CustomEvent('change-position', {
                 detail: {
                   position: self.el.getAttribute('position')
@@ -168,11 +200,11 @@ export class AframeComponent implements OnInit {
           let minObject = null;
           let distance = 10000;
 
-          if (!context.menuService.isMenuOpen) {
+          if (!context.menu.isOpen) {
             self.currentSphere.neighbourIds.forEach((neighbourId) => {
               const neighbour = document.getElementById('sky-' + neighbourId);
 
-              if (context.calcService.checkIfVisible(neighbour.children[2].children[0])) {
+              if (context.calc.checkIfVisible(neighbour.children[2].children[0])) {
 
                 // @ts-ignore
                 distance = document.getElementById('cam-rig').object3D.position.distanceTo(neighbour.object3D.position);
@@ -219,7 +251,7 @@ export class AframeComponent implements OnInit {
 
       init(): void {
         this.el.addEventListener('click', () => {
-          context.mapService.closeMap();
+          context.map.close();
         });
       },
     });
@@ -322,6 +354,128 @@ export class AframeComponent implements OnInit {
           particle.material.dispose();
           this.el.sceneEl.object3D.remove(particle);
         });
+      }
+    });
+  }
+
+  registerLookAt(): void {
+    const coordinates = AFRAME.utils.coordinates;
+    // @ts-ignore
+    const isCoordinates = coordinates.isCoordinates;
+
+    /**
+     * Look-at component. Adapted from: https://www.npmjs.com/package/aframe-look-at-component/v/0.8.0
+     *
+     * Modifies rotation to either track another entity OR do a one-time turn towards a position
+     * vector.
+     *
+     * If tracking an object via setting the component value via a selector, look-at will register
+     * a behavior to the scene to update rotation on every tick.
+     */
+    AFRAME.registerComponent('look-at', {
+      schema: {
+        default: '0 0 0',
+
+        parse(value): any {
+          // A static position to look at.
+          if (isCoordinates(value) || typeof value === 'object') {
+            return coordinates.parse(value);
+          }
+          // A selector to a target entity.
+          return value;
+        },
+
+        stringify(data): string {
+          if (typeof data === 'object') {
+            return coordinates.stringify(data);
+          }
+          return data;
+        }
+      },
+
+      init(): void {
+        this.target3D = null;
+        this.vector = new THREE.Vector3();
+        // @ts-ignore
+        this.cameraListener = AFRAME.utils.bind(this.cameraListener, this);
+        this.el.addEventListener('componentinitialized', this.cameraListener);
+        this.el.addEventListener('componentremoved', this.cameraListener);
+      },
+
+      /**
+       * If tracking an object, this will be called on every tick.
+       * If looking at a position vector, this will only be called once (until further updates).
+       */
+      update(): any {
+        const self = this;
+        const target = self.data;
+        let targetEl;
+
+        // No longer looking at anything (i.e., look-at="").
+        if (!target || (typeof target === 'object' && !Object.keys(target).length)) {
+          return self.remove();
+        }
+
+        // Look at a position.
+        if (typeof target === 'object') {
+          return this.lookAt(new THREE.Vector3(target.x, target.y, target.z));
+        }
+
+        // Assume target is a string.
+        // Query for the element, grab its object3D, then register a behavior on the scene to
+        // track the target on every tick.
+        targetEl = self.el.sceneEl.querySelector(target);
+        if (!targetEl) {
+          console.warn('"' + target + '" does not point to a valid entity to look-at');
+          return;
+        }
+        if (!targetEl.hasLoaded) {
+          return targetEl.addEventListener('loaded', () => {
+            self.beginTracking(targetEl);
+          });
+        }
+        return self.beginTracking(targetEl);
+      },
+
+      tick(): void {
+        const self = this;
+        const vec3 = new THREE.Vector3();
+        const target3D = self.target3D;
+        if (target3D) {
+          target3D.getWorldPosition(vec3);
+          self.lookAt(vec3);
+        }
+      },
+
+      remove(): void {
+        this.el.removeEventListener('componentinitialized', this.cameraListener);
+        this.el.removeEventListener('componentremoved', this.cameraListener);
+      },
+
+      beginTracking(targetEl): void {
+        this.target3D = targetEl.object3D;
+      },
+
+      cameraListener(e): void {
+        if (e.detail && e.detail.name === 'camera') {
+          this.update();
+        }
+      },
+
+      lookAt(position): void {
+        const vector = this.vector;
+        const object3D = this.el.object3D;
+
+        if (this.el.getObject3D('camera')) {
+          // Flip the vector to -z, looking away from target for camera entities. When using
+          // lookat from THREE camera objects, this is applied for you, but since the camera is
+          // nested into a Object3D, we need to apply this manually.
+          vector.subVectors(object3D.position, position).add(object3D.position);
+        } else {
+          vector.copy(position);
+        }
+
+        object3D.lookAt(vector);
       }
     });
   }
