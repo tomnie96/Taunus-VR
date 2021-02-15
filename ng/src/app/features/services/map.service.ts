@@ -25,7 +25,7 @@ export class MapService {
     if (this.isOpen) {
       const map = document.getElementById('nav-map');
       map.dispatchEvent(new CustomEvent('close'));
-      map.setAttribute('visible', 'false');
+      // map.setAttribute('visible', 'false');
       this.isOpen = false;
     }
   }

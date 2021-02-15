@@ -75,12 +75,13 @@ export class AframeComponent implements OnInit {
 
       init(): void {
         // @ts-ignore
-        this.camera = document.getElementById('cam-rig').object3D;
+        context.camera = document.getElementById('cam-rig').object3D;
         // @ts-ignore
-        this.cursor = document.getElementById('cursor').object3D;
+        context.cursor = document.getElementById('cursor').object3D;
 
         this.el.addEventListener('click', () => {
-          context.menu.open(context.calc.positionInFrontOf(this.camera, this.cursor, 1, -.5));
+          context.menu.open(context.calc.positionInFrontOf(context.camera, context.cursor, 1, -.5));
+          context.map.close();
         });
       },
 
@@ -88,7 +89,7 @@ export class AframeComponent implements OnInit {
         const pos = this.el.object3D.position;
 
         // Calculate target position
-        const posTarget = context.calc.positionInFrontOf(this.camera, this.cursor, 2.2, -2.6);
+        const posTarget = context.calc.positionInFrontOf(context.camera, context.cursor, 2.2, -2.6);
 
         // Following the cursor smoothly
         pos.lerp(posTarget, environment.menuButtonSmoothing);
@@ -111,7 +112,7 @@ export class AframeComponent implements OnInit {
       init(): void {
         this.el.addEventListener('click', () => {
           context.menu.close();
-          context.map.open(context.calc.positionInFrontOf(this.camera, this.cursor, 1, -.5));
+          context.map.open(context.calc.positionInFrontOf(context.camera, context.cursor, 1, -.5));
         });
       },
     });

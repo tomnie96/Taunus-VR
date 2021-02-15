@@ -1,4 +1,4 @@
-<a-scene>
+<a-scene stats>
 
   <!--  Assets  -->
   <a-assets timeout="1000">
@@ -50,6 +50,9 @@
              animation__open="property: scale; startEvents: open; easing: easeInCubic; dur: 300; from: .0001 .0001 .0001; to: 1 1 1"
              animation__close="property: scale; startEvents: close; easing: easeInCubic; dur: 300; from: 1 1 1; to: .0001 .0001 .0001"
              animation__closeend="property: visible; type: boolean; to: false; startEvents: animationcomplete__close"></a-mixin>
+    <a-mixin id="hover-scale"
+             animation__mouseenter_scale="property: scale; startEvents: mouseenter; easing: easeOutCubic; dur: 300; to: 1.2 1.2 1.2"
+             animation__mouseleave_scale="property: scale; startEvents: mouseleave; easing: easeOutCubic; dur: 300; to: 1 1 1"></a-mixin>
 
   </a-assets>
 
@@ -218,22 +221,22 @@
     <a-entity
       class="link" position="-.6 0 0"
       button="imageSrc: #icon-signup; text: Anmelden"
-      mixin="m-link"></a-entity>
+      mixin="m-link hover-scale"></a-entity>
     <a-entity
       class="link" position="-.2 0 0"
       button="imageSrc: #icon-map; text: Karte"
       menu-open-map
-      mixin="m-link"></a-entity>
+      mixin="m-link hover-scale"></a-entity>
     <a-entity
       class="link" position=".2 0 0"
       button="imageSrc: #icon-restart; text: Zum Start"
       menu-open-map
-      mixin="m-link"></a-entity>
+      mixin="m-link hover-scale"></a-entity>
     <a-entity
       class="link" position=".6 0 0"
       button="imageSrc: #icon-exit; text: Beenden"
       menu-open-map
-      mixin="m-link"></a-entity>
+      mixin="m-link hover-scale"></a-entity>
 
     <!-- Close -->
     <a-entity
@@ -254,9 +257,7 @@
     look-at="[camera]"
     visible="false"
     scale=".0001 .0001 .0001"
-    animation__open="property: scale; startEvents: open; easing: easeInCubic; dur: 300; from: .0001 .0001 .0001; to: 1 1 1"
-    animation__close="property: scale; startEvents: close; easing: easeInCubic; dur: 300; from: 1 1 1; to: .0001 .0001 .0001"
-    animation__closeend="property: visible; type: boolean; to: false; startEvents: animationcomplete__close"
+    mixin="menu-animations"
     nav-map>
     <a-plane color="#666" height=".5" width=".92" position="0 0 -.02" shader="flat"></a-plane>
     <a-image src="#img-map" height=".4" width=".8"></a-image>
@@ -267,9 +268,12 @@
     </a-circle>
 
     <!-- Close -->
-    <a-entity nav-map-close template="src: #button" data-text="" data-icon="#icon-minimize" data-xpos="0"
-              position=".38 .17 .1"
-              scale=".4 .4 .4"></a-entity>
+    <a-entity
+      class="link" position=".38 .17 .1"
+      button="imageSrc: #icon-minimize; text: "
+      nav-map-close
+      scale=".4 .4 .4"
+      mixin="m-link"></a-entity>
     <a-circle radius=".12" position=".38 .185 .1" color="#666" shader="flat" opacity="1"
               scale=".4 .4 .4"></a-circle>
   </a-entity>
