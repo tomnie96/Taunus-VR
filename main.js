@@ -80,6 +80,101 @@ MapService.ɵprov = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineInject
 
 /***/ }),
 
+/***/ "9Scw":
+/*!********************************************************!*\
+  !*** ./src/app/features/services/analytics.service.ts ***!
+  \********************************************************/
+/*! exports provided: AnalyticsService */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "AnalyticsService", function() { return AnalyticsService; });
+/* harmony import */ var uuid__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! uuid */ "4USb");
+/* harmony import */ var _models_event_type_enum__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../models/event-type.enum */ "djWR");
+/* harmony import */ var _package_json__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../package.json */ "kiQV");
+var _package_json__WEBPACK_IMPORTED_MODULE_2___namespace = /*#__PURE__*/__webpack_require__.t(/*! ../../../../package.json */ "kiQV", 1);
+/* harmony import */ var _models_session__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../models/session */ "OJbD");
+/* harmony import */ var _models_analytics_event__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../models/analytics-event */ "TwrN");
+/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @angular/router */ "tyNb");
+/* harmony import */ var rxjs_operators__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! rxjs/operators */ "kU1M");
+/* harmony import */ var _models_device__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../models/device */ "uGOu");
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @angular/core */ "fXoL");
+
+
+// @ts-ignore
+
+
+
+
+
+
+
+
+class AnalyticsService {
+    constructor(router) {
+        this.router = router;
+        this.isRegistered = false;
+        this.navigationId = 0;
+        this.session = new _models_session__WEBPACK_IMPORTED_MODULE_3__["Session"](Object(uuid__WEBPACK_IMPORTED_MODULE_0__["v4"])(), _package_json__WEBPACK_IMPORTED_MODULE_2__["version"], AnalyticsService.getDeviceInfo(), new Date());
+        this.trackEvent(_models_event_type_enum__WEBPACK_IMPORTED_MODULE_1__["EventType"].EnterWebsite, '/');
+        // TODO: Implement API
+        console.log(this.session);
+        // Subscribe to Router navigation
+        router.events.pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_6__["filter"])((e) => e instanceof _angular_router__WEBPACK_IMPORTED_MODULE_5__["RouterEvent"])).subscribe((e) => {
+            // Avoid duplicate calls for one navigation
+            if (e.id !== this.navigationId) {
+                this.navigationId = e.id;
+                this.trackEvent(_models_event_type_enum__WEBPACK_IMPORTED_MODULE_1__["EventType"].Navigate, e.url);
+            }
+        });
+    }
+    static getDeviceInfo() {
+        let connectionSpeed = null;
+        let connectionType = null;
+        try {
+            // @ts-ignore
+            connectionSpeed = navigator.connection.downlink;
+        }
+        catch (e) { }
+        try {
+            // @ts-ignore
+            connectionType = navigator.connection.type;
+        }
+        catch (e) { }
+        return new _models_device__WEBPACK_IMPORTED_MODULE_7__["Device"](navigator.userAgent, connectionSpeed, connectionType, window.screen.availWidth, window.screen.availHeight);
+    }
+    // TODO: Implement API
+    trackEvent(eventType, target) {
+        console.log(new _models_analytics_event__WEBPACK_IMPORTED_MODULE_4__["AnalyticsEvent"](this.session.sessionId, eventType, target, this.getRuntime()));
+    }
+    register() {
+        const context = this;
+        if (!this.isRegistered) {
+            this.isRegistered = true;
+            // Track Enter/Exit VR
+            document.querySelector('a-scene').addEventListener('enter-vr', () => this.trackEvent(_models_event_type_enum__WEBPACK_IMPORTED_MODULE_1__["EventType"].EnterVR, ''));
+            document.querySelector('a-scene').addEventListener('exit-vr', () => this.trackEvent(_models_event_type_enum__WEBPACK_IMPORTED_MODULE_1__["EventType"].ExitVR, ''));
+            // Analytics Component
+            AFRAME.registerComponent('analytics', {
+                schema: { type: 'string' },
+                init() {
+                    this.el.addEventListener('mouseenter', () => context.trackEvent(_models_event_type_enum__WEBPACK_IMPORTED_MODULE_1__["EventType"].StartPOI, this.data));
+                    this.el.addEventListener('mouseleave', () => context.trackEvent(_models_event_type_enum__WEBPACK_IMPORTED_MODULE_1__["EventType"].StopPOI, this.data));
+                }
+            });
+        }
+    }
+    getRuntime() {
+        return new Date().getTime() - this.session.datetime.getTime();
+    }
+}
+AnalyticsService.ɵfac = function AnalyticsService_Factory(t) { return new (t || AnalyticsService)(_angular_core__WEBPACK_IMPORTED_MODULE_8__["ɵɵinject"](_angular_router__WEBPACK_IMPORTED_MODULE_5__["Router"])); };
+AnalyticsService.ɵprov = _angular_core__WEBPACK_IMPORTED_MODULE_8__["ɵɵdefineInjectable"]({ token: AnalyticsService, factory: AnalyticsService.ɵfac, providedIn: 'root' });
+
+
+/***/ }),
+
 /***/ "AytR":
 /*!*****************************************!*\
   !*** ./src/environments/environment.ts ***!
@@ -365,14 +460,19 @@ class Particle3D extends aframe__WEBPACK_IMPORTED_MODULE_0__["THREE"].Sprite {
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "NavigationService", function() { return NavigationService; });
 /* harmony import */ var _environments_environment__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../environments/environment */ "AytR");
-/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "fXoL");
-/* harmony import */ var _calc_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./calc.service */ "saEN");
+/* harmony import */ var _models_event_type_enum__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../models/event-type.enum */ "djWR");
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/core */ "fXoL");
+/* harmony import */ var _calc_service__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./calc.service */ "saEN");
+/* harmony import */ var _analytics_service__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./analytics.service */ "9Scw");
+
+
 
 
 
 class NavigationService {
-    constructor(calc) {
+    constructor(calc, analytics) {
         this.calc = calc;
+        this.analytics = analytics;
         this.currentSphere = null; // Current main sphere
         this.nav = this;
         this.isRegistered = false;
@@ -385,7 +485,6 @@ class NavigationService {
     }
     // Set sphere as main
     setMainSphere(sphere, neighbourIds) {
-        console.log(sphere);
         this.currentSphere = sphere;
         document.getElementById(sphere.id).setAttribute('scale', '1 1 1');
         // child 0: Sphere
@@ -491,7 +590,7 @@ class NavigationService {
                         if (!context.isTransitioning) {
                             context.isTransitioning = true;
                             // Log target
-                            console.log('Location Update: Img ' + context.nav.currentSphere.id + ' - Img ' + self.el.id);
+                            context.analytics.trackEvent(_models_event_type_enum__WEBPACK_IMPORTED_MODULE_1__["EventType"].Jump, '' + self.el.id);
                             // Close curtain
                             // Curtain becomes automatically invisible after fade animation
                             document.getElementById('curtain').setAttribute('visible', 'true');
@@ -549,8 +648,8 @@ class NavigationService {
         }
     }
 }
-NavigationService.ɵfac = function NavigationService_Factory(t) { return new (t || NavigationService)(_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵinject"](_calc_service__WEBPACK_IMPORTED_MODULE_2__["CalcService"])); };
-NavigationService.ɵprov = _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdefineInjectable"]({ token: NavigationService, factory: NavigationService.ɵfac, providedIn: 'root' });
+NavigationService.ɵfac = function NavigationService_Factory(t) { return new (t || NavigationService)(_angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵinject"](_calc_service__WEBPACK_IMPORTED_MODULE_3__["CalcService"]), _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵinject"](_analytics_service__WEBPACK_IMPORTED_MODULE_4__["AnalyticsService"])); };
+NavigationService.ɵprov = _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵdefineInjectable"]({ token: NavigationService, factory: NavigationService.ɵfac, providedIn: 'root' });
 
 
 /***/ }),
@@ -668,6 +767,28 @@ SnowService.ɵprov = _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵdefineInjec
 
 /***/ }),
 
+/***/ "OJbD":
+/*!********************************************!*\
+  !*** ./src/app/features/models/session.ts ***!
+  \********************************************/
+/*! exports provided: Session */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Session", function() { return Session; });
+class Session {
+    constructor(sessionId, appVersion, device, datetime) {
+        this.sessionId = sessionId;
+        this.appVersion = appVersion;
+        this.device = device;
+        this.datetime = datetime;
+    }
+}
+
+
+/***/ }),
+
 /***/ "Sy1n":
 /*!**********************************!*\
   !*** ./src/app/app.component.ts ***!
@@ -678,35 +799,43 @@ SnowService.ɵprov = _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵdefineInjec
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "AppComponent", function() { return AppComponent; });
-/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "fXoL");
-/* harmony import */ var _angular_flex_layout_flex__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/flex-layout/flex */ "XiUz");
-/* harmony import */ var _angular_material_toolbar__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/material/toolbar */ "/t3+");
-/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/router */ "tyNb");
+/* harmony import */ var _features_models_event_type_enum__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./features/models/event-type.enum */ "djWR");
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "fXoL");
+/* harmony import */ var _features_services_analytics_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./features/services/analytics.service */ "9Scw");
+/* harmony import */ var _angular_flex_layout_flex__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/flex-layout/flex */ "XiUz");
+/* harmony import */ var _angular_material_toolbar__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @angular/material/toolbar */ "/t3+");
+/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @angular/router */ "tyNb");
+
+
 
 
 
 
 class AppComponent {
-    constructor() {
+    constructor(analytics) {
+        this.analytics = analytics;
         this.title = 'KD2 Lab 360° Tour';
     }
+    ngOnDestroy() {
+        this.analytics.trackEvent(_features_models_event_type_enum__WEBPACK_IMPORTED_MODULE_0__["EventType"].ExitWebsite, '');
+    }
 }
-AppComponent.ɵfac = function AppComponent_Factory(t) { return new (t || AppComponent)(); };
-AppComponent.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineComponent"]({ type: AppComponent, selectors: [["app-root"]], decls: 6, vars: 1, consts: [["fxLayout", "column", "fxFill", ""], ["fxLayout", "row"], ["color", "primary"]], template: function AppComponent_Template(rf, ctx) { if (rf & 1) {
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](0, "div", 0);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](1, "div", 1);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](2, "mat-toolbar", 2);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](3, "span");
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](4);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](5, "router-outlet");
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
+AppComponent.ɵfac = function AppComponent_Factory(t) { return new (t || AppComponent)(_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdirectiveInject"](_features_services_analytics_service__WEBPACK_IMPORTED_MODULE_2__["AnalyticsService"])); };
+AppComponent.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdefineComponent"]({ type: AppComponent, selectors: [["app-root"]], decls: 6, vars: 1, consts: [["fxLayout", "column", "fxFill", ""], ["fxLayout", "row"], ["color", "primary"]], template: function AppComponent_Template(rf, ctx) { if (rf & 1) {
+        _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementStart"](0, "div", 0);
+        _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementStart"](1, "div", 1);
+        _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementStart"](2, "mat-toolbar", 2);
+        _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementStart"](3, "span");
+        _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵtext"](4);
+        _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementEnd"]();
+        _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementEnd"]();
+        _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementEnd"]();
+        _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelement"](5, "router-outlet");
+        _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementEnd"]();
     } if (rf & 2) {
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](4);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtextInterpolate"](ctx.title);
-    } }, directives: [_angular_flex_layout_flex__WEBPACK_IMPORTED_MODULE_1__["DefaultLayoutDirective"], _angular_flex_layout_flex__WEBPACK_IMPORTED_MODULE_1__["FlexFillDirective"], _angular_material_toolbar__WEBPACK_IMPORTED_MODULE_2__["MatToolbar"], _angular_router__WEBPACK_IMPORTED_MODULE_3__["RouterOutlet"]], styles: ["\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IiIsImZpbGUiOiJhcHAuY29tcG9uZW50LmNzcyJ9 */"] });
+        _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵadvance"](4);
+        _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵtextInterpolate"](ctx.title);
+    } }, directives: [_angular_flex_layout_flex__WEBPACK_IMPORTED_MODULE_3__["DefaultLayoutDirective"], _angular_flex_layout_flex__WEBPACK_IMPORTED_MODULE_3__["FlexFillDirective"], _angular_material_toolbar__WEBPACK_IMPORTED_MODULE_4__["MatToolbar"], _angular_router__WEBPACK_IMPORTED_MODULE_5__["RouterOutlet"]], styles: ["\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IiIsImZpbGUiOiJhcHAuY29tcG9uZW50LmNzcyJ9 */"] });
 
 
 /***/ }),
@@ -784,6 +913,29 @@ WelcomeComponent.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineC
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
     } }, directives: [_angular_flex_layout_flex__WEBPACK_IMPORTED_MODULE_1__["DefaultLayoutDirective"], _angular_flex_layout_flex__WEBPACK_IMPORTED_MODULE_1__["DefaultFlexDirective"], _angular_flex_layout_flex__WEBPACK_IMPORTED_MODULE_1__["DefaultFlexOffsetDirective"], _angular_flex_layout_flex__WEBPACK_IMPORTED_MODULE_1__["FlexFillDirective"], _angular_material_card__WEBPACK_IMPORTED_MODULE_2__["MatCard"], _angular_material_button__WEBPACK_IMPORTED_MODULE_3__["MatButton"], _angular_router__WEBPACK_IMPORTED_MODULE_4__["RouterLink"]], styles: ["\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IiIsImZpbGUiOiJ3ZWxjb21lLmNvbXBvbmVudC5jc3MifQ== */"] });
+
+
+/***/ }),
+
+/***/ "TwrN":
+/*!****************************************************!*\
+  !*** ./src/app/features/models/analytics-event.ts ***!
+  \****************************************************/
+/*! exports provided: AnalyticsEvent */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "AnalyticsEvent", function() { return AnalyticsEvent; });
+class AnalyticsEvent {
+    constructor(sessionId, eventType, target, runtime, isInVR = false) {
+        this.sessionId = sessionId;
+        this.eventType = eventType;
+        this.target = target;
+        this.runtime = runtime;
+        this.isInVR = isInVR;
+    }
+}
 
 
 /***/ }),
@@ -898,12 +1050,16 @@ AppModule.ɵinj = _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵdefineInjecto
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "AframeComponent", function() { return AframeComponent; });
-/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "fXoL");
-/* harmony import */ var _services_navigation_service__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../services/navigation.service */ "I4gk");
-/* harmony import */ var _services_menu_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../services/menu.service */ "Bcyx");
-/* harmony import */ var _services_calc_service__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../services/calc.service */ "saEN");
-/* harmony import */ var _services_map_service__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../services/map.service */ "9+5q");
-/* harmony import */ var _services_snow_service__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../services/snow.service */ "KcuI");
+/* harmony import */ var _environments_environment__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../../environments/environment */ "AytR");
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "fXoL");
+/* harmony import */ var _services_navigation_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../services/navigation.service */ "I4gk");
+/* harmony import */ var _services_menu_service__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../services/menu.service */ "Bcyx");
+/* harmony import */ var _services_calc_service__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../services/calc.service */ "saEN");
+/* harmony import */ var _services_map_service__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../services/map.service */ "9+5q");
+/* harmony import */ var _services_snow_service__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../services/snow.service */ "KcuI");
+/* harmony import */ var _services_analytics_service__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../../services/analytics.service */ "9Scw");
+
+
 
 
 
@@ -911,200 +1067,244 @@ __webpack_require__.r(__webpack_exports__);
 
 
 class AframeComponent {
-    constructor(nav, menu, calc, map, snow) {
+    constructor(nav, menu, calc, map, snow, analytics) {
         this.nav = nav;
         this.menu = menu;
         this.calc = calc;
         this.map = map;
         this.snow = snow;
+        this.analytics = analytics;
     }
     ngOnInit() {
+        this.analytics.register();
         this.menu.register(this.map);
         this.nav.register(this.map, this.menu);
         this.map.register();
         this.snow.register();
         this.calc.registerLookAt();
+        // Aframe stats
+        if (!_environments_environment__WEBPACK_IMPORTED_MODULE_0__["environment"].production) {
+            document.querySelector('a-scene').setAttribute('stats', '');
+        }
     }
 }
-AframeComponent.ɵfac = function AframeComponent_Factory(t) { return new (t || AframeComponent)(_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_services_navigation_service__WEBPACK_IMPORTED_MODULE_1__["NavigationService"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_services_menu_service__WEBPACK_IMPORTED_MODULE_2__["MenuService"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_services_calc_service__WEBPACK_IMPORTED_MODULE_3__["CalcService"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_services_map_service__WEBPACK_IMPORTED_MODULE_4__["MapService"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_services_snow_service__WEBPACK_IMPORTED_MODULE_5__["SnowService"])); };
-AframeComponent.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineComponent"]({ type: AframeComponent, selectors: [["app-aframe"]], decls: 139, vars: 0, consts: [["stats", ""], ["timeout", "1000"], ["id", "click-sound", "crossorigin", "anonymous", "src", "https://cdn.aframe.io/360-image-gallery-boilerplate/audio/click.ogg", "preload", "auto"], ["id", "img-map", "crossorigin", "anonymous", "src", "assets/map.png", "alt", "Picture"], ["id", "img-55", "crossorigin", "anonymous", "src", "assets/pics/R0010055.JPG", "alt", "Picture"], ["id", "img-52", "crossorigin", "anonymous", "src", "assets/pics/R0010052.JPG", "alt", "Picture"], ["id", "img-56", "crossorigin", "anonymous", "src", "assets/pics/R0010056.JPG", "alt", "Picture"], ["id", "img-57", "crossorigin", "anonymous", "src", "assets/pics/R0010057.JPG", "alt", "Picture"], ["id", "img-24", "crossorigin", "anonymous", "src", "assets/pics/R0010024.JPG", "alt", "Picture"], ["id", "img-25", "crossorigin", "anonymous", "src", "assets/pics/R0010025.JPG", "alt", "Picture"], ["id", "img-26", "crossorigin", "anonymous", "src", "assets/pics/R0010026.JPG", "alt", "Picture"], ["id", "img-27", "crossorigin", "anonymous", "src", "assets/pics/R0010027.JPG", "alt", "Picture"], ["id", "img-28", "crossorigin", "anonymous", "src", "assets/pics/R0010028.JPG", "alt", "Picture"], ["id", "img-30", "crossorigin", "anonymous", "src", "assets/pics/R0010030.JPG", "alt", "Picture"], ["id", "img-35", "crossorigin", "anonymous", "src", "assets/pics/R0010035.JPG", "alt", "Picture"], ["id", "img-39", "crossorigin", "anonymous", "src", "assets/pics/R0010039.JPG", "alt", "Picture"], ["id", "img-41", "crossorigin", "anonymous", "src", "assets/pics/R0010041.JPG", "alt", "Picture"], ["id", "img-43", "crossorigin", "anonymous", "src", "assets/pics/R0010043.JPG", "alt", "Picture"], ["id", "img-45", "crossorigin", "anonymous", "src", "assets/pics/R0010045.JPG", "alt", "Picture"], ["id", "img-49", "crossorigin", "anonymous", "src", "assets/pics/R0010049.JPG", "alt", "Picture"], ["id", "img-51", "crossorigin", "anonymous", "src", "assets/pics/R0010051.JPG", "alt", "Picture"], ["id", "img-53", "crossorigin", "anonymous", "src", "assets/pics/R0010053.JPG", "alt", "Picture"], ["id", "img-54", "crossorigin", "anonymous", "src", "assets/pics/R0010054.JPG", "alt", "Picture"], ["id", "img-58", "crossorigin", "anonymous", "src", "assets/pics/R0010058.JPG", "alt", "Picture"], ["id", "img-60", "crossorigin", "anonymous", "src", "assets/pics/R0010060.JPG", "alt", "Picture"], ["id", "img-61", "crossorigin", "anonymous", "src", "assets/pics/R0010061.JPG", "alt", "Picture"], ["id", "img-62", "crossorigin", "anonymous", "src", "assets/pics/R0010062.JPG", "alt", "Picture"], ["id", "img-65", "crossorigin", "anonymous", "src", "assets/pics/R0010065.JPG", "alt", "Picture"], ["id", "img-poster", "crossorigin", "anonymous", "src", "assets/media/poster.png", "alt", "Picture"], ["id", "icon-signup", "crossorigin", "anonymous", "src", "assets/icons/signup.png", "alt", "Picture"], ["id", "icon-map", "crossorigin", "anonymous", "src", "assets/icons/map.png", "alt", "Picture"], ["id", "icon-restart", "crossorigin", "anonymous", "src", "assets/icons/redo.png", "alt", "Picture"], ["id", "icon-exit", "crossorigin", "anonymous", "src", "assets/icons/leave.png", "alt", "Picture"], ["id", "icon-minimize", "crossorigin", "anonymous", "src", "assets/icons/exit.png", "alt", "Picture"], ["id", "icon-menu", "crossorigin", "anonymous", "src", "assets/icons/bars.png", "alt", "Picture"], ["id", "m-sky", "radius", ".7", "material", "shader: flat; opacity: .7; color: #AAA", "visible", "false", 1, "pic360"], ["id", "m-link", "geometry", "primitive: plane; height: .5; width: .5", "material", "shader: flat; opacity: 0", "visible", "true", "sound", "on: click; src: #click-sound"], ["id", "menu-animations", "animation__open", "property: scale; startEvents: open; easing: easeInCubic; dur: 300; from: .0001 .0001 .0001; to: 1 1 1", "animation__close", "property: scale; startEvents: close; easing: easeInCubic; dur: 300; from: 1 1 1; to: .0001 .0001 .0001", "animation__closeend", "property: visible; type: boolean; to: false; startEvents: animationcomplete__close"], ["id", "hover-scale", "animation__mouseenter_scale", "property: scale; startEvents: mouseenter; easing: easeOutCubic; dur: 300; to: 1.2 1.2 1.2", "animation__mouseleave_scale", "property: scale; startEvents: mouseleave; easing: easeOutCubic; dur: 300; to: 1 1 1"], ["id", "poster", "opacity", "0", "shader", "flat", "color", "#666", "look-at", "[camera]", "animation__increase", "property: scale; startEvents: mouseenter; to: 6 6 6; easing: easeOutQuad;", "animation__decrease", "property: scale; startEvents: mouseleave; to: 1 1 1; easing: easeOutQuad;"], ["id", "sky-52", "position", "-4 0 0", "data-text", "Foyer", "nav", "next: 55, 56, 57, 51"], ["mixin", "m-sky", "src", "#img-52", "rotation", "0 -90 0"], [1, "payload"], ["id", "sky-55", "position", "0 0 0", "data-text", "Eingang", "nav", "next: 52, 56, 57", "click-nav", ""], ["mixin", "m-sky", "src", "#img-55", "rotation", "0 180 0"], ["height", "1", "width", ".707", "position", "2 0 -2", "mixin", "poster", 1, "hover"], ["src", "#img-poster", "height", "1", "width", ".707"], ["id", "sky-56", "position", ".02 0 -2", "data-text", "Empfang", "nav", "next: 52, 55, 57"], ["mixin", "m-sky", "src", "#img-56", "rotation", "0 180 0"], ["id", "sky-54", "position", "-4 0 -6", "data-text", "Durchgang", "nav", "next: 58, 57"], ["mixin", "m-sky", "src", "#img-54", "rotation", "0 180 0"], ["id", "sky-57", "position", "-4 0 -2", "data-text", "Foyer", "nav", "next: 52, 54, 55, 56"], ["mixin", "m-sky", "src", "#img-57", "rotation", "0 180 0"], ["id", "sky-58", "position", "-4 0 -15", "data-text", "Zu Lab A", "nav", "next: 54, 60"], ["mixin", "m-sky", "src", "#img-58", "rotation", "0 180 0"], ["id", "sky-24", "position", "-11 0 -14", "data-text", "Cockpit", "nav", "next: 28, 60, 25"], ["mixin", "m-sky", "src", "#img-24", "rotation", "0 180 0"], ["id", "sky-25", "position", "-11 0 -8", "data-text", "A Mitte", "nav", "next: 24, 26"], ["mixin", "m-sky", "src", "#img-25", "rotation", "0 180 0"], ["id", "sky-26", "position", "-11 0 -5", "data-text", "A Mitte", "nav", "next: 25, 27"], ["mixin", "m-sky", "src", "#img-26", "rotation", "0 180 0"], ["id", "sky-27", "position", "-11 0 -2", "data-text", "A Mitte", "nav", "next: 26"], ["mixin", "m-sky", "src", "#img-27", "rotation", "0 180 0"], ["id", "sky-28", "position", "-16 0 -14", "data-text", "A-01", "nav", "next: 24, 30"], ["mixin", "m-sky", "src", "#img-28", "rotation", "0 90 0"], ["id", "sky-30", "position", "-16 0 -10", "data-text", "A-03", "nav", "next: 28, 35"], ["mixin", "m-sky", "src", "#img-30", "rotation", "0 0 0"], ["id", "sky-35", "position", "-16 0 -6", "data-text", "Zu Lab B", "nav", "next: 30, 43, 51"], ["mixin", "m-sky", "src", "#img-35", "rotation", "0 -90 0"], ["id", "sky-60", "position", "-6 0 -15", "data-text", "Lab A", "nav", "next: 58, 24, 61"], ["mixin", "m-sky", "src", "#img-60", "rotation", "0 180 0"], ["id", "sky-61", "position", "-6 0 -8", "data-text", "A-14", "nav", "next: 60, 62"], ["mixin", "m-sky", "src", "#img-61", "rotation", "0 180 0"], ["id", "sky-62", "position", "-6 0 -5", "data-text", "A-17", "nav", "next: 61, 65"], ["mixin", "m-sky", "src", "#img-62", "rotation", "0 180 0"], ["id", "sky-65", "position", "-6 0 -2", "data-text", "A-20", "nav", "next: 62"], ["mixin", "m-sky", "src", "#img-65", "rotation", "0 0 0"], ["id", "sky-43", "position", "-24 0 -6", "data-text", "B-01", "nav", "next: 35, 41, 45"], ["mixin", "m-sky", "src", "#img-43", "rotation", "0 -90 0"], ["id", "sky-41", "position", "-26 0 -6", "data-text", "B Gang", "nav", "next: 39, 43"], ["mixin", "m-sky", "src", "#img-41", "rotation", "0 0 0"], ["id", "sky-45", "position", "-24 0 -4", "data-text", "B-01", "nav", "next: 43"], ["mixin", "m-sky", "src", "#img-45", "rotation", "0 0 0"], ["id", "sky-39", "position", "-26 0 0", "data-text", "B Ausgang", "nav", "next: 41, 51"], ["mixin", "m-sky", "src", "#img-39", "rotation", "0 90 0"], ["id", "sky-51", "position", "-16 0 0", "data-text", "B-18", "nav", "next: 39, 35, 49, 52"], ["mixin", "m-sky", "src", "#img-51", "rotation", "0 -90 0"], ["id", "sky-49", "position", "-16 0 2", "data-text", "B-18", "nav", "next: 51"], ["mixin", "m-sky", "src", "#img-49", "rotation", "0 90 0"], ["id", "cam-rig", "position", "0 50 0"], ["camera", "", "position", "0 0 0", "look-controls", "pointerLockEnabled: true", "wasd-controls", "acceleration: 25"], ["id", "cursor", "cursor", "fuse: true; fuseTimeout: 1700", "material", "color: black; shader: flat", "position", "0 0 -1", "geometry", "primitive: ring; radiusInner: 0.02; radiusOuter: 0.03", "animation__click_deactivate_fuse", "property: cursor.fuse; startEvents: mousedown; to: false; dur: 10; delay: 20", "animation__click_reactivate_fuse", "property: cursor.fuse; startEvents: mouseup; to: true; dur: 10", "animation__click", "property: scale; startEvents: mousedown; easing: easeInCubic; dur: 170; from: 0.3 0.3 0.3; to: 1 1 1; delay: 20", "animation__fusing", "property: scale; startEvents: fusing; easing: easeInCubic; from: 1 1 1; to: 0.3 0.3 0.3; dur: 1500", "animation__fusing2", "property: scale; startEvents: animationcomplete__fusing; easing: easeInCubic; to: 1 1 1; dur: 100; delay: 100", "animation__mouseenter", "property: components.material.material.color; type: color; to: #999; easing: linear; startEvents: mouseenter; dur: 1200", "animation__mouseleave_color", "property: components.material.material.color; type: color; to: #000; startEvents: mouseleave; dur: 200", "animation__mouseleave_scale", "property: scale; startEvents: mouseleave; easing: easeInCubic; dur: 300; to: 1 1 1", "raycaster", "objects: .link", "proxy-event", "event: mousedown; to: #cursor; as: nav-click", "click-nav", ""], ["id", "cursor-invisible", "cursor", "fuse: false", "position", "0 0 -1", "raycaster", "objects: .hover"], ["id", "curtain", "radius", ".4", "color", "#000", "opacity", "0", "side", "double", "visible", "true", "animation__fade", "property: components.material.material.opacity; type: number; from: 0; to: 1; dur: 150; startEvents: fade", "animation__fadeback", "property: components.material.material.opacity; type: number; from: 1; to: 0; delay: 170; dur: 150; startEvents: animationcomplete__fade", "animation__fadelong", "property: components.material.material.opacity; type: number; from: 0; to: 1; dur: 500; startEvents: fadelong", "animation__fadelongback", "property: components.material.material.opacity; type: number; from: 1; to: 0; dur: 1000; startEvents: fadelongback", "animation__fadeend", "property: visible; type: boolean; to: false; startEvents: animationcomplete__fadeback", "animation__fadelongend", "property: visible; type: boolean; to: false; startEvents: animationcomplete__fadelongback"], ["position", "0 -6 0", "visible", "true", 1, "circle"], ["color", "#282424", "radius", "2", "rotation", "-90 0 0"], ["id", "open-menu", "menu-open", "", "look-at", "[camera]", "button", "imageSrc: #icon-menu; text: Menu", "mixin", "m-link menu-animations", "material", "opacity: .1", 1, "link"], ["id", "menu", "position", "0 -.5 -1", "look-at", "[camera]", "visible", "false", "scale", ".0001 .0001 .0001", "mixin", "menu-animations"], ["color", "#666", "height", ".4", "width", "1.7", "position", "0 0 -.02", "shader", "flat", "opacity", ".5"], ["position", "-.6 0 0", "button", "imageSrc: #icon-signup; text: Anmelden", "menu-sign-up", "", "mixin", "m-link hover-scale", 1, "link"], ["position", "-.2 0 0", "button", "imageSrc: #icon-map; text: Karte", "menu-open-map", "", "mixin", "m-link hover-scale", 1, "link"], ["position", ".2 0 0", "button", "imageSrc: #icon-restart; text: Zum Start", "menu-open-map", "", "mixin", "m-link hover-scale", 1, "link"], ["position", ".6 0 0", "button", "imageSrc: #icon-exit; text: Beenden", "menu-exit", "", "mixin", "m-link hover-scale", 1, "link"], ["scale", ".4 .4 .4", "position", ".75 .15 .1"], ["button", "imageSrc: #icon-minimize; text: ", "menu-close", "", "mixin", "m-link hover-scale", 1, "link"], ["radius", ".12", "position", "0 .0375 0", "color", "#666", "shader", "flat", "opacity", "1"], ["id", "nav-map", "position", "0 -0.2 -1", "look-at", "[camera]", "visible", "false", "scale", ".0001 .0001 .0001", "mixin", "menu-animations", "nav-map", ""], ["color", "#666", "height", ".5", "width", ".92", "position", "0 0 -.02", "shader", "flat"], ["src", "#img-map", "height", ".4", "width", ".8"], ["radius", ".03", "position", "-0.4 .2 .02", "color", "#AA0000", "shader", "flat", "animation__blink", "property: radius; from: .03; to:0.015; dur: 1000; easing: easeInQuad; startEvents: blink, animationcomplete__blinkback;", "animation__blinkback", "property: radius; from: .015; to:0.03; dur: 1000; delay: 50; easing: easeOutQuad; startEvents: animationcomplete__blink;"], ["scale", ".4 .4 .4", "position", ".38 .17 .1"], ["button", "imageSrc: #icon-minimize; text: ", "nav-map-close", "", "mixin", "m-link hover-scale", 1, "link"], ["id", "welcome", "position", "0 50 0"], ["id", "w-sphere", "radius", "100", "color", "#999", "opacity", "1", "side", "double", "snow", ""], ["value", "Willkommen bei der 360 Grad Tour des KD2-Labs!", "position", "0 0 -2", "color", "#000", "side", "double", "align", "center", "look-at", "[camera]"], ["value", "Laden ...", "position", "0 -.6 -2", "color", "#000", "side", "double", "align", "center", "look-at", "[camera]"]], template: function AframeComponent_Template(rf, ctx) { if (rf & 1) {
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](0, "a-scene", 0);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](1, "a-assets", 1);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](2, "audio", 2);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](3, "img", 3);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](4, "img", 4);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](5, "img", 5);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](6, "img", 6);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](7, "img", 7);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](8, "img", 8);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](9, "img", 9);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](10, "img", 10);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](11, "img", 11);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](12, "img", 12);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](13, "img", 13);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](14, "img", 14);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](15, "img", 15);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](16, "img", 16);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](17, "img", 17);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](18, "img", 18);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](19, "img", 19);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](20, "img", 20);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](21, "img", 21);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](22, "img", 22);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](23, "img", 23);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](24, "img", 24);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](25, "img", 25);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](26, "img", 26);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](27, "img", 27);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](28, "img", 28);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](29, "img", 29);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](30, "img", 30);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](31, "img", 31);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](32, "img", 32);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](33, "img", 33);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](34, "img", 34);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](35, "a-mixin", 35);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](36, "a-mixin", 36);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](37, "a-mixin", 37);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](38, "a-mixin", 38);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](39, "a-mixin", 39);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](40, "a-entity", 40);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](41, "a-sky", 41);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](42, "a-entity", 42);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](43, "a-entity", 43);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](44, "a-sky", 44);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](45, "a-entity", 42);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](46, "a-plane", 45);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](47, "a-image", 46);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](48, "a-entity", 47);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](49, "a-sky", 48);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](50, "a-entity", 42);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](51, "a-entity", 49);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](52, "a-sky", 50);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](53, "a-entity", 42);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](54, "a-entity", 51);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](55, "a-sky", 52);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](56, "a-entity", 42);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](57, "a-entity", 53);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](58, "a-sky", 54);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](59, "a-entity", 42);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](60, "a-entity", 55);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](61, "a-sky", 56);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](62, "a-entity", 42);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](63, "a-entity", 57);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](64, "a-sky", 58);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](65, "a-entity", 42);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](66, "a-entity", 59);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](67, "a-sky", 60);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](68, "a-entity", 42);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](69, "a-entity", 61);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](70, "a-sky", 62);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](71, "a-entity", 42);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](72, "a-entity", 63);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](73, "a-sky", 64);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](74, "a-entity", 42);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](75, "a-entity", 65);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](76, "a-sky", 66);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](77, "a-entity", 42);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](78, "a-entity", 67);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](79, "a-sky", 68);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](80, "a-entity", 42);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](81, "a-entity", 69);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](82, "a-sky", 70);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](83, "a-entity", 42);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](84, "a-entity", 71);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](85, "a-sky", 72);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](86, "a-entity", 42);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](87, "a-entity", 73);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](88, "a-sky", 74);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](89, "a-entity", 42);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](90, "a-entity", 75);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](91, "a-sky", 76);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](92, "a-entity", 42);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](93, "a-entity", 77);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](94, "a-sky", 78);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](95, "a-entity", 42);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](96, "a-entity", 79);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](97, "a-sky", 80);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](98, "a-entity", 42);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](99, "a-entity", 81);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](100, "a-sky", 82);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](101, "a-entity", 42);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](102, "a-entity", 83);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](103, "a-sky", 84);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](104, "a-entity", 42);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](105, "a-entity", 85);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](106, "a-sky", 86);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](107, "a-entity", 42);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](108, "a-entity", 87);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](109, "a-sky", 88);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](110, "a-entity", 42);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](111, "a-entity", 89);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](112, "a-entity", 90);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](113, "a-entity", 91);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](114, "a-entity", 92);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](115, "a-sphere", 93);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](116, "a-entity", 94);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](117, "a-circle", 95);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](118, "a-entity", 96);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](119, "a-entity", 97);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](120, "a-plane", 98);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](121, "a-entity", 99);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](122, "a-entity", 100);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](123, "a-entity", 101);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](124, "a-entity", 102);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](125, "a-entity", 103);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](126, "a-entity", 104);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](127, "a-circle", 105);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](128, "a-entity", 106);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](129, "a-plane", 107);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](130, "a-image", 108);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](131, "a-circle", 109);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](132, "a-entity", 110);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](133, "a-entity", 111);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](134, "a-circle", 105);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](135, "a-entity", 112);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](136, "a-sphere", 113);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](137, "a-text", 114);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](138, "a-text", 115);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
+AframeComponent.ɵfac = function AframeComponent_Factory(t) { return new (t || AframeComponent)(_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdirectiveInject"](_services_navigation_service__WEBPACK_IMPORTED_MODULE_2__["NavigationService"]), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdirectiveInject"](_services_menu_service__WEBPACK_IMPORTED_MODULE_3__["MenuService"]), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdirectiveInject"](_services_calc_service__WEBPACK_IMPORTED_MODULE_4__["CalcService"]), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdirectiveInject"](_services_map_service__WEBPACK_IMPORTED_MODULE_5__["MapService"]), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdirectiveInject"](_services_snow_service__WEBPACK_IMPORTED_MODULE_6__["SnowService"]), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdirectiveInject"](_services_analytics_service__WEBPACK_IMPORTED_MODULE_7__["AnalyticsService"])); };
+AframeComponent.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdefineComponent"]({ type: AframeComponent, selectors: [["app-aframe"]], decls: 139, vars: 0, consts: [["timeout", "1000"], ["id", "click-sound", "crossorigin", "anonymous", "src", "https://cdn.aframe.io/360-image-gallery-boilerplate/audio/click.ogg", "preload", "auto"], ["id", "img-map", "crossorigin", "anonymous", "src", "assets/map.png", "alt", "Picture"], ["id", "img-55", "crossorigin", "anonymous", "src", "assets/pics/R0010055.JPG", "alt", "Picture"], ["id", "img-52", "crossorigin", "anonymous", "src", "assets/pics/R0010052.JPG", "alt", "Picture"], ["id", "img-56", "crossorigin", "anonymous", "src", "assets/pics/R0010056.JPG", "alt", "Picture"], ["id", "img-57", "crossorigin", "anonymous", "src", "assets/pics/R0010057.JPG", "alt", "Picture"], ["id", "img-24", "crossorigin", "anonymous", "src", "assets/pics/R0010024.JPG", "alt", "Picture"], ["id", "img-25", "crossorigin", "anonymous", "src", "assets/pics/R0010025.JPG", "alt", "Picture"], ["id", "img-26", "crossorigin", "anonymous", "src", "assets/pics/R0010026.JPG", "alt", "Picture"], ["id", "img-27", "crossorigin", "anonymous", "src", "assets/pics/R0010027.JPG", "alt", "Picture"], ["id", "img-28", "crossorigin", "anonymous", "src", "assets/pics/R0010028.JPG", "alt", "Picture"], ["id", "img-30", "crossorigin", "anonymous", "src", "assets/pics/R0010030.JPG", "alt", "Picture"], ["id", "img-35", "crossorigin", "anonymous", "src", "assets/pics/R0010035.JPG", "alt", "Picture"], ["id", "img-39", "crossorigin", "anonymous", "src", "assets/pics/R0010039.JPG", "alt", "Picture"], ["id", "img-41", "crossorigin", "anonymous", "src", "assets/pics/R0010041.JPG", "alt", "Picture"], ["id", "img-43", "crossorigin", "anonymous", "src", "assets/pics/R0010043.JPG", "alt", "Picture"], ["id", "img-45", "crossorigin", "anonymous", "src", "assets/pics/R0010045.JPG", "alt", "Picture"], ["id", "img-49", "crossorigin", "anonymous", "src", "assets/pics/R0010049.JPG", "alt", "Picture"], ["id", "img-51", "crossorigin", "anonymous", "src", "assets/pics/R0010051.JPG", "alt", "Picture"], ["id", "img-53", "crossorigin", "anonymous", "src", "assets/pics/R0010053.JPG", "alt", "Picture"], ["id", "img-54", "crossorigin", "anonymous", "src", "assets/pics/R0010054.JPG", "alt", "Picture"], ["id", "img-58", "crossorigin", "anonymous", "src", "assets/pics/R0010058.JPG", "alt", "Picture"], ["id", "img-60", "crossorigin", "anonymous", "src", "assets/pics/R0010060.JPG", "alt", "Picture"], ["id", "img-61", "crossorigin", "anonymous", "src", "assets/pics/R0010061.JPG", "alt", "Picture"], ["id", "img-62", "crossorigin", "anonymous", "src", "assets/pics/R0010062.JPG", "alt", "Picture"], ["id", "img-65", "crossorigin", "anonymous", "src", "assets/pics/R0010065.JPG", "alt", "Picture"], ["id", "img-poster", "crossorigin", "anonymous", "src", "assets/media/poster.png", "alt", "Picture"], ["id", "icon-signup", "crossorigin", "anonymous", "src", "assets/icons/signup.png", "alt", "Picture"], ["id", "icon-map", "crossorigin", "anonymous", "src", "assets/icons/map.png", "alt", "Picture"], ["id", "icon-restart", "crossorigin", "anonymous", "src", "assets/icons/redo.png", "alt", "Picture"], ["id", "icon-exit", "crossorigin", "anonymous", "src", "assets/icons/leave.png", "alt", "Picture"], ["id", "icon-minimize", "crossorigin", "anonymous", "src", "assets/icons/exit.png", "alt", "Picture"], ["id", "icon-menu", "crossorigin", "anonymous", "src", "assets/icons/bars.png", "alt", "Picture"], ["id", "m-sky", "radius", ".7", "material", "shader: flat; opacity: .7; color: #AAA", "visible", "false", 1, "pic360"], ["id", "m-link", "geometry", "primitive: plane; height: .5; width: .5", "material", "shader: flat; opacity: 0", "visible", "true", "sound", "on: click; src: #click-sound"], ["id", "menu-animations", "animation__open", "property: scale; startEvents: open; easing: easeInCubic; dur: 300; from: .0001 .0001 .0001; to: 1 1 1", "animation__close", "property: scale; startEvents: close; easing: easeInCubic; dur: 300; from: 1 1 1; to: .0001 .0001 .0001", "animation__closeend", "property: visible; type: boolean; to: false; startEvents: animationcomplete__close"], ["id", "hover-scale", "animation__mouseenter_scale", "property: scale; startEvents: mouseenter; easing: easeOutCubic; dur: 300; to: 1.2 1.2 1.2", "animation__mouseleave_scale", "property: scale; startEvents: mouseleave; easing: easeOutCubic; dur: 300; to: 1 1 1"], ["id", "poster", "opacity", "0", "shader", "flat", "color", "#666", "look-at", "[camera]", "animation__increase", "property: scale; startEvents: mouseenter; to: 6 6 6; easing: easeOutQuad;", "animation__decrease", "property: scale; startEvents: mouseleave; to: 1 1 1; easing: easeOutQuad;"], ["id", "sky-52", "position", "-4 0 0", "data-text", "Foyer", "nav", "next: 55, 56, 57, 51"], ["mixin", "m-sky", "src", "#img-52", "rotation", "0 -90 0"], [1, "payload"], ["id", "sky-55", "position", "0 0 0", "data-text", "Eingang", "nav", "next: 52, 56, 57", "click-nav", ""], ["mixin", "m-sky", "src", "#img-55", "rotation", "0 180 0"], ["height", "1", "width", ".707", "position", "2 0 -2", "mixin", "poster", "analytics", "Poster #1", 1, "hover"], ["src", "#img-poster", "height", "1", "width", ".707"], ["id", "sky-56", "position", ".02 0 -2", "data-text", "Empfang", "nav", "next: 52, 55, 57"], ["mixin", "m-sky", "src", "#img-56", "rotation", "0 180 0"], ["id", "sky-54", "position", "-4 0 -6", "data-text", "Durchgang", "nav", "next: 58, 57"], ["mixin", "m-sky", "src", "#img-54", "rotation", "0 180 0"], ["id", "sky-57", "position", "-4 0 -2", "data-text", "Foyer", "nav", "next: 52, 54, 55, 56"], ["mixin", "m-sky", "src", "#img-57", "rotation", "0 180 0"], ["id", "sky-58", "position", "-4 0 -15", "data-text", "Zu Lab A", "nav", "next: 54, 60"], ["mixin", "m-sky", "src", "#img-58", "rotation", "0 180 0"], ["id", "sky-24", "position", "-11 0 -14", "data-text", "Cockpit", "nav", "next: 28, 60, 25"], ["mixin", "m-sky", "src", "#img-24", "rotation", "0 180 0"], ["id", "sky-25", "position", "-11 0 -8", "data-text", "A Mitte", "nav", "next: 24, 26"], ["mixin", "m-sky", "src", "#img-25", "rotation", "0 180 0"], ["id", "sky-26", "position", "-11 0 -5", "data-text", "A Mitte", "nav", "next: 25, 27"], ["mixin", "m-sky", "src", "#img-26", "rotation", "0 180 0"], ["id", "sky-27", "position", "-11 0 -2", "data-text", "A Mitte", "nav", "next: 26"], ["mixin", "m-sky", "src", "#img-27", "rotation", "0 180 0"], ["id", "sky-28", "position", "-16 0 -14", "data-text", "A-01", "nav", "next: 24, 30"], ["mixin", "m-sky", "src", "#img-28", "rotation", "0 90 0"], ["id", "sky-30", "position", "-16 0 -10", "data-text", "A-03", "nav", "next: 28, 35"], ["mixin", "m-sky", "src", "#img-30", "rotation", "0 0 0"], ["id", "sky-35", "position", "-16 0 -6", "data-text", "Zu Lab B", "nav", "next: 30, 43, 51"], ["mixin", "m-sky", "src", "#img-35", "rotation", "0 -90 0"], ["id", "sky-60", "position", "-6 0 -15", "data-text", "Lab A", "nav", "next: 58, 24, 61"], ["mixin", "m-sky", "src", "#img-60", "rotation", "0 180 0"], ["id", "sky-61", "position", "-6 0 -8", "data-text", "A-14", "nav", "next: 60, 62"], ["mixin", "m-sky", "src", "#img-61", "rotation", "0 180 0"], ["id", "sky-62", "position", "-6 0 -5", "data-text", "A-17", "nav", "next: 61, 65"], ["mixin", "m-sky", "src", "#img-62", "rotation", "0 180 0"], ["id", "sky-65", "position", "-6 0 -2", "data-text", "A-20", "nav", "next: 62"], ["mixin", "m-sky", "src", "#img-65", "rotation", "0 0 0"], ["id", "sky-43", "position", "-24 0 -6", "data-text", "B-01", "nav", "next: 35, 41, 45"], ["mixin", "m-sky", "src", "#img-43", "rotation", "0 -90 0"], ["id", "sky-41", "position", "-26 0 -6", "data-text", "B Gang", "nav", "next: 39, 43"], ["mixin", "m-sky", "src", "#img-41", "rotation", "0 0 0"], ["id", "sky-45", "position", "-24 0 -4", "data-text", "B-01", "nav", "next: 43"], ["mixin", "m-sky", "src", "#img-45", "rotation", "0 0 0"], ["id", "sky-39", "position", "-26 0 0", "data-text", "B Ausgang", "nav", "next: 41, 51"], ["mixin", "m-sky", "src", "#img-39", "rotation", "0 90 0"], ["id", "sky-51", "position", "-16 0 0", "data-text", "B-18", "nav", "next: 39, 35, 49, 52"], ["mixin", "m-sky", "src", "#img-51", "rotation", "0 -90 0"], ["id", "sky-49", "position", "-16 0 2", "data-text", "B-18", "nav", "next: 51"], ["mixin", "m-sky", "src", "#img-49", "rotation", "0 90 0"], ["id", "cam-rig", "position", "0 50 0"], ["camera", "", "position", "0 0 0", "look-controls", "pointerLockEnabled: true", "wasd-controls", "acceleration: 25"], ["id", "cursor", "cursor", "fuse: true; fuseTimeout: 1700", "material", "color: black; shader: flat", "position", "0 0 -1", "geometry", "primitive: ring; radiusInner: 0.02; radiusOuter: 0.03", "animation__click_deactivate_fuse", "property: cursor.fuse; startEvents: mousedown; to: false; dur: 10; delay: 20", "animation__click_reactivate_fuse", "property: cursor.fuse; startEvents: mouseup; to: true; dur: 10", "animation__click", "property: scale; startEvents: mousedown; easing: easeInCubic; dur: 170; from: 0.3 0.3 0.3; to: 1 1 1; delay: 20", "animation__fusing", "property: scale; startEvents: fusing; easing: easeInCubic; from: 1 1 1; to: 0.3 0.3 0.3; dur: 1500", "animation__fusing2", "property: scale; startEvents: animationcomplete__fusing; easing: easeInCubic; to: 1 1 1; dur: 100; delay: 100", "animation__mouseenter", "property: components.material.material.color; type: color; to: #999; easing: linear; startEvents: mouseenter; dur: 1200", "animation__mouseleave_color", "property: components.material.material.color; type: color; to: #000; startEvents: mouseleave; dur: 200", "animation__mouseleave_scale", "property: scale; startEvents: mouseleave; easing: easeInCubic; dur: 300; to: 1 1 1", "raycaster", "objects: .link", "proxy-event", "event: mousedown; to: #cursor; as: nav-click", "click-nav", ""], ["id", "cursor-invisible", "cursor", "fuse: false", "position", "0 0 -1", "raycaster", "objects: .hover"], ["id", "curtain", "radius", ".4", "color", "#000", "opacity", "0", "side", "double", "visible", "true", "animation__fade", "property: components.material.material.opacity; type: number; from: 0; to: 1; dur: 150; startEvents: fade", "animation__fadeback", "property: components.material.material.opacity; type: number; from: 1; to: 0; delay: 170; dur: 150; startEvents: animationcomplete__fade", "animation__fadelong", "property: components.material.material.opacity; type: number; from: 0; to: 1; dur: 500; startEvents: fadelong", "animation__fadelongback", "property: components.material.material.opacity; type: number; from: 1; to: 0; dur: 1000; startEvents: fadelongback", "animation__fadeend", "property: visible; type: boolean; to: false; startEvents: animationcomplete__fadeback", "animation__fadelongend", "property: visible; type: boolean; to: false; startEvents: animationcomplete__fadelongback"], ["position", "0 -6 0", "visible", "true", 1, "circle"], ["color", "#282424", "radius", "2", "rotation", "-90 0 0"], ["id", "open-menu", "menu-open", "", "look-at", "[camera]", "button", "imageSrc: #icon-menu; text: Menu", "mixin", "m-link menu-animations", "material", "opacity: .1", 1, "link"], ["id", "menu", "position", "0 -.5 -1", "look-at", "[camera]", "visible", "false", "scale", ".0001 .0001 .0001", "mixin", "menu-animations"], ["color", "#666", "height", ".4", "width", "1.7", "position", "0 0 -.02", "shader", "flat", "opacity", ".5"], ["position", "-.6 0 0", "button", "imageSrc: #icon-signup; text: Anmelden", "menu-sign-up", "", "mixin", "m-link hover-scale", 1, "link"], ["position", "-.2 0 0", "button", "imageSrc: #icon-map; text: Karte", "menu-open-map", "", "mixin", "m-link hover-scale", 1, "link"], ["position", ".2 0 0", "button", "imageSrc: #icon-restart; text: Zum Start", "menu-open-map", "", "mixin", "m-link hover-scale", 1, "link"], ["position", ".6 0 0", "button", "imageSrc: #icon-exit; text: Beenden", "menu-exit", "", "mixin", "m-link hover-scale", 1, "link"], ["scale", ".4 .4 .4", "position", ".75 .15 .1"], ["button", "imageSrc: #icon-minimize; text: ", "menu-close", "", "mixin", "m-link hover-scale", 1, "link"], ["radius", ".12", "position", "0 .0375 0", "color", "#666", "shader", "flat", "opacity", "1"], ["id", "nav-map", "position", "0 -0.2 -1", "look-at", "[camera]", "visible", "false", "scale", ".0001 .0001 .0001", "mixin", "menu-animations", "nav-map", ""], ["color", "#666", "height", ".5", "width", ".92", "position", "0 0 -.02", "shader", "flat"], ["src", "#img-map", "height", ".4", "width", ".8"], ["radius", ".03", "position", "-0.4 .2 .02", "color", "#AA0000", "shader", "flat", "animation__blink", "property: radius; from: .03; to:0.015; dur: 1000; easing: easeInQuad; startEvents: blink, animationcomplete__blinkback;", "animation__blinkback", "property: radius; from: .015; to:0.03; dur: 1000; delay: 50; easing: easeOutQuad; startEvents: animationcomplete__blink;"], ["scale", ".4 .4 .4", "position", ".38 .17 .1"], ["button", "imageSrc: #icon-minimize; text: ", "nav-map-close", "", "mixin", "m-link hover-scale", 1, "link"], ["id", "welcome", "position", "0 50 0"], ["id", "w-sphere", "radius", "100", "color", "#999", "opacity", "1", "side", "double", "snow", ""], ["value", "Willkommen bei der 360 Grad Tour des KD2-Labs!", "position", "0 0 -2", "color", "#000", "side", "double", "align", "center", "look-at", "[camera]"], ["value", "Laden ...", "position", "0 -.6 -2", "color", "#000", "side", "double", "align", "center", "look-at", "[camera]"]], template: function AframeComponent_Template(rf, ctx) { if (rf & 1) {
+        _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementStart"](0, "a-scene");
+        _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementStart"](1, "a-assets", 0);
+        _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelement"](2, "audio", 1);
+        _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelement"](3, "img", 2);
+        _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelement"](4, "img", 3);
+        _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelement"](5, "img", 4);
+        _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelement"](6, "img", 5);
+        _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelement"](7, "img", 6);
+        _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelement"](8, "img", 7);
+        _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelement"](9, "img", 8);
+        _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelement"](10, "img", 9);
+        _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelement"](11, "img", 10);
+        _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelement"](12, "img", 11);
+        _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelement"](13, "img", 12);
+        _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelement"](14, "img", 13);
+        _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelement"](15, "img", 14);
+        _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelement"](16, "img", 15);
+        _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelement"](17, "img", 16);
+        _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelement"](18, "img", 17);
+        _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelement"](19, "img", 18);
+        _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelement"](20, "img", 19);
+        _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelement"](21, "img", 20);
+        _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelement"](22, "img", 21);
+        _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelement"](23, "img", 22);
+        _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelement"](24, "img", 23);
+        _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelement"](25, "img", 24);
+        _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelement"](26, "img", 25);
+        _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelement"](27, "img", 26);
+        _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelement"](28, "img", 27);
+        _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelement"](29, "img", 28);
+        _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelement"](30, "img", 29);
+        _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelement"](31, "img", 30);
+        _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelement"](32, "img", 31);
+        _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelement"](33, "img", 32);
+        _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelement"](34, "img", 33);
+        _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelement"](35, "a-mixin", 34);
+        _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelement"](36, "a-mixin", 35);
+        _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelement"](37, "a-mixin", 36);
+        _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelement"](38, "a-mixin", 37);
+        _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelement"](39, "a-mixin", 38);
+        _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementEnd"]();
+        _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementStart"](40, "a-entity", 39);
+        _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelement"](41, "a-sky", 40);
+        _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelement"](42, "a-entity", 41);
+        _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementEnd"]();
+        _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementStart"](43, "a-entity", 42);
+        _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelement"](44, "a-sky", 43);
+        _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementStart"](45, "a-entity", 41);
+        _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementStart"](46, "a-plane", 44);
+        _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelement"](47, "a-image", 45);
+        _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementEnd"]();
+        _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementEnd"]();
+        _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementEnd"]();
+        _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementStart"](48, "a-entity", 46);
+        _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelement"](49, "a-sky", 47);
+        _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelement"](50, "a-entity", 41);
+        _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementEnd"]();
+        _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementStart"](51, "a-entity", 48);
+        _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelement"](52, "a-sky", 49);
+        _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelement"](53, "a-entity", 41);
+        _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementEnd"]();
+        _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementStart"](54, "a-entity", 50);
+        _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelement"](55, "a-sky", 51);
+        _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelement"](56, "a-entity", 41);
+        _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementEnd"]();
+        _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementStart"](57, "a-entity", 52);
+        _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelement"](58, "a-sky", 53);
+        _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelement"](59, "a-entity", 41);
+        _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementEnd"]();
+        _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementStart"](60, "a-entity", 54);
+        _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelement"](61, "a-sky", 55);
+        _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelement"](62, "a-entity", 41);
+        _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementEnd"]();
+        _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementStart"](63, "a-entity", 56);
+        _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelement"](64, "a-sky", 57);
+        _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelement"](65, "a-entity", 41);
+        _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementEnd"]();
+        _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementStart"](66, "a-entity", 58);
+        _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelement"](67, "a-sky", 59);
+        _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelement"](68, "a-entity", 41);
+        _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementEnd"]();
+        _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementStart"](69, "a-entity", 60);
+        _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelement"](70, "a-sky", 61);
+        _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelement"](71, "a-entity", 41);
+        _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementEnd"]();
+        _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementStart"](72, "a-entity", 62);
+        _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelement"](73, "a-sky", 63);
+        _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelement"](74, "a-entity", 41);
+        _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementEnd"]();
+        _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementStart"](75, "a-entity", 64);
+        _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelement"](76, "a-sky", 65);
+        _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelement"](77, "a-entity", 41);
+        _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementEnd"]();
+        _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementStart"](78, "a-entity", 66);
+        _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelement"](79, "a-sky", 67);
+        _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelement"](80, "a-entity", 41);
+        _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementEnd"]();
+        _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementStart"](81, "a-entity", 68);
+        _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelement"](82, "a-sky", 69);
+        _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelement"](83, "a-entity", 41);
+        _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementEnd"]();
+        _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementStart"](84, "a-entity", 70);
+        _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelement"](85, "a-sky", 71);
+        _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelement"](86, "a-entity", 41);
+        _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementEnd"]();
+        _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementStart"](87, "a-entity", 72);
+        _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelement"](88, "a-sky", 73);
+        _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelement"](89, "a-entity", 41);
+        _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementEnd"]();
+        _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementStart"](90, "a-entity", 74);
+        _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelement"](91, "a-sky", 75);
+        _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelement"](92, "a-entity", 41);
+        _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementEnd"]();
+        _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementStart"](93, "a-entity", 76);
+        _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelement"](94, "a-sky", 77);
+        _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelement"](95, "a-entity", 41);
+        _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementEnd"]();
+        _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementStart"](96, "a-entity", 78);
+        _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelement"](97, "a-sky", 79);
+        _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelement"](98, "a-entity", 41);
+        _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementEnd"]();
+        _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementStart"](99, "a-entity", 80);
+        _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelement"](100, "a-sky", 81);
+        _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelement"](101, "a-entity", 41);
+        _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementEnd"]();
+        _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementStart"](102, "a-entity", 82);
+        _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelement"](103, "a-sky", 83);
+        _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelement"](104, "a-entity", 41);
+        _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementEnd"]();
+        _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementStart"](105, "a-entity", 84);
+        _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelement"](106, "a-sky", 85);
+        _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelement"](107, "a-entity", 41);
+        _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementEnd"]();
+        _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementStart"](108, "a-entity", 86);
+        _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelement"](109, "a-sky", 87);
+        _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelement"](110, "a-entity", 41);
+        _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementEnd"]();
+        _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementStart"](111, "a-entity", 88);
+        _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementStart"](112, "a-entity", 89);
+        _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelement"](113, "a-entity", 90);
+        _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelement"](114, "a-entity", 91);
+        _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelement"](115, "a-sphere", 92);
+        _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementEnd"]();
+        _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementStart"](116, "a-entity", 93);
+        _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelement"](117, "a-circle", 94);
+        _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementEnd"]();
+        _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementEnd"]();
+        _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelement"](118, "a-entity", 95);
+        _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementStart"](119, "a-entity", 96);
+        _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelement"](120, "a-plane", 97);
+        _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelement"](121, "a-entity", 98);
+        _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelement"](122, "a-entity", 99);
+        _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelement"](123, "a-entity", 100);
+        _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelement"](124, "a-entity", 101);
+        _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementStart"](125, "a-entity", 102);
+        _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelement"](126, "a-entity", 103);
+        _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelement"](127, "a-circle", 104);
+        _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementEnd"]();
+        _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementEnd"]();
+        _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementStart"](128, "a-entity", 105);
+        _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelement"](129, "a-plane", 106);
+        _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelement"](130, "a-image", 107);
+        _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelement"](131, "a-circle", 108);
+        _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementStart"](132, "a-entity", 109);
+        _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelement"](133, "a-entity", 110);
+        _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelement"](134, "a-circle", 104);
+        _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementEnd"]();
+        _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementEnd"]();
+        _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementStart"](135, "a-entity", 111);
+        _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementStart"](136, "a-sphere", 112);
+        _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelement"](137, "a-text", 113);
+        _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelement"](138, "a-text", 114);
+        _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementEnd"]();
+        _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementEnd"]();
+        _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementEnd"]();
     } }, styles: ["\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IiIsImZpbGUiOiJhZnJhbWUuY29tcG9uZW50LmNzcyJ9 */"] });
 
+
+/***/ }),
+
+/***/ "djWR":
+/*!****************************************************!*\
+  !*** ./src/app/features/models/event-type.enum.ts ***!
+  \****************************************************/
+/*! exports provided: EventType */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "EventType", function() { return EventType; });
+var EventType;
+(function (EventType) {
+    EventType[EventType["EnterWebsite"] = 0] = "EnterWebsite";
+    EventType[EventType["EnterAframe"] = 1] = "EnterAframe";
+    EventType[EventType["EnterVR"] = 2] = "EnterVR";
+    EventType[EventType["Navigate"] = 3] = "Navigate";
+    EventType[EventType["Jump"] = 4] = "Jump";
+    EventType[EventType["StartPOI"] = 5] = "StartPOI";
+    EventType[EventType["StopPOI"] = 6] = "StopPOI";
+    EventType[EventType["ExitVR"] = 7] = "ExitVR";
+    EventType[EventType["ExitAframe"] = 8] = "ExitAframe";
+    EventType[EventType["ExitWebsite"] = 9] = "ExitWebsite";
+})(EventType || (EventType = {}));
+
+
+/***/ }),
+
+/***/ "kiQV":
+/*!**********************!*\
+  !*** ./package.json ***!
+  \**********************/
+/*! exports provided: name, version, scripts, private, dependencies, devDependencies, default */
+/***/ (function(module) {
+
+module.exports = JSON.parse("{\"name\":\"kd2-360\",\"version\":\"0.4.1\",\"scripts\":{\"ng\":\"ng\",\"start\":\"ng serve\",\"build\":\"ng build\",\"test\":\"ng test\",\"lint\":\"ng lint\",\"e2e\":\"ng e2e\"},\"private\":true,\"dependencies\":{\"@angular/animations\":\"~11.2.0\",\"@angular/cdk\":\"^11.2.0\",\"@angular/common\":\"~11.2.0\",\"@angular/compiler\":\"~11.2.0\",\"@angular/core\":\"~11.2.0\",\"@angular/flex-layout\":\"^11.0.0-beta.33\",\"@angular/forms\":\"~11.2.0\",\"@angular/material\":\"^11.2.0\",\"@angular/platform-browser\":\"~11.2.0\",\"@angular/platform-browser-dynamic\":\"~11.2.0\",\"@angular/router\":\"~11.2.0\",\"aframe\":\"^1.2.0\",\"rxjs\":\"~6.6.0\",\"tslib\":\"^2.0.0\",\"uuid\":\"^8.3.2\",\"zone.js\":\"~0.11.3\"},\"devDependencies\":{\"@angular-devkit/build-angular\":\"~0.1102.0\",\"@angular/cli\":\"~11.2.0\",\"@angular/compiler-cli\":\"~11.2.0\",\"@types/aframe\":\"^1.0.3\",\"@types/jasmine\":\"~3.6.0\",\"@types/node\":\"^12.20.1\",\"codelyzer\":\"^6.0.0\",\"jasmine-core\":\"~3.6.0\",\"jasmine-spec-reporter\":\"~5.0.0\",\"karma\":\"^6.1.1\",\"karma-chrome-launcher\":\"~3.1.0\",\"karma-coverage\":\"~2.0.3\",\"karma-jasmine\":\"~4.0.0\",\"karma-jasmine-html-reporter\":\"^1.5.0\",\"protractor\":\"~7.0.0\",\"ts-node\":\"~8.3.0\",\"tslint\":\"~6.1.0\",\"typescript\":\"~4.1.2\"}}");
 
 /***/ }),
 
@@ -1380,6 +1580,29 @@ DebriefingComponent.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefi
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
     } }, directives: [_angular_flex_layout_flex__WEBPACK_IMPORTED_MODULE_1__["DefaultLayoutDirective"], _angular_flex_layout_flex__WEBPACK_IMPORTED_MODULE_1__["DefaultFlexDirective"], _angular_flex_layout_flex__WEBPACK_IMPORTED_MODULE_1__["DefaultFlexOffsetDirective"], _angular_flex_layout_flex__WEBPACK_IMPORTED_MODULE_1__["FlexFillDirective"], _angular_material_card__WEBPACK_IMPORTED_MODULE_2__["MatCard"], _angular_material_button__WEBPACK_IMPORTED_MODULE_3__["MatButton"], _angular_router__WEBPACK_IMPORTED_MODULE_4__["RouterLink"]], styles: ["\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IiIsImZpbGUiOiJkZWJyaWVmaW5nLmNvbXBvbmVudC5jc3MifQ== */"] });
+
+
+/***/ }),
+
+/***/ "uGOu":
+/*!*******************************************!*\
+  !*** ./src/app/features/models/device.ts ***!
+  \*******************************************/
+/*! exports provided: Device */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Device", function() { return Device; });
+class Device {
+    constructor(userAgent, connectionSpeed, connectionType, resWidth, resHeight) {
+        this.userAgent = userAgent;
+        this.connectionSpeed = connectionSpeed;
+        this.connectionType = connectionType;
+        this.resWidth = resWidth;
+        this.resHeight = resHeight;
+    }
+}
 
 
 /***/ }),
