@@ -3,6 +3,8 @@ import {environment} from '../../../environments/environment';
 import {CalcService} from './calc.service';
 import {MapService} from './map.service';
 import {MenuService} from './menu.service';
+import {AnalyticsService} from './analytics.service';
+import {EventType} from '../models/event-type.enum';
 
 @Injectable({
   providedIn: 'root'
@@ -19,7 +21,8 @@ export class NavigationService {
   private isTransitioning = false; // Allow only one transition at the same time
 
   constructor(
-    private calc: CalcService
+    private calc: CalcService,
+    private analytics: AnalyticsService
   ) {
   }
 
@@ -30,7 +33,6 @@ export class NavigationService {
 
 // Set sphere as main
   setMainSphere(sphere, neighbourIds): void {
-    console.log(sphere);
 
     this.currentSphere = sphere;
     document.getElementById(sphere.id).setAttribute('scale', '1 1 1');
@@ -157,7 +159,7 @@ export class NavigationService {
               context.isTransitioning = true;
 
               // Log target
-              console.log('Location Update: Img ' + context.nav.currentSphere.id + ' - Img ' + self.el.id);
+              context.analytics.trackEvent(EventType.Jump, '' + self.el.id);
 
               // Close curtain
               // Curtain becomes automatically invisible after fade animation

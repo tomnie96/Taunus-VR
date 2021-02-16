@@ -1,4 +1,4 @@
-import {NgModule, CUSTOM_ELEMENTS_SCHEMA} from '@angular/core';
+import {CUSTOM_ELEMENTS_SCHEMA, NgModule} from '@angular/core';
 import {BrowserModule} from '@angular/platform-browser';
 
 import {AppComponent} from './app.component';
@@ -15,11 +15,7 @@ import {WelcomeComponent} from './features/pages/welcome/welcome.component';
 import {TourComponent} from './features/pages/tour/tour.component';
 import {DebriefingComponent} from './features/pages/debriefing/debriefing.component';
 import {AppRoutingModule} from './app-routing.module';
-import { AframeComponent } from './features/components/aframe/aframe.component';
-import {MenuService} from './features/services/menu.service';
-import {MapService} from './features/services/map.service';
-import {NavigationService} from './features/services/navigation.service';
-import {CalcService} from './features/services/calc.service';
+import {AframeComponent} from './features/components/aframe/aframe.component';
 
 
 @NgModule({
@@ -43,8 +39,7 @@ import {CalcService} from './features/services/calc.service';
     MatIconModule,
     MatListModule,
   ],
-  providers: [
-  ],
+  providers: [],
   bootstrap: [AppComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
