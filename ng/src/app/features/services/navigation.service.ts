@@ -43,8 +43,10 @@ export class NavigationService {
     sphere.children[0].setAttribute('material', 'opacity: 1; color: #FFF');
     sphere.children[0].setAttribute('visible', 'true');
     sphere.children[1].setAttribute('visible', 'true');
+    sphere.children[1].setAttribute('scale', '1 1 1');
     sphere.children[2].setAttribute('visible', 'false');
     sphere.children[3].setAttribute('visible', 'false');
+    sphere.children[3].setAttribute('scale', '.0001 .0001 .0001');
 
     sphere.neighbourIds = Array.from(neighbourIds);
   }
@@ -62,7 +64,8 @@ export class NavigationService {
       } else {
         sphere.children[0].setAttribute('visible', 'false');
       }
-      sphere.children[1].setAttribute('visible', 'true');
+      sphere.children[1].setAttribute('visible', 'false');
+      sphere.children[1].setAttribute('scale', '.0001 .0001 .0001');
       // if (!environment.useText) {
       //   sphere.children[2].children[0].children[0].children[0].setAttribute('visible', 'false');
       // }
@@ -71,6 +74,7 @@ export class NavigationService {
       // } // Set link position to floor ring
       if (environment.useFloorRings) {
         sphere.children[2].setAttribute('visible', 'true');
+        sphere.children[3].setAttribute('scale', '1 1 1');
       }
     }
   }

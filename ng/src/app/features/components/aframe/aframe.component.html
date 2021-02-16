@@ -272,15 +272,15 @@
       mixin="m-link hover-scale"></a-entity>
 
     <!-- Close -->
-    <a-entity
-      class="link" position=".75 .15 .1"
-      button="imageSrc: #icon-minimize; text: "
-      menu-close
-      scale=".4 .4 .4"
-      mixin="m-link"></a-entity>
+    <a-entity scale=".4 .4 .4" position=".75 .15 .1">
+      <a-entity
+        class="link"
+        button="imageSrc: #icon-minimize; text: "
+        menu-close
+        mixin="m-link hover-scale"></a-entity>
+      <a-circle radius=".12" position="0 .0375 0" color="#666" shader="flat" opacity="1"></a-circle>
+    </a-entity>
 
-    <a-circle radius=".12" position=".75 .165 .1" color="#666" shader="flat" opacity="1"
-              scale=".4 .4 .4"></a-circle>
   </a-entity>
 
   <!-- Navigation map -->
@@ -301,14 +301,14 @@
     </a-circle>
 
     <!-- Close -->
-    <a-entity
-      class="link" position=".38 .17 .1"
-      button="imageSrc: #icon-minimize; text: "
-      nav-map-close
-      scale=".4 .4 .4"
-      mixin="m-link"></a-entity>
-    <a-circle radius=".12" position=".38 .185 .1" color="#666" shader="flat" opacity="1"
-              scale=".4 .4 .4"></a-circle>
+    <a-entity scale=".4 .4 .4" position=".38 .17 .1">
+      <a-entity
+        class="link"
+        button="imageSrc: #icon-minimize; text: "
+        nav-map-close
+        mixin="m-link hover-scale"></a-entity>
+      <a-circle radius=".12" position="0 .0375 0" color="#666" shader="flat" opacity="1"></a-circle>
+    </a-entity>
   </a-entity>
 
 
