@@ -10,7 +10,6 @@ export class MenuService {
   isOpen = false;
 
   constructor() {
-
   }
 
   open(position: THREE.Vector3): void {

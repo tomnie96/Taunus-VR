@@ -281,11 +281,12 @@
 
   <!-- Poster -->
   <a-entity id="poster" position="2 0 -2">
-    <a-plane class="hover" opacity="0" shader="flat" height="1" width=".5" color="#666"
+    <!-- For size changes: Change plane & image width+height -->
+    <a-plane class="hover" opacity="0" shader="flat" height="1" width=".707" color="#666"
              look-at="[camera]"
-             animation__increase="property: scale; startEvents: mouseenter; to: 5 5 5; easing: easeOutQuad;"
+             animation__increase="property: scale; startEvents: mouseenter; to: 6 6 6; easing: easeOutQuad;"
              animation__decrease="property: scale; startEvents: mouseleave; to: 1 1 1; easing: easeOutQuad;">
-      <a-image src="#img-poster" height="1" width=".5"></a-image>
+      <a-image src="#img-poster" height="1" width=".707"></a-image>
     </a-plane>
   </a-entity>
 

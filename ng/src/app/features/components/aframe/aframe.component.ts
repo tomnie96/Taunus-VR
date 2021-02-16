@@ -96,7 +96,7 @@ export class AframeComponent implements OnInit {
       }
     });
 
-// Close menu
+    // Close menu
     AFRAME.registerComponent('menu-close', {
 
       init(): void {
@@ -106,7 +106,7 @@ export class AframeComponent implements OnInit {
       },
     });
 
-// Button: Map
+    // Button: Map
     AFRAME.registerComponent('menu-open-map', {
 
       init(): void {
