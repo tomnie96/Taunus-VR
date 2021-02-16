@@ -815,6 +815,7 @@ class AppComponent {
     constructor(analytics) {
         this.analytics = analytics;
         this.title = 'KD2 Lab 360° Tour';
+        console.log('KD2 360 Tour Version: ' + analytics.session.appVersion);
     }
     ngOnDestroy() {
         this.analytics.trackEvent(_features_models_event_type_enum__WEBPACK_IMPORTED_MODULE_0__["EventType"].ExitWebsite, '');
