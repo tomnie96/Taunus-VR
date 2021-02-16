@@ -1,4 +1,4 @@
-<a-scene stats>
+<a-scene>
 
   <!--  Assets  -->
   <a-assets timeout="1000">
@@ -55,7 +55,8 @@
              animation__mouseleave_scale="property: scale; startEvents: mouseleave; easing: easeOutCubic; dur: 300; to: 1 1 1"></a-mixin>
     <a-mixin id="poster" opacity="0" shader="flat" color="#666" look-at="[camera]"
              animation__increase="property: scale; startEvents: mouseenter; to: 6 6 6; easing: easeOutQuad;"
-             animation__decrease="property: scale; startEvents: mouseleave; to: 1 1 1; easing: easeOutQuad;"></a-mixin>
+             animation__decrease="property: scale; startEvents: mouseleave; to: 1 1 1; easing: easeOutQuad;">
+    </a-mixin>
 
   </a-assets>
 
@@ -70,7 +71,7 @@
     <a-entity class="payload">
       <!-- Poster -->
       <!-- For size changes: Change plane & image width+height -->
-      <a-plane class="hover" height="1" width=".707" position="2 0 -2" mixin="poster">
+      <a-plane class="hover" height="1" width=".707" position="2 0 -2" mixin="poster" analytics="Poster #1">
         <a-image src="#img-poster" height="1" width=".707"></a-image>
       </a-plane>
     </a-entity>
