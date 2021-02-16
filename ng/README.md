@@ -38,3 +38,9 @@ See https://itnext.io/choosing-the-right-file-structure-for-angular-in-2020-and-
 ## Aframe
 * Integrated into Angular following https://medium.com/@pitipon/a-frame-with-angular-setup-project-5797b2f2a03b
 * Integrate further A-Frame Features: https://rasor.github.io/dependency-management-in-angular-cli-lib-a-frame.html
+
+## Scopes
+* Aframe as well as Angular Components use `this`
+* `this` within `AFRAME.registerComponent` refers to the Aframe component
+* Therefore, `context` is introduced. It points from Aframe components to the Angular component
+* Additionally, the `this` context gets lost when calling async methods. Therefore, `self` is used in these cases.

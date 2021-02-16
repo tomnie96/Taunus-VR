@@ -1,5 +1,8 @@
 import {Injectable} from '@angular/core';
 import {environment} from '../../../environments/environment';
+import {CalcService} from './calc.service';
+import {MapService} from './map.service';
+import {MenuService} from './menu.service';
 
 @Injectable({
   providedIn: 'root'
@@ -7,10 +10,17 @@ import {environment} from '../../../environments/environment';
 export class NavigationService {
 
   currentSphere = null; // Current main sphere
+  private map;
+  private nav = this;
+  private menu;
+  private isRegistered = false;
+
   private initialized = false; // Program initialized?
   private isTransitioning = false; // Allow only one transition at the same time
 
-  constructor() {
+  constructor(
+    private calc: CalcService
+  ) {
   }
 
 // Set all spheres invisible
@@ -69,5 +79,118 @@ export class NavigationService {
     this.setAllInvisible();
     this.setMainSphere(sphere, neighbourIds);
     neighbourIds.forEach((id) => this.setNeighbour(document.getElementById('sky-' + id)));
+  }
+
+  register(map: MapService, menu: MenuService): void {
+    if (!this.isRegistered) {
+      this.isRegistered = true;
+
+      const context = this;
+      context.map = map;
+      context.menu = menu;
+
+      // Attribute: Initial sphere
+      AFRAME.registerComponent('initial-sphere', {
+
+        schema: {
+          next: {type: 'array'}
+        },
+
+        init(): void {
+          if (!this.initialized) {
+            context.initialized = true;
+
+            // Set position
+            context.nav.updateMainSphere(this.el, this.data.next);
+            document.querySelector('#cam-rig').setAttribute('position', context.nav.currentSphere.object3D.position);
+          }
+        }
+      });
+
+// Attribute: Link Navigation
+      AFRAME.registerComponent('nav', {
+
+        schema: {
+          next: {type: 'array'}
+        },
+
+        init(): void {
+          const self = this;
+
+          this.el.addEventListener('click', () => {
+            // Block
+            if (!context.isTransitioning) {
+              context.isTransitioning = true;
+
+              // Log target
+              console.log('Location Update: Img ' + context.nav.currentSphere.id + ' - Img ' + self.el.id);
+
+              // Close curtain
+              // Curtain becomes automatically invisible after fade animation
+              document.getElementById('curtain').setAttribute('visible', 'true');
+              document.getElementById('curtain').dispatchEvent(new CustomEvent('fade'));
+
+              // Close menu & map
+              context.menu.close();
+              context.map.close();
+
+              // Wait for dark animation
+              setTimeout(() => {
+                // Set current sphere
+                context.nav.currentSphere = self.el;
+
+                context.updateMainSphere(context.nav.currentSphere, self.data.next);
+
+                // Change position
+                document.querySelector('#cam-rig').setAttribute('position', context.nav.currentSphere.object3D.position);
+                document.getElementById('nav-map').dispatchEvent(new CustomEvent('change-position', {
+                  detail: {
+                    position: self.el.getAttribute('position')
+                  }
+                }));
+
+                // Reset blocker
+                context.isTransitioning = false;
+
+              }, 160);
+            }
+          });
+        },
+      });
+
+      // Attribute: Click anywhere Navigation
+      AFRAME.registerComponent('click-nav', {
+
+        init(): void {
+          const self = this;
+          this.el.addEventListener('nav-click', () => {
+            let minDistance = 10000;
+            let minObject = null;
+            let distance = 10000;
+
+            if (!context.menu.isOpen) {
+              self.currentSphere.neighbourIds.forEach((neighbourId) => {
+                const neighbour = document.getElementById('sky-' + neighbourId);
+
+                if (context.calc.checkIfVisible(neighbour.children[2].children[0])) {
+
+                  // @ts-ignore
+                  distance = document.getElementById('cam-rig').object3D.position.distanceTo(neighbour.object3D.position);
+                  if (distance < minDistance) {
+                    minDistance = distance;
+                    minObject = neighbour;
+                  }
+                }
+              });
+
+              if (minObject != null) {
+                // Notify close object
+                minObject.dispatchEvent(new CustomEvent('click'));
+              }
+            }
+          });
+        },
+      });
+    }
   }
 }
