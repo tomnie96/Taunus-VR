@@ -1,4 +1,4 @@
-# Ng
+# KD2 Lab 360 Tour
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 11.2.0.
 
