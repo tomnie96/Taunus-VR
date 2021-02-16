@@ -4,19 +4,26 @@
     <meta charset="utf-8">
     <title>KD2 Lab - 360&deg;</title>
     <meta name="description" content="KD2 Lab - 360&deg;">
-    <script src="https://aframe.io/releases/1.1.0/aframe.min.js"></script>
+    <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
     <script src="https://cdn.jsdelivr.net/gh/donmccurdy/aframe-extras@v6.1.1/dist/aframe-extras.min.js"></script>
     <script src="https://unpkg.com/aframe-event-set-component@5/dist/aframe-event-set-component.min.js"></script>
     <script src="https://unpkg.com/aframe-template-component@3.2.1/dist/aframe-template-component.min.js"></script>
     <script src="https://unpkg.com/aframe-proxy-event-component@2.1.0/dist/aframe-proxy-event-component.min.js"></script>
     <script src="https://unpkg.com/aframe-look-at-component@1.0.0/dist/aframe-look-at-component.min.js"></script>
 
-    <!--    <script src="scripts/aframe.min.js"></script>-->
-    <!--    <script src="scripts/aframe-extras.min.js"></script>-->
-    <!--    <script src="scripts/aframe-event-set-component.min.js"></script>-->
-    <!--    <script src="scripts/aframe-template-component.min.js"></script>-->
-    <!--    <script src="scripts/aframe-proxy-event-component.min.js"></script>-->
-    <!--    <script src="scripts/aframe-look-at-component.min.js"></script>-->
+    <!--    <script src="scripts/external/aframe.min.js"></script>-->
+    <!--    <script src="scripts/external/aframe-extras.min.js"></script>-->
+    <!--    <script src="scripts/external/aframe-event-set-component.min.js"></script>-->
+    <!--    <script src="scripts/external/aframe-template-component.min.js"></script>-->
+    <!--    <script src="scripts/external/aframe-proxy-event-component.min.js"></script>-->
+    <!--    <script src="scripts/external/aframe-look-at-component.min.js"></script>-->
+
+    <!-- Custom scripts -->
+    <script src="scripts/navigation.js" type="text/javascript"></script>
+    <script src="scripts/menu.js" type="text/javascript"></script>
+    <script src="scripts/map.js" type="text/javascript"></script>
+    <script src="scripts/snow.js" type="text/javascript"></script>
+    <script src="scripts/3d-helper.js" type="text/javascript"></script>
 
     <!-- Image link template to be reused. -->
     <script id="link" type="text/html">
@@ -28,6 +35,20 @@
                   sound="on: click; src: #click-sound">
             <a-plane color="#333" width="1.5" height=".8" opacity="0">
                 <a-text value="${text}" color="#000" align="center"></a-text>
+            </a-plane>
+        </a-entity>
+    </script>
+
+
+    <!-- Button template to be reused. -->
+    <script id="button" type="text/html">
+        <a-entity>
+            <a-plane class="link" color="#333" width=".3" height=".3" shader="flat" opacity="0"
+                     position="${xpos} 0 0"
+                     event-set__mouseenter="scale: 1.2 1.2 1" event-set__mouseleave="scale: 1 1 1"
+                     sound="on: click; src: #click-sound">
+                <a-image src="${icon}" height=".25" width=".25" position="0 .03 .001"></a-image>
+                <a-text value="${text}" color="#000" align="center" width="1.5" position="0 -.15 .001"></a-text>
             </a-plane>
         </a-entity>
     </script>
@@ -55,404 +76,60 @@
         // ## Intro ##
         const introScreen = false;
 
-        // ## Appearance ##
+        // ## Navigation ##
         const sphereSize = .7; // Default: .7
         const useSpheres = false;
         const useGroundPlate = true;
         const useText = false;
         const useFloorRings = true;
 
+        // ## Menu ##
+        const menuButtonSmoothing = .2; // Lower values increase smoothness of button following cursor. Default: .2
+
         // #################
-
-        // Vars
-        let currentSphere = null; // Current main sphere
-        let initialized = false; // Program initialized?
-        let isTransitioning = false; // Allow only one transition at the same time
-
-        // Set all spheres invisible
-        const setAllInvisible = (() => {
-            document.querySelectorAll('[id^="sky-"]').forEach((sphere => sphere.setAttribute('scale', '.001 .001 .001')));
-        });
-
-        // Set sphere as main
-        const setMainSphere = ((sphere, neighbourIds) => {
-            currentSphere = sphere;
-            document.getElementById(sphere.id).setAttribute('scale', '1 1 1');
-
-            // child 0: Sphere
-            // child 1: Ground plate
-            // child 2: Label
-            // child 3: Floor Ring
-            sphere.children[0].children[0].setAttribute('radius', '100');
-            sphere.children[0].children[0].setAttribute('material', 'opacity: 1; color: #FFF');
-            sphere.children[0].setAttribute('visible', 'true');
-            if (useGroundPlate) sphere.children[1].setAttribute('visible', 'true');
-            sphere.children[2].setAttribute('visible', 'false');
-            sphere.children[3].setAttribute('visible', 'false');
-
-            sphere.neighbourIds = Array.from(neighbourIds);
-        });
-
-        // Set sphere as neighbour
-        const setNeighbour = ((sphere) => {
-            if (sphere != null) {
-                document.getElementById(sphere.id).setAttribute('scale', '1 1 1');
-
-                // Sphere
-                if (useSpheres) {
-                    sphere.children[0].setAttribute('visible', 'true');
-                    sphere.children[0].children[0].setAttribute('radius', sphereSize.toString());
-                    sphere.children[0].children[0].setAttribute('material', 'opacity: .7; color: #AAA');
-                } else {
-                    sphere.children[0].setAttribute('visible', 'false');
-                }
-                sphere.children[1].setAttribute('visible', 'false');
-                sphere.children[2].setAttribute('visible', 'true');
-                if (!useText) sphere.children[2].children[0].children[0].children[0].setAttribute('visible', 'false');
-                if (!useText && !useSpheres) sphere.children[2].setAttribute("position", "0 -2 0") // Set link position to floor ring
-                if (useFloorRings) sphere.children[3].setAttribute('visible', 'true');
-            }
-        });
-
-        // Meta function: Sets main and neighbour spheres
-        const updateMainSphere = ((sphere, neighbourIds) => {
-            setAllInvisible();
-            setMainSphere(sphere, neighbourIds);
-            neighbourIds.forEach((id) => setNeighbour(document.getElementById('sky-' + id)));
-        });
-
-        // Attribute: Initial sphere
-        AFRAME.registerComponent('initial-sphere', {
-
-            schema: {
-                next: {type: 'array'}
-            },
-
-            init: function () {
-                if (!initialized) {
-                    initialized = true;
-
-                    // Set position
-                    updateMainSphere(this.el, this.data.next);
-                    document.querySelector("#cam-rig").setAttribute('position', currentSphere.object3D.position);
-                }
-            }
-        });
-
-        // Attribute: Link Navigation
-        AFRAME.registerComponent('nav', {
-
-            schema: {
-                next: {type: 'array'}
-            },
-
-            init: function () {
-                const self = this;
-
-                this.el.addEventListener('click', function () {
-                    // Block
-                    if (!isTransitioning) {
-                        isTransitioning = true;
-
-                        // Log target
-                        console.log('Location Update: Img ' + currentSphere.id + ' - Img ' + self.el.id);
-
-                        // Close curtain
-                        // Curtain becomes automatically invisible after fade animation
-                        document.getElementById('curtain').setAttribute('visible', 'true');
-                        document.getElementById('curtain').dispatchEvent(new CustomEvent('fade'));
-
-                        // Wait for dark animation
-                        setTimeout(() => {
-                            // Set current sphere
-                            currentSphere = self.el;
-
-                            updateMainSphere(currentSphere, self.data.next);
-
-                            // Change position
-                            document.querySelector("#cam-rig").setAttribute('position', currentSphere.object3D.position);
-                            document.getElementById('nav-map').dispatchEvent(new CustomEvent("change-position", {
-                                detail: {
-                                    position: self.el.getAttribute('position')
-                                }
-                            }));
-
-                            // Reset blocker
-                            isTransitioning = false;
-
-                        }, 160);
-                    }
-                });
-            },
-        });
-
-        // Attribute: Click anywhere Naviagation
-        AFRAME.registerComponent('click-nav', {
-
-            init: function () {
-                const self = this;
-
-                this.el.addEventListener('nav-click', function () {
-                    let minDistance = 10000;
-                    let minObject = null;
-                    let distance = 10000;
-
-                    currentSphere.neighbourIds.forEach((neighbourId) => {
-                        const neighbour = document.getElementById('sky-' + neighbourId);
-
-                        if (checkIfVisible(neighbour.children[2].children[0])) {
-
-                            distance = document.getElementById('cam-rig').object3D.position.distanceTo(neighbour.object3D.position);
-                            if (distance < minDistance) {
-                                minDistance = distance;
-                                minObject = neighbour;
-                            }
-                        }
-                    });
-
-                    if (minObject != null) {
-                        // Notify close object
-                        minObject.dispatchEvent(new CustomEvent('click'));
-                    }
-
-                });
-            },
-        });
-
-        // Navigation Map
-        AFRAME.registerComponent('nav-map', {
-
-            init: function () {
-                self = this.el;
-
-                this.el.children[2].dispatchEvent(new CustomEvent('blink'));
-
-                this.el.addEventListener('change-position', function (e) {
-                    const position = e.detail.position;
-
-                    let x = (position.x + 28) / ((28 - 11) * 2) * .8 - .4;
-                    let z = (-position.z + 4.3) / ((4.3 + 7) * 2) * .4 - .2;
-
-                    self.children[2].setAttribute('position', '' + x + ' ' + z + ' 0.02');
-                });
-            }
-        });
-
-        // Attribute: Snow
-        const particles = [];
-        AFRAME.registerComponent('snow', {
-
-            init: function () {
-                if (introScreen) {
-                    const scene = this.el.sceneEl.object3D;
-
-                    // Disable curtain
-                    document.getElementById('curtain').setAttribute('visible', 'false');
-
-                    const particleImage = new Image(); //THREE.ImageUtils.loadTexture( "http://i.imgur.com/cTALZ.png" );
-                    particleImage.src = 'data/snow.png';
-
-                    const material = new THREE.PointsMaterial({map: new THREE.Texture(particleImage)});
-
-                    for (let i = 0; i < 500; i++) {
-
-                        particle = new Particle3D(material);
-                        particle.position.x = Math.random() * 200 - 100;
-                        particle.position.y = Math.random() * 200 - 100;
-                        particle.position.z = Math.random() * 200 - 195;
-                        particle.scale.x = particle.scale.y = .25;
-                        scene.add(particle);
-
-                        particles.push(particle);
-                    }
-                }
-
-                // Todo: True onload
-                const waitingTime = introScreen ? 15000 : 1;
-                document.querySelector('a-assets').fileLoader.manager.onLoad = (() => {
-                    console.log('Load!');
-
-                    setTimeout(() => {
-                        document.getElementById('w-sphere').removeAttribute('snow');
-
-                        // Curtain
-                        document.getElementById('curtain').setAttribute('visible', 'true');
-                        document.getElementById('curtain').emit('fadelong');
-
-                        setTimeout(() => {
-                            document.getElementById('sky-55').setAttribute('initial-sphere', "next: 52, 57");
-
-                            document.getElementById('welcome').setAttribute('visible', 'false');
-
-                            document.getElementById('curtain').emit('fadelongback');
-                        }, 600);
-
-
-                    }, waitingTime);
-
-
-                });
-            },
-
-            tick: function () {
-                if (introScreen) {
-                    for (var i = 0; i < particles.length; i++) {
-
-                        var particle = particles[i];
-                        particle.updatePhysics();
-
-                        var pp = particle.position;
-
-                        if (pp.y < -10) pp.y += 110;
-                        if (pp.x > 100) pp.x -= 200;
-                        else if (pp.x < -100) pp.x += 200;
-                        if (pp.z > 5) pp.z -= 100;
-                        else if (pp.z < -100) pp.z += 105;
-                    }
-                }
-            },
-
-            remove: function () {
-                particles.forEach((particle) => {
-                    particle.geometry.dispose();
-                    particle.material.dispose();
-                    this.el.sceneEl.object3D.remove(particle);
-                })
-            }
-        });
-
-
-        // Snow logic
-        {
-            const TO_RADIANS = Math.PI / 180;
-
-            Particle3D = function (material) {
-                THREE.Sprite.call(this, material);
-
-                //this.material = material instanceof Array ? material : [ material ];
-                // define properties
-                this.velocity = new THREE.Vector3(0, -.17, 0);
-                this.velocity.rotateX(randomRange(-45, 45));
-                this.velocity.rotateY(randomRange(0, 360));
-                this.gravity = new THREE.Vector3(0, 0, 0);
-                this.drag = 1;
-                // methods...
-            };
-
-            Particle3D.prototype = new THREE.Sprite();
-            Particle3D.prototype.constructor = Particle3D;
-
-            Particle3D.prototype.updatePhysics = function () {
-                this.velocity.multiplyScalar(this.drag);
-                this.velocity.add(this.gravity);
-                this.position.add(this.velocity);
-            }
-
-            THREE.Vector3.prototype.rotateY = function (angle) {
-                cosRY = Math.cos(angle * TO_RADIANS);
-                sinRY = Math.sin(angle * TO_RADIANS);
-
-                var tempz = this.z;
-                var tempx = this.x;
-
-                this.x = (tempx * cosRY) + (tempz * sinRY);
-                this.z = (tempx * -sinRY) + (tempz * cosRY);
-            }
-
-            THREE.Vector3.prototype.rotateX = function (angle) {
-                cosRY = Math.cos(angle * TO_RADIANS);
-                sinRY = Math.sin(angle * TO_RADIANS);
-
-                var tempz = this.z;
-                var tempy = this.y;
-
-                this.y = (tempy * cosRY) + (tempz * sinRY);
-                this.z = (tempy * -sinRY) + (tempz * cosRY);
-            }
-
-            THREE.Vector3.prototype.rotateZ = function (angle) {
-                cosRY = Math.cos(angle * TO_RADIANS);
-                sinRY = Math.sin(angle * TO_RADIANS);
-
-                var tempx = this.x;
-                var tempy = this.y;
-
-                this.y = (tempy * cosRY) + (tempx * sinRY);
-                this.x = (tempy * -sinRY) + (tempx * cosRY);
-            }
-
-            // Returns a random number between the two limits provided
-            function randomRange(min, max) {
-                return ((Math.random() * (max - min)) + min);
-            }
-        }
-
-        // Check visibility
-        // From: https://gist.github.com/Strae/7def0f84677e03727f771636709b448f
-        const checkIfVisible = ((entity) => {
-
-            let entityMesh = entity.object3DMap.mesh;
-            let frustum = new THREE.Frustum();
-            let cameraViewProjectionMatrix = new THREE.Matrix4();
-
-            // Get camera
-            let camera = document.querySelector("[camera]").getObject3D('camera');
-
-            // Update camera attributes
-            camera.updateMatrixWorld();
-            camera.updateProjectionMatrix();
-
-            // Set limited FoV
-            camera = camera.clone();
-            camera.aspect = .5; // Reduced from 1
-            camera.fov = 60; // Reduced from 80
-            // camera.zoom = 4; // Alt variant to reduce fov
-
-            camera.updateProjectionMatrix();
-
-            // camera.matrixWorldInverse.getInverse(camera.matrixWorld);
-            cameraViewProjectionMatrix.multiplyMatrices(camera.projectionMatrix, camera.matrixWorldInverse);
-            frustum.setFromProjectionMatrix(cameraViewProjectionMatrix);
-
-            return frustum.intersectsObject(entityMesh);
-        });
 
     </script>
 </head>
 <body>
-<a-scene>
+<a-scene stats>
+
     <!--  Assets  -->
-    <a-assets timeout="30000">
+    <a-assets timeout="1000">
         <audio id="click-sound" crossorigin="anonymous"
                src="https://cdn.aframe.io/360-image-gallery-boilerplate/audio/click.ogg" preload="auto"></audio>
-        <img id="map" crossorigin="anonymous" src="data/map.png">
-        <img id="img-55" crossorigin="anonymous" src="data/R0010055.JPG">
-        <img id="img-52" crossorigin="anonymous" src="data/R0010052.JPG">
-        <img id="img-56" crossorigin="anonymous" src="data/R0010056.JPG">
-        <img id="img-57" crossorigin="anonymous" src="data/R0010057.JPG">
-    </a-assets>
-
-    <a-assets timeout="10000">
-        <img id="img-24" crossorigin="anonymous" src="data/R0010024.JPG">
-        <img id="img-25" crossorigin="anonymous" src="data/R0010025.JPG">
-        <img id="img-26" crossorigin="anonymous" src="data/R0010026.JPG">
-        <img id="img-27" crossorigin="anonymous" src="data/R0010027.JPG">
-        <img id="img-28" crossorigin="anonymous" src="data/R0010028.JPG">
-        <img id="img-30" crossorigin="anonymous" src="data/R0010030.JPG">
-        <img id="img-35" crossorigin="anonymous" src="data/R0010035.JPG">
-        <img id="img-39" crossorigin="anonymous" src="data/R0010039.JPG">
-        <img id="img-41" crossorigin="anonymous" src="data/R0010041.JPG">
-        <img id="img-43" crossorigin="anonymous" src="data/R0010043.JPG">
-        <img id="img-45" crossorigin="anonymous" src="data/R0010045.JPG">
-        <img id="img-49" crossorigin="anonymous" src="data/R0010049.JPG">
-        <img id="img-51" crossorigin="anonymous" src="data/R0010051.JPG">
-        <img id="img-53" crossorigin="anonymous" src="data/R0010053.JPG">
-        <img id="img-54" crossorigin="anonymous" src="data/R0010054.JPG">
-        <img id="img-58" crossorigin="anonymous" src="data/R0010058.JPG">
-        <img id="img-60" crossorigin="anonymous" src="data/R0010060.JPG">
-        <img id="img-61" crossorigin="anonymous" src="data/R0010061.JPG">
-        <img id="img-62" crossorigin="anonymous" src="data/R0010062.JPG">
-        <img id="img-65" crossorigin="anonymous" src="data/R0010065.JPG">
+        <img id="img-map" crossorigin="anonymous" src="data/map.png" alt="Picture">
+        <img id="img-55" crossorigin="anonymous" src="data/R0010055.JPG" alt="Picture">
+        <img id="img-52" crossorigin="anonymous" src="data/R0010052.JPG" alt="Picture">
+        <img id="img-56" crossorigin="anonymous" src="data/R0010056.JPG" alt="Picture">
+        <img id="img-57" crossorigin="anonymous" src="data/R0010057.JPG" alt="Picture">
+        <img id="img-24" crossorigin="anonymous" src="data/R0010024.JPG" alt="Picture">
+        <img id="img-25" crossorigin="anonymous" src="data/R0010025.JPG" alt="Picture">
+        <img id="img-26" crossorigin="anonymous" src="data/R0010026.JPG" alt="Picture">
+        <img id="img-27" crossorigin="anonymous" src="data/R0010027.JPG" alt="Picture">
+        <img id="img-28" crossorigin="anonymous" src="data/R0010028.JPG" alt="Picture">
+        <img id="img-30" crossorigin="anonymous" src="data/R0010030.JPG" alt="Picture">
+        <img id="img-35" crossorigin="anonymous" src="data/R0010035.JPG" alt="Picture">
+        <img id="img-39" crossorigin="anonymous" src="data/R0010039.JPG" alt="Picture">
+        <img id="img-41" crossorigin="anonymous" src="data/R0010041.JPG" alt="Picture">
+        <img id="img-43" crossorigin="anonymous" src="data/R0010043.JPG" alt="Picture">
+        <img id="img-45" crossorigin="anonymous" src="data/R0010045.JPG" alt="Picture">
+        <img id="img-49" crossorigin="anonymous" src="data/R0010049.JPG" alt="Picture">
+        <img id="img-51" crossorigin="anonymous" src="data/R0010051.JPG" alt="Picture">
+        <img id="img-53" crossorigin="anonymous" src="data/R0010053.JPG" alt="Picture">
+        <img id="img-54" crossorigin="anonymous" src="data/R0010054.JPG" alt="Picture">
+        <img id="img-58" crossorigin="anonymous" src="data/R0010058.JPG" alt="Picture">
+        <img id="img-60" crossorigin="anonymous" src="data/R0010060.JPG" alt="Picture">
+        <img id="img-61" crossorigin="anonymous" src="data/R0010061.JPG" alt="Picture">
+        <img id="img-62" crossorigin="anonymous" src="data/R0010062.JPG" alt="Picture">
+        <img id="img-65" crossorigin="anonymous" src="data/R0010065.JPG" alt="Picture">
+        <video id="vid-i3" crossorigin="anonymous" src="data/media/i3.mp4" autoplay></video>
+        <img id="img-poster" crossorigin="anonymous" src="data/media/poster.png" alt="Picture">
+        <img id="icon-signup" crossorigin="anonymous" src="data/icons/signup.png" alt="Picture">
+        <img id="icon-map" crossorigin="anonymous" src="data/icons/map.png" alt="Picture">
+        <img id="icon-restart" crossorigin="anonymous" src="data/icons/redo.png" alt="Picture">
+        <img id="icon-exit" crossorigin="anonymous" src="data/icons/leave.png" alt="Picture">
+        <img id="icon-minimize" crossorigin="anonymous" src="data/icons/exit.png" alt="Picture">
+        <img id="icon-menu" crossorigin="anonymous" src="data/icons/bars.png" alt="Picture">
     </a-assets>
 
     <!--  Foyer  -->
@@ -522,23 +199,32 @@
                   look-controls="pointerLockEnabled: true"
                   wasd-controls="acceleration: 25">
 
+            <!-- Cursor for clicks -->
             <a-entity
                     id="cursor"
-                    cursor="fuse: true; fuseTimeout: 2200"
+                    cursor="fuse: true; fuseTimeout: 1700"
                     material="color: black; shader: flat"
                     position="0 0 -1"
                     geometry="primitive: ring; radiusInner: 0.02; radiusOuter: 0.03"
                     animation__click_deactivate_fuse="property: cursor.fuse; startEvents: mousedown; to: false; dur: 10; delay: 20"
                     animation__click_reactivate_fuse="property: cursor.fuse; startEvents: mouseup; to: true; dur: 10"
                     animation__click="property: scale; startEvents: mousedown; easing: easeInCubic; dur: 170; from: 0.3 0.3 0.3; to: 1 1 1; delay: 20"
-                    animation__fusing="property: scale; startEvents: fusing; easing: easeInCubic; from: 1 1 1; to: 0.3 0.3 0.3; dur: 2000"
+                    animation__fusing="property: scale; startEvents: fusing; easing: easeInCubic; from: 1 1 1; to: 0.3 0.3 0.3; dur: 1500"
                     animation__fusing2="property: scale; startEvents: animationcomplete__fusing; easing: easeInCubic; to: 1 1 1; dur: 100; delay: 100"
-                    animation__mouseenter="property: components.material.material.color; type: color; to: #999; easing: linear; startEvents: mouseenter; dur: 1500"
+                    animation__mouseenter="property: components.material.material.color; type: color; to: #999; easing: linear; startEvents: mouseenter; dur: 1200"
                     animation__mouseleave_color="property: components.material.material.color; type: color; to: #000; startEvents: mouseleave; dur: 200"
                     animation__mouseleave_scale="property: scale; startEvents: mouseleave; easing: easeInCubic; dur: 300; to: 1 1 1"
                     raycaster="objects: .link"
                     proxy-event="event: mousedown; to: #cursor; as: nav-click"
                     click-nav>
+            </a-entity>
+
+            <!-- Cursor for hovers -->
+            <a-entity
+                    id="cursor-invisible"
+                    cursor="fuse: false"
+                    position="0 0 -1"
+                    raycaster="objects: .hover">
             </a-entity>
 
             <a-sphere
@@ -555,24 +241,96 @@
                     animation__fadelongend="property: visible; type: boolean; to: false; startEvents: animationcomplete__fadelongback"
             ></a-sphere>
 
-            <!-- Navigation map -->
-            <a-entity
-                    id="nav-map"
-                    position="0 -0.2 -1"
-                    look-at="[camera]"
-                    visible="false"
-                    nav-map>
-                <a-plane color="#666" height=".5" width=".92" position="0 0 -.02" shader="flat"></a-plane>
-                <a-image src="#map" height=".4" width=".8"></a-image>
-                <a-circle radius=".03" position="-0.4 .2 .02" color="#CC0000"
-                          shader="flat"
-                          animation__blink="property: radius; from: .03; to:0.015; dur: 1000; easing: easeInQuad; startEvents: blink, animationcomplete__blinkback;"
-                          animation__blinkback="property: radius; from: .015; to:0.03; dur: 1000; delay: 50; easing: easeOutQuad; startEvents: animationcomplete__blink;">
-                </a-circle>
-            </a-entity>
-
         </a-entity>
     </a-entity>
+
+    <!-- Menu open -->
+    <a-entity
+            id="open-menu"
+            position="0 -.9 -.6"
+            look-at="[camera]"
+            visible="true"
+            animation__open="property: scale; startEvents: open; easing: easeInCubic; dur: 300; from: .0001 .0001 .0001; to: 1 1 1"
+            animation__close="property: scale; startEvents: close; easing: easeInCubic; dur: 300; from: 1 1 1; to: .0001 .0001 .0001"
+            animation__closeend="property: visible; type: boolean; to: false; startEvents: animationcomplete__close"
+            menu-open
+    >
+        <a-entity template="src: #button" data-text="Menu" data-icon="#icon-menu" data-xpos="0" scale=".4 .4 .4"
+                  position="0 0 -.1"></a-entity>
+    </a-entity>
+
+
+    <!-- Menu -->
+    <a-entity
+            id="menu"
+            position="0 -.5 -1"
+            look-at="[camera]"
+            visible="false"
+            scale=".0001 .0001 .0001"
+            animation__open="property: scale; startEvents: open; easing: easeInCubic; dur: 300; from: .0001 .0001 .0001; to: 1 1 1"
+            animation__close="property: scale; startEvents: close; easing: easeInCubic; dur: 300; from: 1 1 1; to: .0001 .0001 .0001"
+            animation__closeend="property: visible; type: boolean; to: false; startEvents: animationcomplete__close"
+    >
+        <a-plane color="#666" height=".4" width="1.7" position="0 0 -.02" shader="flat" opacity=".5"></a-plane>
+        <a-entity template="src: #button" data-text="Anmelden" data-icon="#icon-signup" data-xpos="-.6"></a-entity>
+        <a-entity menu-open-map template="src: #button" data-text="Karte" data-icon="#icon-map"
+                  data-xpos="-.2"></a-entity>
+        <a-entity template="src: #button" data-text="Zum Start" data-icon="#icon-restart" data-xpos=".2"></a-entity>
+        <a-entity template="src: #button" data-text="Beenden" data-icon="#icon-exit" data-xpos=".6"></a-entity>
+
+        <!-- Close -->
+        <a-entity menu-close template="src: #button" data-text="" data-icon="#icon-minimize" data-xpos="0"
+                  position=".75 .15 .1"
+                  scale=".4 .4 .4"></a-entity>
+        <a-circle radius=".12" position=".75 .165 .1" color="#666" shader="flat" opacity="1"
+                  scale=".4 .4 .4"></a-circle>
+
+    </a-entity>
+
+    <!-- Navigation map -->
+    <a-entity
+            id="nav-map"
+            position="0 -0.2 -1"
+            look-at="[camera]"
+            visible="false"
+            scale=".0001 .0001 .0001"
+            animation__open="property: scale; startEvents: open; easing: easeInCubic; dur: 300; from: .0001 .0001 .0001; to: 1 1 1"
+            animation__close="property: scale; startEvents: close; easing: easeInCubic; dur: 300; from: 1 1 1; to: .0001 .0001 .0001"
+            animation__closeend="property: visible; type: boolean; to: false; startEvents: animationcomplete__close"
+            nav-map>
+        <a-plane color="#666" height=".5" width=".92" position="0 0 -.02" shader="flat"></a-plane>
+        <a-image src="#img-map" height=".4" width=".8"></a-image>
+        <a-circle radius=".03" position="-0.4 .2 .02" color="#AA0000"
+                  shader="flat"
+                  animation__blink="property: radius; from: .03; to:0.015; dur: 1000; easing: easeInQuad; startEvents: blink, animationcomplete__blinkback;"
+                  animation__blinkback="property: radius; from: .015; to:0.03; dur: 1000; delay: 50; easing: easeOutQuad; startEvents: animationcomplete__blink;">
+        </a-circle>
+
+        <!-- Close -->
+        <a-entity nav-map-close template="src: #button" data-text="" data-icon="#icon-minimize" data-xpos="0"
+                  position=".38 .17 .1"
+                  scale=".4 .4 .4"></a-entity>
+        <a-circle radius=".12" position=".38 .185 .1" color="#666" shader="flat" opacity="1"
+                  scale=".4 .4 .4"></a-circle>
+    </a-entity>
+
+
+    <!-- Poster -->
+    <a-entity id="poster" position="2 0 -2">
+        <a-plane class="hover" opacity="0" shader="flat" height="1" width=".5" color="#666"
+                 look-at="[camera]"
+                 animation__increase="property: scale; startEvents: mouseenter; to: 5 5 5; easing: easeOutQuad;"
+                 animation__decrease="property: scale; startEvents: mouseleave; to: 1 1 1; easing: easeOutQuad;">
+            <a-image src="#img-poster" height="1" width=".5"></a-image>
+        </a-plane>
+    </a-entity>
+
+    <!-- Video -->
+    <!--    <a-entity id="video" position="-1 0 -2">-->
+    <!--        <a-video src="#vid-i3" width="1.6" height=".9"-->
+    <!--                 look-at="[camera]"-->
+    <!--        ></a-video>-->
+    <!--    </a-entity>-->
 
     <!--  Welcome / Let it snow  -->
     <a-entity id="welcome" position="0 50 0">

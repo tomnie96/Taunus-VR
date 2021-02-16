@@ -1,0 +1,332 @@
+<a-scene stats>
+
+  <!--  Assets  -->
+  <a-assets timeout="1000">
+    <audio id="click-sound" crossorigin="anonymous"
+           src="https://cdn.aframe.io/360-image-gallery-boilerplate/audio/click.ogg" preload="auto"></audio>
+    <img id="img-map" crossorigin="anonymous" src="assets/map.png" alt="Picture">
+    <img id="img-55" crossorigin="anonymous" src="assets/pics/R0010055.JPG" alt="Picture">
+    <img id="img-52" crossorigin="anonymous" src="assets/pics/R0010052.JPG" alt="Picture">
+    <img id="img-56" crossorigin="anonymous" src="assets/pics/R0010056.JPG" alt="Picture">
+    <img id="img-57" crossorigin="anonymous" src="assets/pics/R0010057.JPG" alt="Picture">
+    <img id="img-24" crossorigin="anonymous" src="assets/pics/R0010024.JPG" alt="Picture">
+    <img id="img-25" crossorigin="anonymous" src="assets/pics/R0010025.JPG" alt="Picture">
+    <img id="img-26" crossorigin="anonymous" src="assets/pics/R0010026.JPG" alt="Picture">
+    <img id="img-27" crossorigin="anonymous" src="assets/pics/R0010027.JPG" alt="Picture">
+    <img id="img-28" crossorigin="anonymous" src="assets/pics/R0010028.JPG" alt="Picture">
+    <img id="img-30" crossorigin="anonymous" src="assets/pics/R0010030.JPG" alt="Picture">
+    <img id="img-35" crossorigin="anonymous" src="assets/pics/R0010035.JPG" alt="Picture">
+    <img id="img-39" crossorigin="anonymous" src="assets/pics/R0010039.JPG" alt="Picture">
+    <img id="img-41" crossorigin="anonymous" src="assets/pics/R0010041.JPG" alt="Picture">
+    <img id="img-43" crossorigin="anonymous" src="assets/pics/R0010043.JPG" alt="Picture">
+    <img id="img-45" crossorigin="anonymous" src="assets/pics/R0010045.JPG" alt="Picture">
+    <img id="img-49" crossorigin="anonymous" src="assets/pics/R0010049.JPG" alt="Picture">
+    <img id="img-51" crossorigin="anonymous" src="assets/pics/R0010051.JPG" alt="Picture">
+    <img id="img-53" crossorigin="anonymous" src="assets/pics/R0010053.JPG" alt="Picture">
+    <img id="img-54" crossorigin="anonymous" src="assets/pics/R0010054.JPG" alt="Picture">
+    <img id="img-58" crossorigin="anonymous" src="assets/pics/R0010058.JPG" alt="Picture">
+    <img id="img-60" crossorigin="anonymous" src="assets/pics/R0010060.JPG" alt="Picture">
+    <img id="img-61" crossorigin="anonymous" src="assets/pics/R0010061.JPG" alt="Picture">
+    <img id="img-62" crossorigin="anonymous" src="assets/pics/R0010062.JPG" alt="Picture">
+    <img id="img-65" crossorigin="anonymous" src="assets/pics/R0010065.JPG" alt="Picture">
+    <!--    <video id="vid-i3" crossorigin="anonymous" src="assets/media/i3.mp4" autoplay></video>-->
+    <img id="img-poster" crossorigin="anonymous" src="assets/media/poster.png" alt="Picture">
+    <img id="icon-signup" crossorigin="anonymous" src="assets/icons/signup.png" alt="Picture">
+    <img id="icon-map" crossorigin="anonymous" src="assets/icons/map.png" alt="Picture">
+    <img id="icon-restart" crossorigin="anonymous" src="assets/icons/redo.png" alt="Picture">
+    <img id="icon-exit" crossorigin="anonymous" src="assets/icons/leave.png" alt="Picture">
+    <img id="icon-minimize" crossorigin="anonymous" src="assets/icons/exit.png" alt="Picture">
+    <img id="icon-menu" crossorigin="anonymous" src="assets/icons/bars.png" alt="Picture">
+
+    <!-- Mixins -->
+    <a-mixin id="m-sky" class="pic360" radius=".7" material="shader: flat; opacity: .7; color: #AAA"
+             visible="false"></a-mixin>
+    <a-mixin id="m-link"
+             geometry="primitive: plane; height: .5; width: .5"
+             material="shader: flat; opacity: 0"
+             visible="true"
+             sound="on: click; src: #click-sound"></a-mixin>
+    <a-mixin id="menu-animations"
+             animation__open="property: scale; startEvents: open; easing: easeInCubic; dur: 300; from: .0001 .0001 .0001; to: 1 1 1"
+             animation__close="property: scale; startEvents: close; easing: easeInCubic; dur: 300; from: 1 1 1; to: .0001 .0001 .0001"
+             animation__closeend="property: visible; type: boolean; to: false; startEvents: animationcomplete__close"></a-mixin>
+    <a-mixin id="hover-scale"
+             animation__mouseenter_scale="property: scale; startEvents: mouseenter; easing: easeOutCubic; dur: 300; to: 1.2 1.2 1.2"
+             animation__mouseleave_scale="property: scale; startEvents: mouseleave; easing: easeOutCubic; dur: 300; to: 1 1 1"></a-mixin>
+    <a-mixin id="poster" opacity="0" shader="flat" color="#666" look-at="[camera]"
+             animation__increase="property: scale; startEvents: mouseenter; to: 6 6 6; easing: easeOutQuad;"
+             animation__decrease="property: scale; startEvents: mouseleave; to: 1 1 1; easing: easeOutQuad;"></a-mixin>
+
+  </a-assets>
+
+  <!--  Foyer  -->
+  <a-entity id="sky-52" position="-4 0 0" data-text="Foyer" nav="next: 55, 56, 57, 51">
+    <a-sky mixin="m-sky" src="#img-52" rotation="0 -90 0"></a-sky>
+    <a-entity class="payload"></a-entity>
+  </a-entity>
+
+  <a-entity id="sky-55" position="0 0 0" data-text="Eingang" nav="next: 52, 56, 57" click-nav>
+    <a-sky mixin="m-sky" src="#img-55" rotation="0 180 0"></a-sky>
+    <a-entity class="payload">
+      <!-- Poster -->
+      <!-- For size changes: Change plane & image width+height -->
+      <a-plane class="hover" height="1" width=".707" position="2 0 -2" mixin="poster">
+        <a-image src="#img-poster" height="1" width=".707"></a-image>
+      </a-plane>
+    </a-entity>
+  </a-entity>
+
+  <a-entity id="sky-56" position=".02 0 -2" data-text="Empfang" nav="next: 52, 55, 57">
+    <a-sky mixin="m-sky" src="#img-56" rotation="0 180 0"></a-sky>
+    <a-entity class="payload"></a-entity>
+  </a-entity>
+  <a-entity id="sky-54" position="-4 0 -6" data-text="Durchgang" nav="next: 58, 57">
+    <a-sky mixin="m-sky" src="#img-54" rotation="0 180 0"></a-sky>
+    <a-entity class="payload"></a-entity>
+  </a-entity>
+  <a-entity id="sky-57" position="-4 0 -2" data-text="Foyer" nav="next: 52, 54, 55, 56">
+    <a-sky mixin="m-sky" src="#img-57" rotation="0 180 0"></a-sky>
+    <a-entity class="payload"></a-entity>
+  </a-entity>
+  <a-entity id="sky-58" position="-4 0 -15" data-text="Zu Lab A" nav="next: 54, 60">
+    <a-sky mixin="m-sky" src="#img-58" rotation="0 180 0"></a-sky>
+    <a-entity class="payload"></a-entity>
+  </a-entity>
+
+  <!--  A Mitte  -->
+  <a-entity id="sky-24" position="-11 0 -14" data-text="Cockpit" nav="next: 28, 60, 25">
+    <a-sky mixin="m-sky" src="#img-24" rotation="0 180 0"></a-sky>
+    <a-entity class="payload"></a-entity>
+  </a-entity>
+  <a-entity id="sky-25" position="-11 0 -8" data-text="A Mitte" nav="next: 24, 26">
+    <a-sky mixin="m-sky" src="#img-25" rotation="0 180 0"></a-sky>
+    <a-entity class="payload"></a-entity>
+  </a-entity>
+  <a-entity id="sky-26" position="-11 0 -5" data-text="A Mitte" nav="next: 25, 27">
+    <a-sky mixin="m-sky" src="#img-26" rotation="0 180 0"></a-sky>
+    <a-entity class="payload"></a-entity>
+  </a-entity>
+  <a-entity id="sky-27" position="-11 0 -2" data-text="A Mitte" nav="next: 26">
+    <a-sky mixin="m-sky" src="#img-27" rotation="0 180 0"></a-sky>
+    <a-entity class="payload"></a-entity>
+  </a-entity>
+
+  <!-- A01-10 -->
+  <a-entity id="sky-28" position="-16 0 -14" data-text="A-01" nav="next: 24, 30">
+    <a-sky mixin="m-sky" src="#img-28" rotation="0 90 0"></a-sky>
+    <a-entity class="payload"></a-entity>
+  </a-entity>
+  <a-entity id="sky-30" position="-16 0 -10" data-text="A-03" nav="next: 28, 35">
+    <a-sky mixin="m-sky" src="#img-30" rotation="0 0 0"></a-sky>
+    <a-entity class="payload"></a-entity>
+  </a-entity>
+  <a-entity id="sky-35" position="-16 0 -6" data-text="Zu Lab B" nav="next: 30, 43, 51">
+    <a-sky mixin="m-sky" src="#img-35" rotation="0 -90 0"></a-sky>
+    <a-entity class="payload"></a-entity>
+  </a-entity>
+
+  <!--  A11-20  -->
+  <a-entity id="sky-60" position="-6 0 -15" data-text="Lab A" nav="next: 58, 24, 61">
+    <a-sky mixin="m-sky" src="#img-60" rotation="0 180 0"></a-sky>
+    <a-entity class="payload"></a-entity>
+  </a-entity>
+  <a-entity id="sky-61" position="-6 0 -8" data-text="A-14" nav="next: 60, 62">
+    <a-sky mixin="m-sky" src="#img-61" rotation="0 180 0"></a-sky>
+    <a-entity class="payload"></a-entity>
+  </a-entity>
+  <a-entity id="sky-62" position="-6 0 -5" data-text="A-17" nav="next: 61, 65">
+    <a-sky mixin="m-sky" src="#img-62" rotation="0 180 0"></a-sky>
+    <a-entity class="payload"></a-entity>
+  </a-entity>
+  <a-entity id="sky-65" position="-6 0 -2" data-text="A-20" nav="next: 62">
+    <a-sky mixin="m-sky" src="#img-65" rotation="0 0 0"></a-sky>
+    <a-entity class="payload"></a-entity>
+  </a-entity>
+
+
+  <!-- B01-05 -->
+  <a-entity id="sky-43" position="-24 0 -6" data-text="B-01" nav="next: 35, 41, 45">
+    <a-sky mixin="m-sky" src="#img-43" rotation="0 -90 0"></a-sky>
+    <a-entity class="payload"></a-entity>
+  </a-entity>
+  <a-entity id="sky-41" position="-26 0 -6" data-text="B Gang" nav="next: 39, 43">
+    <a-sky mixin="m-sky" src="#img-41" rotation="0 0 0"></a-sky>
+    <a-entity class="payload"></a-entity>
+  </a-entity>
+  <a-entity id="sky-45" position="-24 0 -4" data-text="B-01" nav="next: 43">
+    <a-sky mixin="m-sky" src="#img-45" rotation="0 0 0"></a-sky>
+    <a-entity class="payload"></a-entity>
+  </a-entity>
+
+
+  <!--   B11-20 -->
+  <a-entity id="sky-39" position="-26 0 0" data-text="B Ausgang" nav="next: 41, 51">
+    <a-sky mixin="m-sky" src="#img-39" rotation="0 90 0"></a-sky>
+    <a-entity class="payload"></a-entity>
+  </a-entity>
+  <a-entity id="sky-51" position="-16 0 0" data-text="B-18" nav="next: 39, 35, 49, 52">
+    <a-sky mixin="m-sky" src="#img-51" rotation="0 -90 0"></a-sky>
+    <a-entity class="payload"></a-entity>
+  </a-entity>
+  <a-entity id="sky-49" position="-16 0 2" data-text="B-18" nav="next: 51">
+    <a-sky mixin="m-sky" src="#img-49" rotation="0 90 0"></a-sky>
+    <a-entity class="payload"></a-entity>
+  </a-entity>
+
+  <!-- Camera + cursor. -->
+  <a-entity id="cam-rig" position="0 50 0">
+    <a-entity camera position="0 0 0"
+              look-controls="pointerLockEnabled: true"
+              wasd-controls="acceleration: 25">
+
+      <!-- Cursor for clicks -->
+      <a-entity
+        id="cursor"
+        cursor="fuse: true; fuseTimeout: 1700"
+        material="color: black; shader: flat"
+        position="0 0 -1"
+        geometry="primitive: ring; radiusInner: 0.02; radiusOuter: 0.03"
+        animation__click_deactivate_fuse="property: cursor.fuse; startEvents: mousedown; to: false; dur: 10; delay: 20"
+        animation__click_reactivate_fuse="property: cursor.fuse; startEvents: mouseup; to: true; dur: 10"
+        animation__click="property: scale; startEvents: mousedown; easing: easeInCubic; dur: 170; from: 0.3 0.3 0.3; to: 1 1 1; delay: 20"
+        animation__fusing="property: scale; startEvents: fusing; easing: easeInCubic; from: 1 1 1; to: 0.3 0.3 0.3; dur: 1500"
+        animation__fusing2="property: scale; startEvents: animationcomplete__fusing; easing: easeInCubic; to: 1 1 1; dur: 100; delay: 100"
+        animation__mouseenter="property: components.material.material.color; type: color; to: #999; easing: linear; startEvents: mouseenter; dur: 1200"
+        animation__mouseleave_color="property: components.material.material.color; type: color; to: #000; startEvents: mouseleave; dur: 200"
+        animation__mouseleave_scale="property: scale; startEvents: mouseleave; easing: easeInCubic; dur: 300; to: 1 1 1"
+        raycaster="objects: .link"
+        proxy-event="event: mousedown; to: #cursor; as: nav-click"
+        click-nav>
+      </a-entity>
+
+      <!-- Cursor for hovers -->
+      <a-entity
+        id="cursor-invisible"
+        cursor="fuse: false"
+        position="0 0 -1"
+        raycaster="objects: .hover">
+      </a-entity>
+
+      <!-- Curtain -->
+      <a-sphere
+        id="curtain"
+        radius=".4"
+        color="#000"
+        opacity="0"
+        side="double"
+        visible="true"
+        animation__fade="property: components.material.material.opacity; type: number; from: 0; to: 1; dur: 150; startEvents: fade"
+        animation__fadeback="property: components.material.material.opacity; type: number; from: 1; to: 0; delay: 170; dur: 150; startEvents: animationcomplete__fade"
+        animation__fadelong="property: components.material.material.opacity; type: number; from: 0; to: 1; dur: 500; startEvents: fadelong"
+        animation__fadelongback="property: components.material.material.opacity; type: number; from: 1; to: 0; dur: 1000; startEvents: fadelongback"
+        animation__fadeend="property: visible; type: boolean; to: false; startEvents: animationcomplete__fadeback"
+        animation__fadelongend="property: visible; type: boolean; to: false; startEvents: animationcomplete__fadelongback"
+      ></a-sphere>
+    </a-entity>
+
+    <!-- Ground plate -->
+    <a-entity class="circle" position="0 -6 0" visible="true">
+      <a-circle color="#282424" radius="2" rotation="-90 0 0"></a-circle>
+    </a-entity>
+  </a-entity>
+
+  <!-- Menu open -->
+  <a-entity
+    id="open-menu"
+    menu-open
+    look-at="[camera]"
+    button="imageSrc: #icon-menu; text: Menu"
+    mixin="m-link menu-animations" class="link"
+    material="opacity: .1">
+  </a-entity>
+
+  <!-- Menu -->
+  <a-entity
+    id="menu"
+    position="0 -.5 -1"
+    look-at="[camera]"
+    visible="false"
+    scale=".0001 .0001 .0001"
+    mixin="menu-animations"
+  >
+    <a-plane color="#666" height=".4" width="1.7" position="0 0 -.02" shader="flat" opacity=".5"></a-plane>
+    <a-entity
+      class="link" position="-.6 0 0"
+      button="imageSrc: #icon-signup; text: Anmelden"
+      menu-sign-up
+      mixin="m-link hover-scale"></a-entity>
+    <a-entity
+      class="link" position="-.2 0 0"
+      button="imageSrc: #icon-map; text: Karte"
+      menu-open-map
+      mixin="m-link hover-scale"></a-entity>
+    <a-entity
+      class="link" position=".2 0 0"
+      button="imageSrc: #icon-restart; text: Zum Start"
+      menu-open-map
+      mixin="m-link hover-scale"></a-entity>
+    <a-entity
+      class="link" position=".6 0 0"
+      button="imageSrc: #icon-exit; text: Beenden"
+      menu-exit
+      mixin="m-link hover-scale"></a-entity>
+
+    <!-- Close -->
+    <a-entity scale=".4 .4 .4" position=".75 .15 .1">
+      <a-entity
+        class="link"
+        button="imageSrc: #icon-minimize; text: "
+        menu-close
+        mixin="m-link hover-scale"></a-entity>
+      <a-circle radius=".12" position="0 .0375 0" color="#666" shader="flat" opacity="1"></a-circle>
+    </a-entity>
+
+  </a-entity>
+
+  <!-- Navigation map -->
+  <a-entity
+    id="nav-map"
+    position="0 -0.2 -1"
+    look-at="[camera]"
+    visible="false"
+    scale=".0001 .0001 .0001"
+    mixin="menu-animations"
+    nav-map>
+    <a-plane color="#666" height=".5" width=".92" position="0 0 -.02" shader="flat"></a-plane>
+    <a-image src="#img-map" height=".4" width=".8"></a-image>
+    <a-circle radius=".03" position="-0.4 .2 .02" color="#AA0000"
+              shader="flat"
+              animation__blink="property: radius; from: .03; to:0.015; dur: 1000; easing: easeInQuad; startEvents: blink, animationcomplete__blinkback;"
+              animation__blinkback="property: radius; from: .015; to:0.03; dur: 1000; delay: 50; easing: easeOutQuad; startEvents: animationcomplete__blink;">
+    </a-circle>
+
+    <!-- Close -->
+    <a-entity scale=".4 .4 .4" position=".38 .17 .1">
+      <a-entity
+        class="link"
+        button="imageSrc: #icon-minimize; text: "
+        nav-map-close
+        mixin="m-link hover-scale"></a-entity>
+      <a-circle radius=".12" position="0 .0375 0" color="#666" shader="flat" opacity="1"></a-circle>
+    </a-entity>
+  </a-entity>
+
+
+  <!-- Video -->
+  <!--    <a-entity id="video" position="-1 0 -2">-->
+  <!--        <a-video src="#vid-i3" width="1.6" height=".9"-->
+  <!--                 look-at="[camera]"-->
+  <!--        ></a-video>-->
+  <!--    </a-entity>-->
+
+  <!--  Welcome / Let it snow  -->
+  <a-entity id="welcome" position="0 50 0">
+    <a-sphere id="w-sphere" radius="100" color="#999" opacity="1" side="double" snow>
+      <a-text value="Willkommen bei der 360 Grad Tour des KD2-Labs!" position="0 0 -2" color="#000" side="double"
+              align="center" look-at="[camera]"></a-text>
+      <a-text value="Laden ..." position="0 -.6 -2" color="#000" side="double" align="center"
+              look-at="[camera]"></a-text>
+    </a-sphere>
+  </a-entity>
+
+</a-scene>
