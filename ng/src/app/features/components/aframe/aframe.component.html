@@ -53,92 +53,124 @@
     <a-mixin id="hover-scale"
              animation__mouseenter_scale="property: scale; startEvents: mouseenter; easing: easeOutCubic; dur: 300; to: 1.2 1.2 1.2"
              animation__mouseleave_scale="property: scale; startEvents: mouseleave; easing: easeOutCubic; dur: 300; to: 1 1 1"></a-mixin>
+    <a-mixin id="poster" opacity="0" shader="flat" color="#666" look-at="[camera]"
+             animation__increase="property: scale; startEvents: mouseenter; to: 6 6 6; easing: easeOutQuad;"
+             animation__decrease="property: scale; startEvents: mouseleave; to: 1 1 1; easing: easeOutQuad;"></a-mixin>
 
   </a-assets>
 
   <!--  Foyer  -->
   <a-entity id="sky-52" position="-4 0 0" data-text="Foyer" nav="next: 55, 56, 57, 51">
     <a-sky mixin="m-sky" src="#img-52" rotation="0 -90 0"></a-sky>
+    <a-entity class="payload"></a-entity>
   </a-entity>
 
   <a-entity id="sky-55" position="0 0 0" data-text="Eingang" nav="next: 52, 56, 57" click-nav>
     <a-sky mixin="m-sky" src="#img-55" rotation="0 180 0"></a-sky>
+    <a-entity class="payload">
+      <!-- Poster -->
+      <!-- For size changes: Change plane & image width+height -->
+      <a-plane class="hover" height="1" width=".707" position="2 0 -2" mixin="poster">
+        <a-image src="#img-poster" height="1" width=".707"></a-image>
+      </a-plane>
+    </a-entity>
   </a-entity>
 
   <a-entity id="sky-56" position=".02 0 -2" data-text="Empfang" nav="next: 52, 55, 57">
     <a-sky mixin="m-sky" src="#img-56" rotation="0 180 0"></a-sky>
+    <a-entity class="payload"></a-entity>
   </a-entity>
   <a-entity id="sky-54" position="-4 0 -6" data-text="Durchgang" nav="next: 58, 57">
     <a-sky mixin="m-sky" src="#img-54" rotation="0 180 0"></a-sky>
+    <a-entity class="payload"></a-entity>
   </a-entity>
   <a-entity id="sky-57" position="-4 0 -2" data-text="Foyer" nav="next: 52, 54, 55, 56">
     <a-sky mixin="m-sky" src="#img-57" rotation="0 180 0"></a-sky>
+    <a-entity class="payload"></a-entity>
   </a-entity>
   <a-entity id="sky-58" position="-4 0 -15" data-text="Zu Lab A" nav="next: 54, 60">
     <a-sky mixin="m-sky" src="#img-58" rotation="0 180 0"></a-sky>
+    <a-entity class="payload"></a-entity>
   </a-entity>
 
   <!--  A Mitte  -->
   <a-entity id="sky-24" position="-11 0 -14" data-text="Cockpit" nav="next: 28, 60, 25">
     <a-sky mixin="m-sky" src="#img-24" rotation="0 180 0"></a-sky>
+    <a-entity class="payload"></a-entity>
   </a-entity>
   <a-entity id="sky-25" position="-11 0 -8" data-text="A Mitte" nav="next: 24, 26">
     <a-sky mixin="m-sky" src="#img-25" rotation="0 180 0"></a-sky>
+    <a-entity class="payload"></a-entity>
   </a-entity>
   <a-entity id="sky-26" position="-11 0 -5" data-text="A Mitte" nav="next: 25, 27">
     <a-sky mixin="m-sky" src="#img-26" rotation="0 180 0"></a-sky>
+    <a-entity class="payload"></a-entity>
   </a-entity>
   <a-entity id="sky-27" position="-11 0 -2" data-text="A Mitte" nav="next: 26">
     <a-sky mixin="m-sky" src="#img-27" rotation="0 180 0"></a-sky>
+    <a-entity class="payload"></a-entity>
   </a-entity>
 
   <!-- A01-10 -->
   <a-entity id="sky-28" position="-16 0 -14" data-text="A-01" nav="next: 24, 30">
     <a-sky mixin="m-sky" src="#img-28" rotation="0 90 0"></a-sky>
+    <a-entity class="payload"></a-entity>
   </a-entity>
   <a-entity id="sky-30" position="-16 0 -10" data-text="A-03" nav="next: 28, 35">
     <a-sky mixin="m-sky" src="#img-30" rotation="0 0 0"></a-sky>
+    <a-entity class="payload"></a-entity>
   </a-entity>
   <a-entity id="sky-35" position="-16 0 -6" data-text="Zu Lab B" nav="next: 30, 43, 51">
     <a-sky mixin="m-sky" src="#img-35" rotation="0 -90 0"></a-sky>
+    <a-entity class="payload"></a-entity>
   </a-entity>
 
   <!--  A11-20  -->
   <a-entity id="sky-60" position="-6 0 -15" data-text="Lab A" nav="next: 58, 24, 61">
     <a-sky mixin="m-sky" src="#img-60" rotation="0 180 0"></a-sky>
+    <a-entity class="payload"></a-entity>
   </a-entity>
   <a-entity id="sky-61" position="-6 0 -8" data-text="A-14" nav="next: 60, 62">
     <a-sky mixin="m-sky" src="#img-61" rotation="0 180 0"></a-sky>
+    <a-entity class="payload"></a-entity>
   </a-entity>
   <a-entity id="sky-62" position="-6 0 -5" data-text="A-17" nav="next: 61, 65">
     <a-sky mixin="m-sky" src="#img-62" rotation="0 180 0"></a-sky>
+    <a-entity class="payload"></a-entity>
   </a-entity>
   <a-entity id="sky-65" position="-6 0 -2" data-text="A-20" nav="next: 62">
     <a-sky mixin="m-sky" src="#img-65" rotation="0 0 0"></a-sky>
+    <a-entity class="payload"></a-entity>
   </a-entity>
 
 
   <!-- B01-05 -->
   <a-entity id="sky-43" position="-24 0 -6" data-text="B-01" nav="next: 35, 41, 45">
     <a-sky mixin="m-sky" src="#img-43" rotation="0 -90 0"></a-sky>
+    <a-entity class="payload"></a-entity>
   </a-entity>
   <a-entity id="sky-41" position="-26 0 -6" data-text="B Gang" nav="next: 39, 43">
     <a-sky mixin="m-sky" src="#img-41" rotation="0 0 0"></a-sky>
+    <a-entity class="payload"></a-entity>
   </a-entity>
   <a-entity id="sky-45" position="-24 0 -4" data-text="B-01" nav="next: 43">
     <a-sky mixin="m-sky" src="#img-45" rotation="0 0 0"></a-sky>
+    <a-entity class="payload"></a-entity>
   </a-entity>
 
 
   <!--   B11-20 -->
   <a-entity id="sky-39" position="-26 0 0" data-text="B Ausgang" nav="next: 41, 51">
     <a-sky mixin="m-sky" src="#img-39" rotation="0 90 0"></a-sky>
+    <a-entity class="payload"></a-entity>
   </a-entity>
   <a-entity id="sky-51" position="-16 0 0" data-text="B-18" nav="next: 39, 35, 49, 52">
     <a-sky mixin="m-sky" src="#img-51" rotation="0 -90 0"></a-sky>
+    <a-entity class="payload"></a-entity>
   </a-entity>
   <a-entity id="sky-49" position="-16 0 2" data-text="B-18" nav="next: 51">
     <a-sky mixin="m-sky" src="#img-49" rotation="0 90 0"></a-sky>
+    <a-entity class="payload"></a-entity>
   </a-entity>
 
   <!-- Camera + cursor. -->
@@ -279,17 +311,6 @@
               scale=".4 .4 .4"></a-circle>
   </a-entity>
 
-
-  <!-- Poster -->
-  <a-entity id="poster" position="2 0 -2">
-    <!-- For size changes: Change plane & image width+height -->
-    <a-plane class="hover" opacity="0" shader="flat" height="1" width=".707" color="#666"
-             look-at="[camera]"
-             animation__increase="property: scale; startEvents: mouseenter; to: 6 6 6; easing: easeOutQuad;"
-             animation__decrease="property: scale; startEvents: mouseleave; to: 1 1 1; easing: easeOutQuad;">
-      <a-image src="#img-poster" height="1" width=".707"></a-image>
-    </a-plane>
-  </a-entity>
 
   <!-- Video -->
   <!--    <a-entity id="video" position="-1 0 -2">-->

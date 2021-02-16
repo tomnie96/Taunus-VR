@@ -36,14 +36,15 @@ export class NavigationService {
     document.getElementById(sphere.id).setAttribute('scale', '1 1 1');
 
     // child 0: Sphere
-    // child 1: Ground plate
-    // child 2: Label
-    // child 3: Floor Ring
+    // child 1: Payload
+    // child 2: Floor ring
+    // child 3: Link
     sphere.children[0].setAttribute('radius', '100');
     sphere.children[0].setAttribute('material', 'opacity: 1; color: #FFF');
     sphere.children[0].setAttribute('visible', 'true');
-    // sphere.children[2].setAttribute('visible', 'false');
-    // sphere.children[3].setAttribute('visible', 'false');
+    sphere.children[1].setAttribute('visible', 'true');
+    sphere.children[2].setAttribute('visible', 'false');
+    sphere.children[3].setAttribute('visible', 'false');
 
     sphere.neighbourIds = Array.from(neighbourIds);
   }
@@ -61,20 +62,20 @@ export class NavigationService {
       } else {
         sphere.children[0].setAttribute('visible', 'false');
       }
-      // sphere.children[2].setAttribute('visible', 'true');
+      sphere.children[1].setAttribute('visible', 'true');
       // if (!environment.useText) {
       //   sphere.children[2].children[0].children[0].children[0].setAttribute('visible', 'false');
       // }
       // if (!environment.useText && !environment.useSpheres) {
       //   sphere.children[2].setAttribute('position', '0 -2 0');
       // } // Set link position to floor ring
-      // if (environment.useFloorRings) {
-      //   sphere.children[3].setAttribute('visible', 'true');
-      // }
+      if (environment.useFloorRings) {
+        sphere.children[2].setAttribute('visible', 'true');
+      }
     }
   }
 
-// Meta function: Sets main and neighbour spheres
+  // Meta function: Sets main and neighbour spheres
   updateMainSphere(sphere, neighbourIds): void {
     this.setAllInvisible();
     this.setMainSphere(sphere, neighbourIds);
@@ -97,7 +98,7 @@ export class NavigationService {
         },
 
         init(): void {
-          if (!this.initialized) {
+          if (!context.initialized) {
             context.initialized = true;
 
             // Set position
@@ -107,7 +108,7 @@ export class NavigationService {
         }
       });
 
-// Attribute: Link Navigation
+      // Attribute: Link Navigation
       AFRAME.registerComponent('nav', {
 
         schema: {
@@ -117,7 +118,36 @@ export class NavigationService {
         init(): void {
           const self = this;
 
-          this.el.addEventListener('click', () => {
+          // Create navigation jump marker (circle on the floor)
+          const jumpMarker = document.createElement('a-entity');
+          jumpMarker.setAttribute('position', '0 -2 0');
+          jumpMarker.setAttribute('visible', 'false');
+
+          const oCircle = document.createElement('a-circle');
+          oCircle.setAttribute('color', '#888888');
+          oCircle.setAttribute('radius', '.25');
+          oCircle.setAttribute('rotation', '-90 0 0');
+
+          const iCircle = document.createElement('a-circle');
+          iCircle.setAttribute('color', '#444444');
+          iCircle.setAttribute('radius', '.17');
+          iCircle.setAttribute('rotation', '-90 0 0');
+          iCircle.setAttribute('position', '0 .01 0');
+
+          jumpMarker.appendChild(oCircle);
+          jumpMarker.appendChild(iCircle);
+          this.el.appendChild(jumpMarker);
+
+          // Create Link
+          const link = document.createElement('a-entity');
+          link.setAttribute('position', '0 -2 0');
+          link.setAttribute('look-at', '[camera]');
+          link.setAttribute('mixin', 'm-link');
+          link.setAttribute('class', 'link');
+          this.el.appendChild(link);
+
+          // Navigate on Click
+          link.addEventListener('click', () => {
             // Block
             if (!context.isTransitioning) {
               context.isTransitioning = true;
