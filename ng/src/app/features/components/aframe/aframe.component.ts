@@ -1,6 +1,4 @@
-import {Component, OnInit} from '@angular/core';
-// import * as AFRAME from 'aframe';
-// import * as THREE from 'super-three';
+import {Component, NgZone, OnInit} from '@angular/core';
 import {THREE} from 'aframe';
 
 import {environment} from '../../../../environments/environment';
@@ -9,6 +7,7 @@ import {NavigationService} from '../../services/navigation.service';
 import {CalcService} from '../../services/calc.service';
 import {MapService} from '../../services/map.service';
 import {Particle3D} from '../../models/particle3-d';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-aframe',
@@ -21,10 +20,12 @@ export class AframeComponent implements OnInit {
   private cursor;
 
   constructor(
+    private router: Router,
     private nav: NavigationService,
     private menu: MenuService,
     private calc: CalcService,
-    private map: MapService) {
+    private map: MapService,
+    private ngZone: NgZone) {
   }
 
   ngOnInit(): void {
@@ -113,6 +114,32 @@ export class AframeComponent implements OnInit {
         this.el.addEventListener('click', () => {
           context.menu.close();
           context.map.open(context.calc.positionInFrontOf(context.camera, context.cursor, 1, -.5));
+        });
+      },
+    });
+
+    // Button: Sign up
+    AFRAME.registerComponent('menu-sign-up', {
+
+      init(): void {
+        this.el.addEventListener('click', () => {
+          context.menu.close();
+          context.router.navigate(['/danke']);
+        });
+      },
+    });
+
+    // Button: Exit
+    AFRAME.registerComponent('menu-exit', {
+
+      init(): void {
+        this.el.addEventListener('click', () => {
+          context.menu.close();
+
+          // NgZone ensures correct DOM update
+          context.ngZone.run(() => {
+            context.router.navigate(['/danke']);
+          });
         });
       },
     });
