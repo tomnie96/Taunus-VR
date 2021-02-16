@@ -5,9 +5,9 @@ name: Node.js CI
 
 on:
   push:
-    branches: [ feature-ci ]
+    branches: [ master ]
   pull_request:
-    branches: [ feature-ci ]
+    branches: [ master ]
 
 jobs:
   build:
@@ -34,8 +34,8 @@ jobs:
     - name: Deploy 🚀
       uses: JamesIves/github-pages-deploy-action@4.0.0
       with:
-        branch: feature-ci-2 # The branch the action should deploy to.
-        folder: ng/dist # The folder the action should deploy.
+        branch: deploy # The branch the action should deploy to.
+        folder: ng/dist/ng # The folder the action should deploy.
 #     - name: Save to dist
 #       uses: actions/upload-artifact@v2
 #       with:
