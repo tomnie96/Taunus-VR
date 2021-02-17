@@ -126,6 +126,93 @@ export class MediaService {
           context.analytics.trackEvent(EventType.StopPOI, this.data.name);
         }
       });
+
+      AFRAME.registerComponent('video', {
+        schema: {
+          name: {type: 'string'},
+          text: {type: 'string'}
+        },
+
+        init(): void {
+          const self = this;
+
+          const video = this.el.children[0];
+          self.isPlayingVideo = false;
+          self.lastClick = new Date();
+
+          const plane = document.createElement('a-plane');
+          plane.setAttribute('opacity', '0');
+          plane.setAttribute('height', video.getAttribute('height'));
+          plane.setAttribute('width', video.getAttribute('width'));
+          plane.setAttribute('shader', 'flat');
+          plane.setAttribute('color', '#666');
+          plane.setAttribute('class', 'link');
+
+          const text = document.createElement('a-text');
+          text.setAttribute('value', this.data.text);
+          text.setAttribute('align', 'center');
+          text.setAttribute('height', 1);
+          text.setAttribute('width', 1.5);
+          text.setAttribute('color', '#111');
+          text.setAttribute('position', '0 -.5 .001');
+
+          this.el.appendChild(plane);
+          this.el.appendChild(text);
+
+          this.videoSrc = document.querySelector(video.getAttribute('src'));
+
+          this.el.addEventListener('click', () => {
+            // Avoid double clicks through fusing & clicking
+            if (self.lastClick.getTime() + 1300 > new Date().getTime()) {
+              return;
+            }
+            self.lastClick = new Date();
+
+            if (!self.isPlayingVideo) {
+              self.isPlayingVideo = true;
+              this.startPlaying();
+
+            } else if (self.isPlayingVideo) {
+              self.isPlayingVideo = false;
+              this.stopPlaying();
+            }
+          });
+
+          video.addEventListener('ended', () => {
+            self.isPlayingVideo = false;
+            this.stopPlaying();
+          });
+
+          video.addEventListener('stopPlaying', () => {
+            if (self.isPlayingVideo) {
+              self.isPlayingVideo = false;
+              this.stopPlaying();
+            }
+          });
+        },
+
+        remove(): void {
+          // @ts-ignore
+          self.isPlayingVideo = false;
+          this.stopPlaying();
+        },
+
+        startPlaying(): void {
+          // Play
+          console.log('start');
+          this.videoSrc.play();
+
+          context.analytics.trackEvent(EventType.StartPOI, this.data.name);
+        },
+
+        stopPlaying(): void {
+          // Stop
+          console.log('stop');
+          this.videoSrc.pause();
+
+          context.analytics.trackEvent(EventType.StopPOI, this.data.name);
+        }
+      });
     }
   }
 
