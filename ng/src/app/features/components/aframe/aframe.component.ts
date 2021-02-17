@@ -6,6 +6,7 @@ import {MapService} from '../../services/map.service';
 import {SnowService} from '../../services/snow.service';
 import {AnalyticsService} from '../../services/analytics.service';
 import {environment} from '../../../../environments/environment';
+import {MediaService} from '../../services/media.service';
 
 @Component({
   selector: 'app-aframe',
@@ -19,6 +20,7 @@ export class AframeComponent implements OnInit {
     private menu: MenuService,
     private calc: CalcService,
     private map: MapService,
+    private media: MediaService,
     private snow: SnowService,
     private analytics: AnalyticsService
   ) {
@@ -29,6 +31,7 @@ export class AframeComponent implements OnInit {
     this.menu.register(this.map);
     this.nav.register(this.map, this.menu);
     this.map.register();
+    this.media.register();
     this.snow.register();
     this.calc.registerLookAt();
 

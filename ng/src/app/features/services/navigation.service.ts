@@ -29,6 +29,7 @@ export class NavigationService {
 // Set all spheres invisible
   setAllInvisible(): void {
     document.querySelectorAll('[id^="sky-"]').forEach((sphere => sphere.setAttribute('scale', '.001 .001 .001')));
+    document.querySelectorAll('[class="pause-on-jump"]').forEach(audio => audio.dispatchEvent(new CustomEvent('stopPlaying')));
   }
 
 // Set sphere as main

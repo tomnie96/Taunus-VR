@@ -1,9 +1,10 @@
 <a-scene>
 
   <!--  Assets  -->
-  <a-assets timeout="1000">
+  <a-assets timeout="30000">
     <audio id="click-sound" crossorigin="anonymous"
-           src="https://cdn.aframe.io/360-image-gallery-boilerplate/audio/click.ogg" preload="auto"></audio>
+           src="assets/media/audio/click.ogg" preload="auto"></audio>
+
     <img id="img-map" crossorigin="anonymous" src="assets/map.png" alt="Picture">
     <img id="img-55" crossorigin="anonymous" src="assets/pics/R0010055.JPG" alt="Picture">
     <img id="img-52" crossorigin="anonymous" src="assets/pics/R0010052.JPG" alt="Picture">
@@ -29,14 +30,22 @@
     <img id="img-61" crossorigin="anonymous" src="assets/pics/R0010061.JPG" alt="Picture">
     <img id="img-62" crossorigin="anonymous" src="assets/pics/R0010062.JPG" alt="Picture">
     <img id="img-65" crossorigin="anonymous" src="assets/pics/R0010065.JPG" alt="Picture">
-    <!--    <video id="vid-i3" crossorigin="anonymous" src="assets/media/i3.mp4" autoplay></video>-->
-    <img id="img-poster" crossorigin="anonymous" src="assets/media/poster.png" alt="Picture">
+
+    <!-- Icons -->
     <img id="icon-signup" crossorigin="anonymous" src="assets/icons/signup.png" alt="Picture">
     <img id="icon-map" crossorigin="anonymous" src="assets/icons/map.png" alt="Picture">
     <img id="icon-restart" crossorigin="anonymous" src="assets/icons/redo.png" alt="Picture">
     <img id="icon-exit" crossorigin="anonymous" src="assets/icons/leave.png" alt="Picture">
     <img id="icon-minimize" crossorigin="anonymous" src="assets/icons/exit.png" alt="Picture">
     <img id="icon-menu" crossorigin="anonymous" src="assets/icons/bars.png" alt="Picture">
+    <img id="icon-audio-off" crossorigin="anonymous" src="assets/icons/audio-off.png" alt="Picture">
+    <img id="icon-audio-on" crossorigin="anonymous" src="assets/icons/audio-on.png" alt="Picture">
+
+    <!-- Media -->
+    <!-- <video id="vid-i3" crossorigin="anonymous" src="assets/media/i3.mp4" autoplay></video>-->
+    <img id="img-poster" crossorigin="anonymous" src="assets/media/poster.png" alt="Picture">
+    <audio id="song" crossorigin="anonymous" src="assets/media/audio/sound.mp3"></audio>
+
 
     <!-- Mixins -->
     <a-mixin id="m-sky" class="pic360" radius=".7" material="shader: flat; opacity: .7; color: #AAA"
@@ -57,6 +66,8 @@
              animation__increase="property: scale; startEvents: mouseenter; to: 6 6 6; easing: easeOutQuad;"
              animation__decrease="property: scale; startEvents: mouseleave; to: 1 1 1; easing: easeOutQuad;">
     </a-mixin>
+    <a-mixin id="m-audio" opacity=".5" shader="flat" color="#666" height=".5" width=".5">
+    </a-mixin>
 
   </a-assets>
 
@@ -74,6 +85,10 @@
       <a-plane class="hover" height="1" width=".707" position="2 0 -2" mixin="poster" analytics="Poster #1">
         <a-image src="#img-poster" height="1" width=".707"></a-image>
       </a-plane>
+
+      <a-entity position="-2 0 -2" look-at="[camera]" audio="name: Audio #1; text: Musik starten">
+        <a-entity sound="src:#song" class="pause-on-jump"></a-entity>
+      </a-entity>
     </a-entity>
   </a-entity>
 
