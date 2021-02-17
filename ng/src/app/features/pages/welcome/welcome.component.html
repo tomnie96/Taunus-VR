@@ -1,7 +1,7 @@
 <app-aframe-preloader *ngIf="preload" (hasLoaded)="hasLoaded($event)" (loadingProgress)="loadingProgress($event)"></app-aframe-preloader>
-<div fxLayout="row">
-  <div fxLayout="column" fxFlex="20"></div>
-  <div fxLayout="column" fxFlex="60">
+<div fxLayout="row" fxLayoutAlign="space-evenly">
+  <div fxLayout="column" fxFlex.gt-sm="20" fxFlex.gt-md="30" fxHide></div>
+  <div fxLayout="column" fxFlex.gt-sm="60" fxFlex.gt-md="40" fxFlex="90">
     <div fxLayout="row" fxFlexOffset="10px">
 
       <div fxLayout="column" fxFill>
@@ -25,14 +25,14 @@
     <div fxLayout="row" fxFlexOffset="10px">
       <div fxLayout="column" fxFill>
         <mat-card>
-          <h3>Daten</h3>
-          <p>Herunterladen der Daten.</p>
+          <h2>Datenhinweis</h2>
+          <p>Achtung: Diese Applikation benötigt viele Daten. Eine WLAN-Verbindung ist empfohlen.</p>
           <div fxLayout="row" fxLayoutAlign="start center">
             <div fxLayout="column">
               <button mat-raised-button color="primary" (click)="preload = true" *ngIf="!preload">
                 Preload
               </button>
-              <button mat-raised-button color="primary" *ngIf="preload && !loaded" disabled>Preload</button>
+              <button mat-raised-button color="primary" *ngIf="preload && !loaded" disabled>Loading...</button>
               <button mat-raised-button color="primary" *ngIf="loaded" disabled>Loaded ✔</button>
             </div>
             <div fxLayout="column" fxFlex="30" fxFlexOffset="10px">
@@ -48,8 +48,11 @@
     <div fxLayout="row" fxFlexOffset="10px">
       <div fxLayout="column" fxFill>
         <mat-card>
-          <h3>Hier geht es weiter zur Tour:</h3>
-          <button routerLink="/tour" mat-raised-button color="primary">360° Tour</button>
+          <h2>Tour</h2>
+          <h3 *ngIf="!loaded">Zuerst müssen die erforderlichen Daten oben geladen werden.</h3>
+          <h3 *ngIf="loaded">Hier geht es weiter zur Tour:</h3>
+          <button routerLink="/tour" mat-raised-button color="primary" *ngIf="!loaded" disabled>Starte 360° Tour</button>
+          <button routerLink="/tour" mat-raised-button color="primary" *ngIf="loaded">Starte 360° Tour</button>
         </mat-card>
       </div>
     </div>
