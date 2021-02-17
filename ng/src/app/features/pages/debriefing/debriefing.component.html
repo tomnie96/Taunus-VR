@@ -1,6 +1,6 @@
-<div fxLayout="row">
-  <div fxLayout="column" fxFlex="20"></div>
-  <div fxLayout="column" fxFlex="60">
+<div fxLayout="row" fxLayoutAlign="space-evenly">
+  <div fxLayout="column" fxFlex.gt-sm="20" fxFlex.gt-md="30" fxHide></div>
+  <div fxLayout="column" fxFlex.gt-sm="60" fxFlex.gt-md="40" fxFlex="90">
     <div fxLayout="row" fxFlexOffset="10px">
       <div fxLayout="column" fxFill>
         <mat-card>
@@ -14,7 +14,7 @@
       <div fxLayout="column" fxFill>
         <mat-card>
           <h3>An Experimenten des KD2 Labs teilnehmen:</h3>
-          <button routerLink="/anmeldung" mat-raised-button color="primary">Anmelden</button>
+          <button routerLink="/anmeldung" mat-raised-button color="primary" disabled>Anmelden</button>
         </mat-card>
       </div>
     </div>

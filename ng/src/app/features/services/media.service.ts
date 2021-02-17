@@ -19,6 +19,63 @@ export class MediaService {
       this.isRegistered = true;
       const context = this;
 
+      AFRAME.registerComponent('poster', {
+        schema: {
+          useIcon: {type: 'boolean'},
+          moveIcon: {type: 'vec3'}
+        },
+
+        init(): void {
+
+          const self = this;
+          this.el.setAttribute('opacity', '0');
+          this.defaultHeight = this.el.getAttribute('height');
+          this.defaultWidth = this.el.getAttribute('width');
+
+          const poster = this.el.children[0];
+          let icon;
+          if (this.data.useIcon) {
+            // Initialize icon
+            icon = document.createElement('a-image');
+            icon.setAttribute('src', '#icon-info');
+            icon.setAttribute('opacity', '.7');
+            icon.setAttribute('position', '0 0 .01');
+            icon.setAttribute('height', '.25');
+            icon.setAttribute('width', '.25');
+            this.el.appendChild(icon);
+
+            // Set poster invisible
+            poster.setAttribute('scale', '.0001 .0001 .0001');
+            this.el.setAttribute('opacity', '.5');
+            this.el.setAttribute('color', '#666666');
+          }
+
+          this.el.addEventListener('mouseenter', () => {
+            if (self.data.useIcon) {
+              poster.setAttribute('scale', '1 1 1');
+              const coord = self.data.moveIcon;
+              coord.z = .01;
+              icon.setAttribute('position', coord);
+              self.el.setAttribute('opacity', '0');
+              self.el.setAttribute('height', poster.getAttribute('height'));
+              self.el.setAttribute('width', poster.getAttribute('width'));
+            }
+          });
+
+          this.el.addEventListener('mouseleave', () => {
+            if (self.data.useIcon) {
+              self.el.setAttribute('height', self.defaultHeight);
+              self.el.setAttribute('width', self.defaultWidth);
+              poster.setAttribute('scale', '.0001 .0001 .0001');
+              icon.setAttribute('position', '0 0 .01');
+              self.el.setAttribute('opacity', '.5');
+            }
+          });
+
+
+        }
+      });
+
       AFRAME.registerComponent('audio', {
         schema: {
           name: {type: 'string'},
@@ -122,6 +179,93 @@ export class MediaService {
           // Stop
           // @ts-ignore
           this.sound.components.sound.stopSound();
+
+          context.analytics.trackEvent(EventType.StopPOI, this.data.name);
+        }
+      });
+
+      AFRAME.registerComponent('video', {
+        schema: {
+          name: {type: 'string'},
+          text: {type: 'string'}
+        },
+
+        init(): void {
+          const self = this;
+
+          const video = this.el.children[0];
+          self.isPlayingVideo = false;
+          self.lastClick = new Date();
+
+          const plane = document.createElement('a-plane');
+          plane.setAttribute('opacity', '0');
+          plane.setAttribute('height', video.getAttribute('height'));
+          plane.setAttribute('width', video.getAttribute('width'));
+          plane.setAttribute('shader', 'flat');
+          plane.setAttribute('color', '#666');
+          plane.setAttribute('class', 'link');
+
+          const text = document.createElement('a-text');
+          text.setAttribute('value', this.data.text);
+          text.setAttribute('align', 'center');
+          text.setAttribute('height', 1);
+          text.setAttribute('width', 1.5);
+          text.setAttribute('color', '#111');
+          text.setAttribute('position', '0 -.5 .001');
+
+          this.el.appendChild(plane);
+          this.el.appendChild(text);
+
+          this.videoSrc = document.querySelector(video.getAttribute('src'));
+
+          this.el.addEventListener('click', () => {
+            // Avoid double clicks through fusing & clicking
+            if (self.lastClick.getTime() + 1300 > new Date().getTime()) {
+              return;
+            }
+            self.lastClick = new Date();
+
+            if (!self.isPlayingVideo) {
+              self.isPlayingVideo = true;
+              this.startPlaying();
+
+            } else if (self.isPlayingVideo) {
+              self.isPlayingVideo = false;
+              this.stopPlaying();
+            }
+          });
+
+          video.addEventListener('ended', () => {
+            self.isPlayingVideo = false;
+            this.stopPlaying();
+          });
+
+          video.addEventListener('stopPlaying', () => {
+            if (self.isPlayingVideo) {
+              self.isPlayingVideo = false;
+              this.stopPlaying();
+            }
+          });
+        },
+
+        remove(): void {
+          // @ts-ignore
+          self.isPlayingVideo = false;
+          this.stopPlaying();
+        },
+
+        startPlaying(): void {
+          // Play
+          console.log('start');
+          this.videoSrc.play();
+
+          context.analytics.trackEvent(EventType.StartPOI, this.data.name);
+        },
+
+        stopPlaying(): void {
+          // Stop
+          console.log('stop');
+          this.videoSrc.pause();
 
           context.analytics.trackEvent(EventType.StopPOI, this.data.name);
         }
