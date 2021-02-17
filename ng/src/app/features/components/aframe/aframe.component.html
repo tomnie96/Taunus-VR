@@ -42,9 +42,9 @@
     <img id="icon-audio-on" crossorigin="anonymous" src="assets/icons/audio-on.png" alt="Picture">
 
     <!-- Media -->
-    <!-- <video id="vid-i3" crossorigin="anonymous" src="assets/media/i3.mp4" autoplay></video>-->
     <img id="img-poster" crossorigin="anonymous" src="assets/media/poster.png" alt="Picture">
     <audio id="song" crossorigin="anonymous" src="assets/media/audio/sound.mp3"></audio>
+    <video id="vid" crossorigin="anonymous" src="https://bitmovin.com/player-content/playhouse-vr/progressive.mp4" preload="auto"></video>
 
 
     <!-- Mixins -->
@@ -120,7 +120,12 @@
   </a-entity>
   <a-entity id="sky-26" position="-11 0 -5" data-text="A Mitte" nav="next: 25, 27">
     <a-sky mixin="m-sky" src="#img-26" rotation="0 180 0"></a-sky>
-    <a-entity class="payload"></a-entity>
+    <a-entity class="payload">
+      <!-- Video -->
+      <a-entity id="video" position="0 0 1.5" video="name: Vid; text: Video" look-at="[camera]">
+        <a-video src="#vid" width="1.6" height=".9" class="pause-on-jump"></a-video>
+      </a-entity>
+    </a-entity>
   </a-entity>
   <a-entity id="sky-27" position="-11 0 -2" data-text="A Mitte" nav="next: 26">
     <a-sky mixin="m-sky" src="#img-27" rotation="0 180 0"></a-sky>
@@ -326,14 +331,6 @@
       <a-circle radius=".12" position="0 .0375 0" color="#666" shader="flat" opacity="1"></a-circle>
     </a-entity>
   </a-entity>
-
-
-  <!-- Video -->
-  <!--    <a-entity id="video" position="-1 0 -2">-->
-  <!--        <a-video src="#vid-i3" width="1.6" height=".9"-->
-  <!--                 look-at="[camera]"-->
-  <!--        ></a-video>-->
-  <!--    </a-entity>-->
 
   <!--  Welcome / Let it snow  -->
   <a-entity id="welcome" position="0 50 0">
