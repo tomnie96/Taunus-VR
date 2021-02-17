@@ -19,6 +19,63 @@ export class MediaService {
       this.isRegistered = true;
       const context = this;
 
+      AFRAME.registerComponent('poster', {
+        schema: {
+          useIcon: {type: 'boolean'},
+          moveIcon: {type: 'vec3'}
+        },
+
+        init(): void {
+
+          const self = this;
+          this.el.setAttribute('opacity', '0');
+          this.defaultHeight = this.el.getAttribute('height');
+          this.defaultWidth = this.el.getAttribute('width');
+
+          const poster = this.el.children[0];
+          let icon;
+          if (this.data.useIcon) {
+            // Initialize icon
+            icon = document.createElement('a-image');
+            icon.setAttribute('src', '#icon-info');
+            icon.setAttribute('opacity', '.7');
+            icon.setAttribute('position', '0 0 .01');
+            icon.setAttribute('height', '.25');
+            icon.setAttribute('width', '.25');
+            this.el.appendChild(icon);
+
+            // Set poster invisible
+            poster.setAttribute('scale', '.0001 .0001 .0001');
+            this.el.setAttribute('opacity', '.5');
+            this.el.setAttribute('color', '#666666');
+          }
+
+          this.el.addEventListener('mouseenter', () => {
+            if (self.data.useIcon) {
+              poster.setAttribute('scale', '1 1 1');
+              const coord = self.data.moveIcon;
+              coord.z = .01;
+              icon.setAttribute('position', coord);
+              self.el.setAttribute('opacity', '0');
+              self.el.setAttribute('height', poster.getAttribute('height'));
+              self.el.setAttribute('width', poster.getAttribute('width'));
+            }
+          });
+
+          this.el.addEventListener('mouseleave', () => {
+            if (self.data.useIcon) {
+              self.el.setAttribute('height', self.defaultHeight);
+              self.el.setAttribute('width', self.defaultWidth);
+              poster.setAttribute('scale', '.0001 .0001 .0001');
+              icon.setAttribute('position', '0 0 .01');
+              self.el.setAttribute('opacity', '.5');
+            }
+          });
+
+
+        }
+      });
+
       AFRAME.registerComponent('audio', {
         schema: {
           name: {type: 'string'},
