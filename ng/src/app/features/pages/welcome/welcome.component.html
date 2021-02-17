@@ -1,3 +1,4 @@
+<app-aframe-preloader *ngIf="preload" (hasLoaded)="hasLoaded($event)" (loadingProgress)="loadingProgress($event)"></app-aframe-preloader>
 <div fxLayout="row">
   <div fxLayout="column" fxFlex="20"></div>
   <div fxLayout="column" fxFlex="60">
@@ -17,6 +18,29 @@
         <mat-card>
           <h2>So funktioniert es</h2>
           <p>Hier wird erklärt, wie die Tour funktioniert.</p>
+        </mat-card>
+      </div>
+    </div>
+
+    <div fxLayout="row" fxFlexOffset="10px">
+      <div fxLayout="column" fxFill>
+        <mat-card>
+          <h3>Daten</h3>
+          <p>Herunterladen der Daten.</p>
+          <div fxLayout="row" fxLayoutAlign="start center">
+            <div fxLayout="column">
+              <button mat-raised-button color="primary" (click)="preload = true" *ngIf="!preload">
+                Preload
+              </button>
+              <button mat-raised-button color="primary" *ngIf="preload && !loaded" disabled>Preload</button>
+              <button mat-raised-button color="primary" *ngIf="loaded" disabled>Loaded ✔</button>
+            </div>
+            <div fxLayout="column" fxFlex="30" fxFlexOffset="10px">
+              <mat-progress-spinner [value]="progress * 100" [diameter]="25" mode="determinate" *ngIf="preload && !loaded"></mat-progress-spinner>
+            </div>
+          </div>
+
+
         </mat-card>
       </div>
     </div>
