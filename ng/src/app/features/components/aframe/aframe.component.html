@@ -1,7 +1,7 @@
 <a-scene>
 
   <!--  Assets  -->
-  <a-assets timeout="30000">
+  <a-assets timeout="3000">
     <audio id="click-sound" crossorigin="anonymous"
            src="assets/media/audio/click.ogg" preload="auto"></audio>
 
@@ -40,6 +40,7 @@
     <img id="icon-menu" crossorigin="anonymous" src="assets/icons/bars.png" alt="Picture">
     <img id="icon-audio-off" crossorigin="anonymous" src="assets/icons/audio-off.png" alt="Picture">
     <img id="icon-audio-on" crossorigin="anonymous" src="assets/icons/audio-on.png" alt="Picture">
+    <img id="icon-info" crossorigin="anonymous" src="assets/icons/info.png" alt="Picture">
 
     <!-- Media -->
     <!-- <video id="vid-i3" crossorigin="anonymous" src="assets/media/i3.mp4" autoplay></video>-->
@@ -63,8 +64,8 @@
              animation__mouseenter_scale="property: scale; startEvents: mouseenter; easing: easeOutCubic; dur: 300; to: 1.2 1.2 1.2"
              animation__mouseleave_scale="property: scale; startEvents: mouseleave; easing: easeOutCubic; dur: 300; to: 1 1 1"></a-mixin>
     <a-mixin id="poster" opacity="0" shader="flat" color="#666" look-at="[camera]"
-             animation__increase="property: scale; startEvents: mouseenter; to: 6 6 6; easing: easeOutQuad;"
-             animation__decrease="property: scale; startEvents: mouseleave; to: 1 1 1; easing: easeOutQuad;">
+             animation__increase="property: scale; startEvents: mouseenter; to: 6 6 6; easing: easeOutQuad; dur: 700; delay: 50"
+             animation__decrease="property: scale; startEvents: mouseleave; to: 1 1 1; easing: easeInQuad; dur: 700; delay: 200;">
     </a-mixin>
     <a-mixin id="m-audio" opacity=".5" shader="flat" color="#666" height=".5" width=".5">
     </a-mixin>
@@ -82,7 +83,13 @@
     <a-entity class="payload">
       <!-- Poster -->
       <!-- For size changes: Change plane & image width+height -->
-      <a-plane class="hover" height="1" width=".707" position="2 0 -2" mixin="poster" analytics="Poster #1">
+      <a-plane class="hover" height=".5" width=".5" position="2 0 -2" mixin="poster"
+               analytics="Poster #1" poster="useIcon: true; moveIcon: .35 .45 0">
+        <a-image src="#img-poster" height="1" width=".707"></a-image>
+      </a-plane>
+
+      <a-plane class="hover" height="1" width=".707" position="0 0 2" mixin="poster"
+               analytics="Poster #1" poster="useIcon: false">
         <a-image src="#img-poster" height="1" width=".707"></a-image>
       </a-plane>
 
