@@ -16,6 +16,8 @@ import {TourComponent} from './features/pages/tour/tour.component';
 import {DebriefingComponent} from './features/pages/debriefing/debriefing.component';
 import {AppRoutingModule} from './app-routing.module';
 import {AframeComponent} from './features/components/aframe/aframe.component';
+import {AframePreloaderComponent} from './features/components/aframe-preloader/aframe-preloader.component';
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 
 
 @NgModule({
@@ -25,6 +27,7 @@ import {AframeComponent} from './features/components/aframe/aframe.component';
     TourComponent,
     DebriefingComponent,
     AframeComponent,
+    AframePreloaderComponent,
   ],
   imports: [
     BrowserModule,
@@ -38,6 +41,7 @@ import {AframeComponent} from './features/components/aframe/aframe.component';
     MatSidenavModule,
     MatIconModule,
     MatListModule,
+    MatProgressSpinnerModule,
   ],
   providers: [],
   bootstrap: [AppComponent],
