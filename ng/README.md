@@ -4,7 +4,8 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 
 ## Development server
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+First install Node.js (version 15) on your development machine.
+Then run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
 
 ## Code scaffolding
 
@@ -44,3 +45,6 @@ See https://itnext.io/choosing-the-right-file-structure-for-angular-in-2020-and-
 * `this` within `AFRAME.registerComponent` refers to the Aframe component
 * Therefore, `context` is introduced. It points from Aframe components to the Angular component
 * Additionally, the `this` context gets lost when calling async methods. Therefore, `self` is used in these cases.
+
+## Icons
+* This application uses Font Awesome icons. See the license for details: https://fontawesome.com/license
