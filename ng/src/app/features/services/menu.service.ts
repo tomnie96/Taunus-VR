@@ -138,7 +138,11 @@ export class MenuService {
         init(): void {
           this.el.addEventListener('click', () => {
             context.menu.close();
-            context.router.navigate(['/danke']);
+
+            // NgZone ensures correct DOM update
+            context.ngZone.run(() => {
+              context.router.navigate(['/danke']);
+            });
           });
         },
       });
