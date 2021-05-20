@@ -18,6 +18,7 @@ import {AppRoutingModule} from './app-routing.module';
 import {AframeComponent} from './features/components/aframe/aframe.component';
 import {AframePreloaderComponent} from './features/components/aframe-preloader/aframe-preloader.component';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+import { AframeForestComponent } from './features/components/aframe-forest/aframe-forest.component';
 
 
 @NgModule({
@@ -28,6 +29,7 @@ import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
     DebriefingComponent,
     AframeComponent,
     AframePreloaderComponent,
+    AframeForestComponent,
   ],
   imports: [
     BrowserModule,

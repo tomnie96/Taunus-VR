@@ -6,7 +6,7 @@
            src="assets/media/audio/click.ogg" preload="auto"></audio>
 
     <img id="img-map" crossorigin="anonymous" src="assets/map.png" alt="Picture">
-    <img id="img-55" crossorigin="anonymous" src="assets/pics/R0010055.JPG" alt="Picture">
+    <img id="img-55" crossorigin="anonymous" src="assets/forest_pics/Punkt1.JPG" alt="Picture">
     <img id="img-52" crossorigin="anonymous" src="assets/pics/R0010052.JPG" alt="Picture">
     <img id="img-56" crossorigin="anonymous" src="assets/pics/R0010056.JPG" alt="Picture">
     <img id="img-57" crossorigin="anonymous" src="assets/pics/R0010057.JPG" alt="Picture">
@@ -78,24 +78,9 @@
     <a-entity class="payload"></a-entity>
   </a-entity>
 
-  <a-entity id="sky-55" position="0 0 0" data-text="Eingang" nav="next: 52, 56, 57" click-nav>
+  <a-entity id="sky-55" position="0 0 0" data-text="Eingang" nav="next: 57" click-nav>
     <a-sky mixin="m-sky" src="#img-55" rotation="0 180 0"></a-sky>
     <a-entity class="payload">
-      <!-- Poster -->
-      <!-- For size changes: Change plane & image width+height -->
-      <a-plane class="hover" height=".5" width=".5" position="2 0 -2" mixin="poster"
-               analytics="Poster #1" poster="useIcon: true; moveIcon: .35 .45 0">
-        <a-image src="#img-poster" height="1" width=".707"></a-image>
-      </a-plane>
-
-      <a-plane class="hover" height="1" width=".707" position="0 0 2" mixin="poster"
-               analytics="Poster #1" poster="useIcon: false">
-        <a-image src="#img-poster" height="1" width=".707"></a-image>
-      </a-plane>
-
-      <a-entity position="-2 0 -2" look-at="[camera]" audio="name: Audio #1; text: Musik starten">
-        <a-entity sound="src:#song" class="pause-on-jump"></a-entity>
-      </a-entity>
     </a-entity>
   </a-entity>
 
