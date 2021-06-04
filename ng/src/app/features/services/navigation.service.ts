@@ -132,12 +132,12 @@ export class NavigationService {
 
           const oCircle = document.createElement('a-circle');
           oCircle.setAttribute('color', '#888888');
-          oCircle.setAttribute('radius', '.75');
+          oCircle.setAttribute('radius', '.85');
           oCircle.setAttribute('rotation', '-90 0 0');
 
           const iCircle = document.createElement('a-circle');
           iCircle.setAttribute('color', '#444444');
-          iCircle.setAttribute('radius', '.55');
+          iCircle.setAttribute('radius', '.65');
           iCircle.setAttribute('rotation', '-90 0 0');
           iCircle.setAttribute('position', '0 .01 0');
 
