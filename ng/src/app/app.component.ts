@@ -8,7 +8,7 @@ import {EventType} from './features/models/event-type.enum';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnDestroy {
-  title = 'KD2 Lab 360° Tour';
+  title = '360° Waldtour';
 
   constructor(private analytics: AnalyticsService) {
     console.log('KD2 360 Tour Version: ' + analytics.session.appVersion);

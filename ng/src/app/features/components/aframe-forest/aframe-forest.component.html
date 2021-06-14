@@ -65,7 +65,7 @@
 
   <!--  Foyer  -->
 
-  <a-entity id="sky-55" position="0 0 0" data-text="Start" nav="next: 57, 01" click-nav>
+  <a-entity id="sky-55" position="0 0 0" data-text="Start" nav="next: 57" click-nav>
     <a-sky mixin="m-sky" src="#img-01e" rotation="0 225 1"></a-sky>
     <a-entity class="payload">
     </a-entity>
@@ -77,7 +77,7 @@
     </a-entity>
   </a-entity>
 
-  <a-entity id="sky-57" position="0 0 -12.5" data-text="Punkt 2" nav="next: 01, 55, 03, 04">
+  <a-entity id="sky-57" position="0 0 -12.5" data-text="Punkt 2" nav="next: 55, 03">
     <a-sky mixin="m-sky" src="#img-02" rotation="0 220 0"></a-sky>
     <a-entity class="payload"></a-entity>
   </a-entity>
@@ -88,19 +88,19 @@
     </a-entity>
   </a-entity>
 
-  <a-entity id="sky-04" position="-1.5 0 -38" data-text="Punkt 4" nav="next: 03, 05, 06" click-nav>
+  <a-entity id="sky-04" position="-1.5 0 -38" data-text="Punkt 4" nav="next: 03, 05" click-nav>
     <a-sky mixin="m-sky" src="#img-04" rotation="0 218 0"></a-sky>
     <a-entity class="payload">
     </a-entity>
   </a-entity>
 
-  <a-entity id="sky-05" position="-1 0 -52.5" data-text="Punkt 5" nav="next: 04,06" click-nav>
+  <a-entity id="sky-05" position="-1 0 -52.5" data-text="Punkt 5" nav="next: 04, 06" click-nav>
     <a-sky mixin="m-sky" src="#img-05" rotation="0 222 0"></a-sky>
     <a-entity class="payload">
     </a-entity>
   </a-entity>
 
-  <a-entity id="sky-06" position="2.5 0 -69.5" data-text="Punkt 6" nav="next: 05, 07, 08" click-nav>
+  <a-entity id="sky-06" position="2.5 0 -69.5" data-text="Punkt 6" nav="next: 05, 07" click-nav>
     <a-sky mixin="m-sky" src="#img-06" rotation="0 212 0"></a-sky>
     <a-entity class="payload">
     </a-entity>
@@ -112,8 +112,62 @@
     </a-entity>
   </a-entity>
 
-  <a-entity id="sky-08" position="8.5 0 -112.5" data-text="Punkt 8" nav="next: 07" click-nav>
+  <a-entity id="sky-08" position="8.5 0 -112.5" data-text="Punkt 8" nav="next: 07, 09" click-nav>
     <a-sky mixin="m-sky" src="#img-08" rotation="0 222 0"></a-sky>
+    <a-entity class="payload">
+    </a-entity>
+  </a-entity>
+
+  <a-entity id="sky-09" position="10.5 0 -133.6" data-text="Punkt 9" nav="next: 08, 10" click-nav>
+    <a-sky mixin="m-sky" src="#img-09" rotation="0 220 0"></a-sky>
+    <a-entity class="payload">
+    </a-entity>
+  </a-entity>
+
+  <a-entity id="sky-10" position="13.5 0 -156.5" data-text="Punkt 10" nav="next: 09, 11" click-nav>
+    <a-sky mixin="m-sky" src="#img-10" rotation="0 226 0"></a-sky>
+    <a-entity class="payload">
+    </a-entity>
+  </a-entity>
+
+  <a-entity id="sky-11" position="18.8 0 -182" data-text="Punkt 11" nav="next: 10, 12" click-nav>
+    <a-sky mixin="m-sky" src="#img-11" rotation="0 228 0"></a-sky>
+    <a-entity class="payload">
+    </a-entity>
+  </a-entity>
+
+  <a-entity id="sky-12" position="25 0 -206.5" data-text="Punkt 12" nav="next: 11, 12a, 13" click-nav>
+    <a-sky mixin="m-sky" src="#img-12" rotation="0 222 0"></a-sky>
+    <a-entity class="payload">
+    </a-entity>
+  </a-entity>
+
+  <a-entity id="sky-12a" position="10.5 .2 -211" data-text="Punkt 12 Abstecher" nav="next: 12" click-nav>
+    <a-sky mixin="m-sky" src="#img-12a" rotation="6 220 0"></a-sky>
+    <a-entity class="payload">
+    </a-entity>
+  </a-entity>
+
+  <a-entity id="sky-13" position="32 0 -226.5" data-text="Punkt 13" nav="next: 12, 14" click-nav>
+    <a-sky mixin="m-sky" src="#img-13" rotation="0 223 0"></a-sky>
+    <a-entity class="payload">
+    </a-entity>
+  </a-entity>
+
+  <a-entity id="sky-14" position="36.5 0 -239" data-text="Punkt 14" nav="next: 13, 15" click-nav>
+    <a-sky mixin="m-sky" src="#img-14" rotation="0 223.5 0"></a-sky>
+    <a-entity class="payload">
+    </a-entity>
+  </a-entity>
+
+  <a-entity id="sky-15" position="40.2 0 -249" data-text="Punkt 15" nav="next: 14, 16" click-nav>
+    <a-sky mixin="m-sky" src="#img-15" rotation="0 230 0"></a-sky>
+    <a-entity class="payload">
+    </a-entity>
+  </a-entity>
+
+  <a-entity id="sky-16" position="45 0 -263.5" data-text="Punkt 16" nav="next: 15" click-nav>
+    <a-sky mixin="m-sky" src="#img-16" rotation="0 229 0"></a-sky>
     <a-entity class="payload">
     </a-entity>
   </a-entity>
@@ -209,7 +263,7 @@
   <!--  Welcome / Let it snow  -->
   <a-entity id="welcome" position="0 50 0">
     <a-sphere id="w-sphere" radius="100" color="#999" opacity="1" side="double" snow>
-      <a-text value="Willkommen bei der 360 Grad Tour des KD2-Labs!" position="0 0 -2" color="#000" side="double"
+      <a-text value="Willkommen bei der 360 Grad Tour im Taunus be Neu-Aspach" position="0 0 -2" color="#000" side="double"
               align="center" look-at="[camera]"></a-text>
       <a-text value="Laden ..." position="0 -.6 -2" color="#000" side="double" align="center"
               look-at="[camera]"></a-text>

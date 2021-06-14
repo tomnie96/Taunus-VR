@@ -6,9 +6,9 @@
 
       <div fxLayout="column" fxFill>
         <mat-card>
-          <h3>Tour durch das KD2 Lab</h3>
+          <h3>Tour durch den Taunus bei Neu-Aspach</h3>
           <h1>Willkommen!</h1>
-          <p>Im Folgenden kann das KD2 des iism virtuell besichtigt werden.</p>
+          <p>Im Folgenden kann ein Waldstück bei der Gemarkung Neu-Aspach besichtigt werden.</p>
         </mat-card>
       </div>
     </div>
@@ -51,7 +51,7 @@
           <h2>Tour</h2>
           <h3 *ngIf="!loaded">Zuerst müssen die erforderlichen Daten oben geladen werden.</h3>
           <h3 *ngIf="loaded">Hier geht es weiter zur Tour:</h3>
-          <button routerLink="/tour" mat-raised-button color="primary" *ngIf="!loaded" disabled>Starte 360° Tour</button>
+          <button routerLink="/forest" mat-raised-button color="primary" *ngIf="!loaded" disabled>Starte 360° Tour</button>
           <button routerLink="/tour" mat-raised-button color="primary" *ngIf="loaded">Starte 360° Tour</button>
         </mat-card>
       </div>
