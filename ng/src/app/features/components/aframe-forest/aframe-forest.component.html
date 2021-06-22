@@ -25,8 +25,6 @@
     <img id="img-15" crossorigin="anonymous" src="assets/forest_pics/Punkt15_edited.JPG" alt="Picture">
     <img id="img-16" crossorigin="anonymous" src="assets/forest_pics/Punkt16_edited.JPG" alt="Picture">
 
-    <img id="img-57" crossorigin="anonymous" src="assets/pics/R0010057.JPG" alt="Picture">
-
     <!-- Icons -->
     <img id="icon-signup" crossorigin="anonymous" src="assets/icons/signup.png" alt="Picture">
     <img id="icon-map" crossorigin="anonymous" src="assets/icons/map.png" alt="Picture">
@@ -37,6 +35,11 @@
     <img id="icon-audio-off" crossorigin="anonymous" src="assets/icons/audio-off.png" alt="Picture">
     <img id="icon-audio-on" crossorigin="anonymous" src="assets/icons/audio-on.png" alt="Picture">
     <img id="icon-info" crossorigin="anonymous" src="assets/icons/info.png" alt="Picture">
+    <img id="icon-confirm" crossorigin="anonymous" src="assets/icons/check-mark.png" alt="Picture">
+
+    <!-- Media -->
+    <img id="img-poster" crossorigin="anonymous" src="assets/media/poster.png" alt="Picture">
+    <img id="img-example" crossorigin="anonymous" src="assets/media/Example_Tafel.png" alt="Picture">
 
 
     <!-- Mixins -->
@@ -68,6 +71,10 @@
   <a-entity id="sky-55" position="0 0 0" data-text="Start" nav="next: 57" click-nav>
     <a-sky mixin="m-sky" src="#img-01e" rotation="0 225 1"></a-sky>
     <a-entity class="payload">
+      <a-plane class="hover" height=".5" width=".5" position="2 0 -2" mixin="poster"
+               analytics="Poster #1" poster="useIcon: true; moveIcon: .35 .45 0">
+        <a-image src="#img-example" height="0.5" width=".707"></a-image>
+      </a-plane>
     </a-entity>
   </a-entity>
 
@@ -79,7 +86,15 @@
 
   <a-entity id="sky-57" position="0 0 -12.5" data-text="Punkt 2" nav="next: 55, 03">
     <a-sky mixin="m-sky" src="#img-02" rotation="0 220 0"></a-sky>
-    <a-entity class="payload"></a-entity>
+    <a-entity class="payload">
+      <a-entity
+        id="confirm-point"
+        class="link" position="1 0 -2"
+        button="imageSrc: #icon-confirm"
+        confirm
+        mixin="m-link hover-scale">
+      </a-entity>
+    </a-entity>
   </a-entity>
 
   <a-entity id="sky-03" position="-1 0 -26" data-text="Eingang" nav="next: 57, 04" click-nav>
@@ -91,6 +106,10 @@
   <a-entity id="sky-04" position="-1.5 0 -38" data-text="Punkt 4" nav="next: 03, 05" click-nav>
     <a-sky mixin="m-sky" src="#img-04" rotation="0 218 0"></a-sky>
     <a-entity class="payload">
+      <a-plane class="hover" height=".5" width=".5" position="-2 0 -2" mixin="poster"
+               analytics="Poster #1" poster="useIcon: true; moveIcon: .35 .45 0">
+        <a-image src="#img-example" height="0.5" width=".707"></a-image>
+      </a-plane>
     </a-entity>
   </a-entity>
 
@@ -109,6 +128,10 @@
   <a-entity id="sky-07" position="6.3 0 -90.5" data-text="Punkt 7" nav="next: 06, 08" click-nav>
     <a-sky mixin="m-sky" src="#img-07" rotation="0 212 0"></a-sky>
     <a-entity class="payload">
+      <a-plane class="hover" height=".5" width=".5" position="2 0 -2" mixin="poster"
+               analytics="Poster #1" poster="useIcon: true; moveIcon: .35 .45 0">
+        <a-image src="#img-example" height="0.5" width=".707"></a-image>
+      </a-plane>
     </a-entity>
   </a-entity>
 
@@ -139,6 +162,10 @@
   <a-entity id="sky-12" position="25 0 -206.5" data-text="Punkt 12" nav="next: 11, 12a, 13" click-nav>
     <a-sky mixin="m-sky" src="#img-12" rotation="0 222 0"></a-sky>
     <a-entity class="payload">
+      <a-plane class="hover" height=".5" width=".5" position="2 0 -2" mixin="poster"
+               analytics="Poster #1" poster="useIcon: true; moveIcon: .35 .45 0">
+        <a-image src="#img-example" height="0.5" width=".707"></a-image>
+      </a-plane>
     </a-entity>
   </a-entity>
 
@@ -169,6 +196,16 @@
   <a-entity id="sky-16" position="45 0 -263.5" data-text="Punkt 16" nav="next: 15" click-nav>
     <a-sky mixin="m-sky" src="#img-16" rotation="0 229 0"></a-sky>
     <a-entity class="payload">
+      <a-plane class="hover" height=".5" width=".5" position="2 0 -2" mixin="poster"
+               analytics="Poster #1" poster="useIcon: true; moveIcon: .35 .45 0">
+        <a-image src="#img-example" height="0.5" width=".707"></a-image>
+      </a-plane>
+      <a-entity
+        class="link" position="0 0 -2"
+        button="imageSrc: #icon-exit; text: Beenden"
+        menu-exit
+        mixin="m-link hover-scale">
+      </a-entity>
     </a-entity>
   </a-entity>
 

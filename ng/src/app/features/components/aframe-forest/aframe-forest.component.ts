@@ -7,6 +7,7 @@ import {MediaService} from '../../services/media.service';
 import {SnowService} from '../../services/snow.service';
 import {AnalyticsService} from '../../services/analytics.service';
 import {environment} from '../../../../environments/environment';
+import {ConfirmationService} from '../../services/confirmation.service';
 
 @Component({
   selector: 'app-aframe-forest',
@@ -14,6 +15,7 @@ import {environment} from '../../../../environments/environment';
   styleUrls: ['./aframe-forest.component.css']
 })
 export class AframeForestComponent implements OnInit {
+  public text: any;
 
   constructor(
     private nav: NavigationService,
@@ -22,7 +24,8 @@ export class AframeForestComponent implements OnInit {
     private map: MapService,
     private media: MediaService,
     private snow: SnowService,
-    private analytics: AnalyticsService
+    private analytics: AnalyticsService,
+    private confirmation: ConfirmationService
   ) {
   }
 
@@ -34,6 +37,7 @@ export class AframeForestComponent implements OnInit {
     this.media.register();
     this.snow.register();
     this.calc.registerLookAt();
+    this.confirmation.register(this.map, this.nav);
 
     // Aframe stats
     if (!environment.production) {

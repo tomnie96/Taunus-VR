@@ -243,58 +243,6 @@
     </a-entity>
   </a-entity>
 
-  <!-- Menu open -->
-  <a-entity
-    id="open-menu"
-    menu-open
-    look-at="[camera]"
-    button="imageSrc: #icon-menu; text: Menu"
-    mixin="m-link menu-animations" class="link"
-    material="opacity: .1">
-  </a-entity>
-
-  <!-- Menu -->
-  <a-entity
-    id="menu"
-    position="0 -.5 -1"
-    look-at="[camera]"
-    visible="false"
-    scale=".0001 .0001 .0001"
-    mixin="menu-animations"
-  >
-    <a-plane color="#666" height=".4" width="1.7" position="0 0 -.02" shader="flat" opacity=".5"></a-plane>
-    <a-entity
-      class="link" position="-.6 0 0"
-      button="imageSrc: #icon-signup; text: Anmelden"
-      menu-sign-up
-      mixin="m-link hover-scale"></a-entity>
-    <a-entity
-      class="link" position="-.2 0 0"
-      button="imageSrc: #icon-map; text: Karte"
-      menu-open-map
-      mixin="m-link hover-scale"></a-entity>
-    <a-entity
-      class="link" position=".2 0 0"
-      button="imageSrc: #icon-restart; text: Zum Start"
-      menu-open-map
-      mixin="m-link hover-scale"></a-entity>
-    <a-entity
-      class="link" position=".6 0 0"
-      button="imageSrc: #icon-exit; text: Beenden"
-      menu-exit
-      mixin="m-link hover-scale"></a-entity>
-
-    <!-- Close -->
-    <a-entity scale=".4 .4 .4" position=".75 .15 .1">
-      <a-entity
-        class="link"
-        button="imageSrc: #icon-minimize; text: "
-        menu-close
-        mixin="m-link hover-scale"></a-entity>
-      <a-circle radius=".12" position="0 .0375 0" color="#666" shader="flat" opacity="1"></a-circle>
-    </a-entity>
-
-  </a-entity>
 
   <!-- Navigation map -->
   <a-entity

@@ -161,6 +161,19 @@ export class MenuService {
           });
         },
       });
+
+      AFRAME.registerComponent('confifrm', {
+
+        init(): void {
+          this.el.addEventListener('click', () => {
+            context.menu.close();
+
+            // NgZone ensures correct DOM update
+            console.log(context);
+            console.log(this);
+          });
+        },
+      });
     }
   }
 

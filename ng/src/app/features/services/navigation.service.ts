@@ -16,6 +16,7 @@ export class NavigationService {
   private nav = this;
   private menu;
   private isRegistered = false;
+  private confirmed = false;
 
   private initialized = false; // Program initialized?
   private isTransitioning = false; // Allow only one transition at the same time
@@ -86,7 +87,30 @@ export class NavigationService {
   updateMainSphere(sphere, neighbourIds): void {
     this.setAllInvisible();
     this.setMainSphere(sphere, neighbourIds);
+    if (sphere.id === 'sky-57') {
+      neighbourIds = this.handleConfirmation(neighbourIds);
+    }
     neighbourIds.forEach((id) => this.setNeighbour(document.getElementById('sky-' + id)));
+  }
+
+  setConfirmed(): void {
+    this.confirmed = true;
+    document.getElementById('confirm-point').setAttribute('visible', 'false');
+  }
+
+  // Confirmation handler
+  handleConfirmation(neighbourIds: string[]): string[] {
+    const unlockedPoint = '03';
+    if (!this.confirmed){
+      const index = neighbourIds.indexOf(unlockedPoint);
+      if (index > -1) {
+        neighbourIds.splice(index, 1);
+      }
+    }
+    else if (!neighbourIds.includes(unlockedPoint)){
+      neighbourIds.push(unlockedPoint);
+    }
+    return neighbourIds;
   }
 
   register(map: MapService, menu: MenuService): void {
