@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="05c4e32d-1cc7-46f4-a56f-6bf94cf823ff" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/ng/src/assets/media/boards/Tafel_1.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ng/src/assets/media/boards/Tafel_2.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ng/src/assets/media/boards/Tafel_3.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ng/src/assets/media/boards/Tafel_4.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ng/src/assets/media/boards/Tafel_5.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ng/src/assets/media/boards/Tafel_6.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ng/src/assets/media/boards/Tafel_7.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ng/src/app/features/components/aframe-forest/aframe-forest.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/ng/src/app/features/components/aframe-forest/aframe-forest.component.html" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProjectId" id="1rnluheR0QZH8mtQtt13bnsC5OE" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/ng/src/assets/media/boards" />
+    <property name="node.js.detected.package.tslint" value="true" />
+    <property name="node.js.path.for.package.tslint" value="project" />
+    <property name="node.js.selected.package.tslint" value="(autodetect)" />
+    <property name="nodejs_package_manager_path" value="npm" />
+    <property name="ts.external.directory.path" value="C:\Users\tomni\Documents\DXP\dev\taunus-vr\ng\node_modules\typescript\lib" />
+    <property name="vue.rearranger.settings.migration" value="true" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\tomni\Documents\DXP\dev\taunus-vr\ng\src\assets\media\boards" />
+      <recent name="C:\Users\tomni\Documents\DXP\dev\taunus-vr\ng\src\assets\additional_pics" />
+      <recent name="C:\Users\tomni\Documents\DXP\dev\taunus-vr\ng\src\assets\forest_pics" />
+      <recent name="C:\Users\tomni\Documents\DXP\dev\kd2-360\ng\src\assets\forest_pics" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\tomni\Documents\DXP\dev\taunus-vr\ng\src\assets\icons" />
+      <recent name="C:\Users\tomni\Documents\DXP\dev\taunus-vr\ng\src\assets\additional_pics" />
+      <recent name="C:\Users\tomni\Documents\DXP\dev\taunus-vr\ng\src\assets\media" />
+      <recent name="C:\Users\tomni\Documents\DXP\dev\kd2-360\ng\src\assets\forest_pics" />
+      <recent name="C:\Users\tomni\Documents\DXP\dev\kd2-360\ng\src\assets" />
+    </key>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="05c4e32d-1cc7-46f4-a56f-6bf94cf823ff" name="Default Changelist" comment="" />
+      <created>1619619959085</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1619619959085</updated>
+      <workItem from="1619619960468" duration="1986000" />
+      <workItem from="1621324041232" duration="17258000" />
+      <workItem from="1621494359812" duration="6671000" />
+      <workItem from="1621609439439" duration="687000" />
+      <workItem from="1622801584154" duration="6323000" />
+      <workItem from="1622812080261" duration="2957000" />
+      <workItem from="1623147373323" duration="3184000" />
+      <workItem from="1623317573277" duration="1354000" />
+      <workItem from="1623652189627" duration="11834000" />
+      <workItem from="1623678317313" duration="452000" />
+      <workItem from="1623760985895" duration="4370000" />
+      <workItem from="1623829437625" duration="8541000" />
+      <workItem from="1624020937035" duration="3642000" />
+      <workItem from="1624366722513" duration="12045000" />
+      <workItem from="1624950253414" duration="4869000" />
+    </task>
+    <task id="LOCAL-00001" summary="Implemented forest-aframe component with 3 pics">
+      <created>1621498750276</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1621498750277</updated>
+    </task>
+    <task id="LOCAL-00002" summary="Added edited pictures">
+      <created>1622803706166</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1622803706166</updated>
+    </task>
+    <task id="LOCAL-00003" summary="First 8 pictures are now in the application">
+      <created>1622811397782</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1622811397783</updated>
+    </task>
+    <task id="LOCAL-00004" summary="First 8 pictures are now in the application">
+      <created>1622811452978</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1622811452978</updated>
+    </task>
+    <task id="LOCAL-00005" summary="Integrated all pictures">
+      <created>1623678736195</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1623678736195</updated>
+    </task>
+    <task id="LOCAL-00006" summary="Implemented confirmation functionality">
+      <created>1624384260040</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1624384260041</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Implemented forest-aframe component with 3 pics" />
+    <MESSAGE value="Added edited pictures" />
+    <MESSAGE value="First 8 pictures are now in the application" />
+    <MESSAGE value="Integrated all pictures" />
+    <MESSAGE value="Added End Tour, info text placeholders and adjusted start and end screen" />
+    <MESSAGE value="Implemented confirmation functionality" />
+    <option name="LAST_COMMIT_MESSAGE" value="Implemented confirmation functionality" />
+  </component>
+  <component name="XPathView.XPathProjectComponent">
+    <history />
+    <find-history />
+  </component>
+</project>

@@ -40,6 +40,13 @@
     <!-- Media -->
     <img id="img-poster" crossorigin="anonymous" src="assets/media/poster.png" alt="Picture">
     <img id="img-example" crossorigin="anonymous" src="assets/media/Example_Tafel.png" alt="Picture">
+    <img id="img-tafel1" crossorigin="anonymous" src="assets/media/boards/Tafel_1.jpg" alt="Picture">
+    <img id="img-tafel2" crossorigin="anonymous" src="assets/media/boards/Tafel_2.jpg" alt="Picture">
+    <img id="img-tafel3" crossorigin="anonymous" src="assets/media/boards/Tafel_3.jpg" alt="Picture">
+    <img id="img-tafel4" crossorigin="anonymous" src="assets/media/boards/Tafel_4.jpg" alt="Picture">
+    <img id="img-tafel5" crossorigin="anonymous" src="assets/media/boards/Tafel_5.jpg" alt="Picture">
+    <img id="img-tafel6" crossorigin="anonymous" src="assets/media/boards/Tafel_6.jpg" alt="Picture">
+    <img id="img-tafel7" crossorigin="anonymous" src="assets/media/boards/Tafel_7.jpg" alt="Picture">
 
 
     <!-- Mixins -->
@@ -71,9 +78,9 @@
   <a-entity id="sky-55" position="0 0 0" data-text="Start" nav="next: 57" click-nav>
     <a-sky mixin="m-sky" src="#img-01e" rotation="0 225 1"></a-sky>
     <a-entity class="payload">
-      <a-plane class="hover" height=".5" width=".5" position="2 0 -2" mixin="poster"
-               analytics="Poster #1" poster="useIcon: true; moveIcon: .35 .45 0">
-        <a-image src="#img-example" height="0.5" width=".707"></a-image>
+      <a-plane class="hover" height=".5" width=".5" position="7 -.1 -2.5" mixin="poster"
+               analytics="Poster #1" poster="useIcon: true; moveIcon: .9 .7 0">
+        <a-image src="#img-tafel1" height="1" width="1.5"></a-image>
       </a-plane>
     </a-entity>
   </a-entity>
@@ -100,16 +107,16 @@
   <a-entity id="sky-03" position="-1 0 -26" data-text="Eingang" nav="next: 57, 04" click-nav>
     <a-sky mixin="m-sky" src="#img-03" rotation="0 235 0"></a-sky>
     <a-entity class="payload">
+      <a-plane class="hover" height=".5" width=".5" position="1.5 -.2 -2.5" mixin="poster"
+               analytics="Poster #1" poster="useIcon: true; moveIcon: .35 .45 0">
+        <a-image src="#img-tafel2" height="0.5" width=".707"></a-image>
+      </a-plane>
     </a-entity>
   </a-entity>
 
   <a-entity id="sky-04" position="-1.5 0 -38" data-text="Punkt 4" nav="next: 03, 05" click-nav>
     <a-sky mixin="m-sky" src="#img-04" rotation="0 218 0"></a-sky>
     <a-entity class="payload">
-      <a-plane class="hover" height=".5" width=".5" position="-2 0 -2" mixin="poster"
-               analytics="Poster #1" poster="useIcon: true; moveIcon: .35 .45 0">
-        <a-image src="#img-example" height="0.5" width=".707"></a-image>
-      </a-plane>
     </a-entity>
   </a-entity>
 
@@ -122,16 +129,16 @@
   <a-entity id="sky-06" position="2.5 0 -69.5" data-text="Punkt 6" nav="next: 05, 07" click-nav>
     <a-sky mixin="m-sky" src="#img-06" rotation="0 212 0"></a-sky>
     <a-entity class="payload">
+      <a-plane class="hover" height=".5" width=".5" position="-2.2 0 -1.7" mixin="poster"
+               analytics="Poster #1" poster="useIcon: true; moveIcon: .35 .45 0">
+        <a-image src="#img-tafel3" height="0.5" width=".707"></a-image>
+      </a-plane>
     </a-entity>
   </a-entity>
 
   <a-entity id="sky-07" position="6.3 0 -90.5" data-text="Punkt 7" nav="next: 06, 08" click-nav>
     <a-sky mixin="m-sky" src="#img-07" rotation="0 212 0"></a-sky>
     <a-entity class="payload">
-      <a-plane class="hover" height=".5" width=".5" position="2 0 -2" mixin="poster"
-               analytics="Poster #1" poster="useIcon: true; moveIcon: .35 .45 0">
-        <a-image src="#img-example" height="0.5" width=".707"></a-image>
-      </a-plane>
     </a-entity>
   </a-entity>
 
@@ -150,6 +157,10 @@
   <a-entity id="sky-10" position="13.5 0 -156.5" data-text="Punkt 10" nav="next: 09, 11" click-nav>
     <a-sky mixin="m-sky" src="#img-10" rotation="0 226 0"></a-sky>
     <a-entity class="payload">
+      <a-plane class="hover" height=".5" width=".5" position="-3 0 -3.3" mixin="poster"
+               analytics="Poster #1" poster="useIcon: true; moveIcon: .35 .45 0">
+        <a-image src="#img-tafel4" height="0.5" width=".707"></a-image>
+      </a-plane>
     </a-entity>
   </a-entity>
 
@@ -162,9 +173,9 @@
   <a-entity id="sky-12" position="25 0 -206.5" data-text="Punkt 12" nav="next: 11, 12a, 13" click-nav>
     <a-sky mixin="m-sky" src="#img-12" rotation="0 222 0"></a-sky>
     <a-entity class="payload">
-      <a-plane class="hover" height=".5" width=".5" position="2 0 -2" mixin="poster"
+      <a-plane class="hover" height=".5" width=".5" position="2 -.5 -2" mixin="poster"
                analytics="Poster #1" poster="useIcon: true; moveIcon: .35 .45 0">
-        <a-image src="#img-example" height="0.5" width=".707"></a-image>
+        <a-image src="#img-tafel5" height="0.5" width=".707"></a-image>
       </a-plane>
     </a-entity>
   </a-entity>
@@ -172,6 +183,10 @@
   <a-entity id="sky-12a" position="10.5 .2 -211" data-text="Punkt 12 Abstecher" nav="next: 12" click-nav>
     <a-sky mixin="m-sky" src="#img-12a" rotation="6 220 0"></a-sky>
     <a-entity class="payload">
+      <a-plane class="hover" height=".5" width=".5" position="-3 -.5 -1.5" mixin="poster"
+               analytics="Poster #1" poster="useIcon: true; moveIcon: .35 .45 0">
+        <a-image src="#img-tafel6" height="0.5" width=".707"></a-image>
+      </a-plane>
     </a-entity>
   </a-entity>
 
@@ -198,7 +213,7 @@
     <a-entity class="payload">
       <a-plane class="hover" height=".5" width=".5" position="2 0 -2" mixin="poster"
                analytics="Poster #1" poster="useIcon: true; moveIcon: .35 .45 0">
-        <a-image src="#img-example" height="0.5" width=".707"></a-image>
+        <a-image src="#img-tafel7" height="0.5" width=".707"></a-image>
       </a-plane>
       <a-entity
         class="link" position="0 0 -2"
