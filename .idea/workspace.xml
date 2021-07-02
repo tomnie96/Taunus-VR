@@ -2,19 +2,27 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="05c4e32d-1cc7-46f4-a56f-6bf94cf823ff" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/ng/src/assets/media/boards/Tafel_1.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ng/src/assets/media/boards/Tafel_2.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ng/src/assets/media/boards/Tafel_3.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ng/src/assets/media/boards/Tafel_4.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ng/src/assets/media/boards/Tafel_5.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ng/src/assets/media/boards/Tafel_6.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ng/src/assets/media/boards/Tafel_7.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ng/src/app/features/components/aframe-forest/aframe-forest.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/ng/src/app/features/components/aframe-forest/aframe-forest.component.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ng/src/assets/media/additional_pics/Tutorial.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ng/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/ng/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ng/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/ng/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ng/src/app/app-routing.module.ts" beforeDir="false" afterPath="$PROJECT_DIR$/ng/src/app/app-routing.module.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ng/src/app/app.module.ts" beforeDir="false" afterPath="$PROJECT_DIR$/ng/src/app/app.module.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ng/src/app/features/pages/welcome/welcome.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/ng/src/app/features/pages/welcome/welcome.component.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ng/src/assets/additional_pics/Luftbild.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/ng/src/assets/media/additional_pics/Luftbild.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ng/src/assets/additional_pics/Luftbild_cropped.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/ng/src/assets/media/additional_pics/Luftbild_cropped.jpg" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="TypeScript File" />
+      </list>
+    </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -28,28 +36,42 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/ng/src/assets/media/boards" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/ng/src/assets/media" />
     <property name="node.js.detected.package.tslint" value="true" />
     <property name="node.js.path.for.package.tslint" value="project" />
     <property name="node.js.selected.package.tslint" value="(autodetect)" />
     <property name="nodejs_package_manager_path" value="npm" />
+    <property name="settings.editor.selected.configurable" value="preferences.lookFeel" />
     <property name="ts.external.directory.path" value="C:\Users\tomni\Documents\DXP\dev\taunus-vr\ng\node_modules\typescript\lib" />
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\tomni\Documents\DXP\dev\taunus-vr\ng\src\assets\media" />
       <recent name="C:\Users\tomni\Documents\DXP\dev\taunus-vr\ng\src\assets\media\boards" />
       <recent name="C:\Users\tomni\Documents\DXP\dev\taunus-vr\ng\src\assets\additional_pics" />
       <recent name="C:\Users\tomni\Documents\DXP\dev\taunus-vr\ng\src\assets\forest_pics" />
       <recent name="C:\Users\tomni\Documents\DXP\dev\kd2-360\ng\src\assets\forest_pics" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
-      <recent name="C:\Users\tomni\Documents\DXP\dev\taunus-vr\ng\src\assets\icons" />
-      <recent name="C:\Users\tomni\Documents\DXP\dev\taunus-vr\ng\src\assets\additional_pics" />
       <recent name="C:\Users\tomni\Documents\DXP\dev\taunus-vr\ng\src\assets\media" />
+      <recent name="C:\Users\tomni\Documents\DXP\dev\taunus-vr\ng\src\assets\additional_pics" />
+      <recent name="C:\Users\tomni\Documents\DXP\dev\taunus-vr\ng\src\assets\icons" />
       <recent name="C:\Users\tomni\Documents\DXP\dev\kd2-360\ng\src\assets\forest_pics" />
       <recent name="C:\Users\tomni\Documents\DXP\dev\kd2-360\ng\src\assets" />
     </key>
+  </component>
+  <component name="RunManager">
+    <configuration name="start" type="js.build_tools.npm" nameIsGenerated="true">
+      <package-json value="$PROJECT_DIR$/ng/package.json" />
+      <command value="run" />
+      <scripts>
+        <script value="start" />
+      </scripts>
+      <node-interpreter value="project" />
+      <envs />
+      <method v="2" />
+    </configuration>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
@@ -73,7 +95,7 @@
       <workItem from="1623829437625" duration="8541000" />
       <workItem from="1624020937035" duration="3642000" />
       <workItem from="1624366722513" duration="12045000" />
-      <workItem from="1624950253414" duration="4869000" />
+      <workItem from="1624950253414" duration="16766000" />
     </task>
     <task id="LOCAL-00001" summary="Implemented forest-aframe component with 3 pics">
       <created>1621498750276</created>
@@ -117,7 +139,14 @@
       <option name="project" value="LOCAL" />
       <updated>1624384260041</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="Added text boards">
+      <created>1624956143982</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1624956143983</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -130,7 +159,8 @@
     <MESSAGE value="Integrated all pictures" />
     <MESSAGE value="Added End Tour, info text placeholders and adjusted start and end screen" />
     <MESSAGE value="Implemented confirmation functionality" />
-    <option name="LAST_COMMIT_MESSAGE" value="Implemented confirmation functionality" />
+    <MESSAGE value="Added text boards" />
+    <option name="LAST_COMMIT_MESSAGE" value="Added text boards" />
   </component>
   <component name="XPathView.XPathProjectComponent">
     <history />

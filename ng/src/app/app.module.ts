@@ -19,6 +19,9 @@ import {AframeComponent} from './features/components/aframe/aframe.component';
 import {AframePreloaderComponent} from './features/components/aframe-preloader/aframe-preloader.component';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import { AframeForestComponent } from './features/components/aframe-forest/aframe-forest.component';
+import { QuizComponent } from './features/pages/quiz/quiz.component';
+import { SurveyComponent} from './features/pages/quiz/survey.component';
+import { TutorialComponent } from './features/pages/tutorial/tutorial.component';
 
 
 @NgModule({
@@ -30,6 +33,9 @@ import { AframeForestComponent } from './features/components/aframe-forest/afram
     AframeComponent,
     AframePreloaderComponent,
     AframeForestComponent,
+    QuizComponent,
+    SurveyComponent,
+    TutorialComponent
   ],
   imports: [
     BrowserModule,

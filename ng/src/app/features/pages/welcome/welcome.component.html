@@ -17,7 +17,7 @@
       <div fxLayout="column" fxFill>
         <mat-card>
           <h2 style="text-align: left;">Die Tour</h2>
-          <img src="assets/additional_pics/Luftbild_cropped.jpg" width="500" >
+          <img src="../../../../assets/media/additional_pics/Luftbild_cropped.jpg" width="500" >
         </mat-card>
       </div>
     </div>
@@ -50,9 +50,9 @@
         <mat-card>
           <h2>Tour</h2>
           <h3 *ngIf="!loaded">Zuerst müssen die erforderlichen Daten oben geladen werden.</h3>
-          <h3 *ngIf="loaded">Hier geht es weiter zur Tour:</h3>
+          <h3 *ngIf="loaded">Hier geht es weiter zum Tutorial:</h3>
           <button routerLink="/forest" mat-raised-button color="primary" *ngIf="!loaded" disabled>Starte 360° Tour</button>
-          <button routerLink="/tour" mat-raised-button color="primary" *ngIf="loaded">Starte 360° Tour</button>
+          <button routerLink="/tutorial" mat-raised-button color="primary" *ngIf="loaded">Starte Tutorial</button>
         </mat-card>
       </div>
     </div>
