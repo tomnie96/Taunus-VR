@@ -7,6 +7,7 @@ import {SnowService} from '../../services/snow.service';
 import {AnalyticsService} from '../../services/analytics.service';
 import {environment} from '../../../../environments/environment';
 import {MediaService} from '../../services/media.service';
+import {ConfirmationService} from '../../services/confirmation.service';
 
 @Component({
   selector: 'app-aframe',
@@ -22,7 +23,8 @@ export class AframeComponent implements OnInit {
     private map: MapService,
     private media: MediaService,
     private snow: SnowService,
-    private analytics: AnalyticsService
+    private analytics: AnalyticsService,
+    private confirmation: ConfirmationService
   ) {
   }
 

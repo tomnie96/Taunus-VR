@@ -40,8 +40,8 @@
     <!-- Media -->
     <img id="img-poster" crossorigin="anonymous" src="assets/media/poster.png" alt="Picture">
     <img id="img-example" crossorigin="anonymous" src="assets/media/Example_Tafel.png" alt="Picture">
-    <img id="img-tafel1" crossorigin="anonymous" src="assets/media/boards/Tafel_1.jpg" alt="Picture">
-    <img id="img-tafel2" crossorigin="anonymous" src="assets/media/boards/Tafel_2.jpg" alt="Picture">
+    <img id="img-tafel1" crossorigin="anonymous" src="assets/media/boards/Tafel_1_map.jpg" alt="Picture">
+    <img id="img-tafel2" crossorigin="anonymous" src="assets/media/boards/Tafel_2_transp.jpg" alt="Picture">
     <img id="img-tafel3" crossorigin="anonymous" src="assets/media/boards/Tafel_3.jpg" alt="Picture">
     <img id="img-tafel4" crossorigin="anonymous" src="assets/media/boards/Tafel_4.jpg" alt="Picture">
     <img id="img-tafel5" crossorigin="anonymous" src="assets/media/boards/Tafel_5.jpg" alt="Picture">
@@ -91,7 +91,7 @@
     </a-entity>
   </a-entity>
 
-  <a-entity id="sky-57" position="0 0 -12.5" data-text="Punkt 2" nav="next: 55, 03">
+  <a-entity id="sky-57" position="0 0 -12.5" data-text="Punkt 2" nav="next: 55">
     <a-sky mixin="m-sky" src="#img-02" rotation="0 220 0"></a-sky>
     <a-entity class="payload">
       <a-entity
@@ -211,12 +211,12 @@
   <a-entity id="sky-16" position="45 0 -263.5" data-text="Punkt 16" nav="next: 15" click-nav>
     <a-sky mixin="m-sky" src="#img-16" rotation="0 229 0"></a-sky>
     <a-entity class="payload">
-      <a-plane class="hover" height=".5" width=".5" position="2 0 -2" mixin="poster"
+      <a-plane class="hover" height=".5" width=".5" position="0 0 -2" mixin="poster"
                analytics="Poster #1" poster="useIcon: true; moveIcon: .35 .45 0">
         <a-image src="#img-tafel7" height="0.5" width=".707"></a-image>
       </a-plane>
       <a-entity
-        class="link" position="0 0 -2"
+        class="link" position="2 0 -2"
         button="imageSrc: #icon-exit; text: Beenden"
         menu-exit
         mixin="m-link hover-scale">

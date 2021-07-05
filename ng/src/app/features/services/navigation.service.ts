@@ -23,7 +23,7 @@ export class NavigationService {
 
   constructor(
     private calc: CalcService,
-    private analytics: AnalyticsService
+    private analytics: AnalyticsService,
   ) {
   }
 
@@ -98,7 +98,7 @@ export class NavigationService {
     document.getElementById('confirm-point').setAttribute('visible', 'false');
   }
 
-  // Confirmation handler
+  // Confirmation handler: Removes unlocked point from list, if not confirmed and part of neighborIds list
   handleConfirmation(neighbourIds: string[]): string[] {
     const unlockedPoint = '03';
     if (!this.confirmed){
