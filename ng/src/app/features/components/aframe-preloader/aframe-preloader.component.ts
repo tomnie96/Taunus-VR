@@ -10,7 +10,7 @@ export class AframePreloaderComponent implements OnInit {
   @Output() hasLoaded = new EventEmitter<boolean>();
   @Output() loadingProgress = new EventEmitter<number>();
 
-  private minDownloads = 28;
+  private minDownloads = 35;
   private currentDownloads = 0;
 
   constructor() {

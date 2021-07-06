@@ -1,14 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="05c4e32d-1cc7-46f4-a56f-6bf94cf823ff" name="Default Changelist" comment="Implemented Tutorial">
-      <change afterPath="$PROJECT_DIR$/ng/src/assets/media/boards/Tafel_1_map.jpg" afterDir="false" />
+    <list default="true" id="05c4e32d-1cc7-46f4-a56f-6bf94cf823ff" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/ng/src/assets/icons/button_bestaetigen.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ng/src/assets/media/additional_pics/Welcome.jpg" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ng/src/app/features/components/aframe-forest/aframe-forest.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/ng/src/app/features/components/aframe-forest/aframe-forest.component.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ng/src/app/features/components/aframe-preloader/aframe-preloader.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/ng/src/app/features/components/aframe-preloader/aframe-preloader.component.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ng/src/app/features/components/aframe-preloader/aframe-preloader.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/ng/src/app/features/components/aframe-preloader/aframe-preloader.component.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ng/src/app/features/components/aframe/aframe.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/ng/src/app/features/components/aframe/aframe.component.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ng/src/app/features/pages/debriefing/debriefing.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/ng/src/app/features/pages/debriefing/debriefing.component.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ng/src/app/features/pages/welcome/welcome.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/ng/src/app/features/pages/welcome/welcome.component.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ng/src/app/features/services/confirmation.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/ng/src/app/features/services/confirmation.service.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ng/src/app/features/services/navigation.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/ng/src/app/features/services/navigation.service.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ng/src/assets/media/additional_pics/Tutorial.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/ng/src/assets/media/additional_pics/Tutorial.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ng/src/assets/media/boards/Tafel_1_map.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/ng/src/assets/media/boards/Tafel_1_map.jpg" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -34,7 +38,7 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/ng/src/assets/media/boards" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/ng/src/assets/media/additional_pics" />
     <property name="node.js.detected.package.tslint" value="true" />
     <property name="node.js.path.for.package.tslint" value="project" />
     <property name="node.js.selected.package.tslint" value="(autodetect)" />
@@ -45,11 +49,11 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\tomni\Documents\DXP\dev\taunus-vr\ng\src\assets\media\additional_pics" />
+      <recent name="C:\Users\tomni\Documents\DXP\dev\taunus-vr\ng\src\assets\icons" />
       <recent name="C:\Users\tomni\Documents\DXP\dev\taunus-vr\ng\src\assets\media\boards" />
       <recent name="C:\Users\tomni\Documents\DXP\dev\taunus-vr\ng\src\assets\media" />
       <recent name="C:\Users\tomni\Documents\DXP\dev\taunus-vr\ng\src\assets\additional_pics" />
-      <recent name="C:\Users\tomni\Documents\DXP\dev\taunus-vr\ng\src\assets\forest_pics" />
-      <recent name="C:\Users\tomni\Documents\DXP\dev\kd2-360\ng\src\assets\forest_pics" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Users\tomni\Documents\DXP\dev\taunus-vr\ng\src\assets\media" />
@@ -94,7 +98,9 @@
       <workItem from="1624020937035" duration="3642000" />
       <workItem from="1624366722513" duration="12045000" />
       <workItem from="1624950253414" duration="18990000" />
-      <workItem from="1625481570479" duration="5426000" />
+      <workItem from="1625481570479" duration="5448000" />
+      <workItem from="1625557049869" duration="1529000" />
+      <workItem from="1625576101664" duration="11183000" />
     </task>
     <task id="LOCAL-00001" summary="Implemented forest-aframe component with 3 pics">
       <created>1621498750276</created>
@@ -152,7 +158,14 @@
       <option name="project" value="LOCAL" />
       <updated>1625233359496</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="New Pictures">
+      <created>1625493059738</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1625493059738</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -177,7 +190,8 @@
     <MESSAGE value="Implemented confirmation functionality" />
     <MESSAGE value="Added text boards" />
     <MESSAGE value="Implemented Tutorial" />
-    <option name="LAST_COMMIT_MESSAGE" value="Implemented Tutorial" />
+    <MESSAGE value="New Pictures" />
+    <option name="LAST_COMMIT_MESSAGE" value="New Pictures" />
   </component>
   <component name="XPathView.XPathProjectComponent">
     <history />

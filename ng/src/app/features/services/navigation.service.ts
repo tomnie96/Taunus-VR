@@ -87,7 +87,7 @@ export class NavigationService {
   updateMainSphere(sphere, neighbourIds): void {
     this.setAllInvisible();
     this.setMainSphere(sphere, neighbourIds);
-    if (sphere.id === 'sky-57') {
+    if (sphere.id === 'sky-55') {
       neighbourIds = this.handleConfirmation(neighbourIds);
     }
     neighbourIds.forEach((id) => this.setNeighbour(document.getElementById('sky-' + id)));
@@ -95,12 +95,11 @@ export class NavigationService {
 
   setConfirmed(): void {
     this.confirmed = true;
-    document.getElementById('confirm-point').setAttribute('visible', 'false');
   }
 
   // Confirmation handler: Removes unlocked point from list, if not confirmed and part of neighborIds list
   handleConfirmation(neighbourIds: string[]): string[] {
-    const unlockedPoint = '03';
+    const unlockedPoint = '57';
     if (!this.confirmed){
       const index = neighbourIds.indexOf(unlockedPoint);
       if (index > -1) {

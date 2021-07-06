@@ -7,6 +7,18 @@ import {MapService} from './map.service';
 })
 export class ConfirmationService {
 
+  static fade(element: any): void {
+    let op = 1;  // initial opacity
+    const timer = setInterval( () => {
+      if (op <= 0.1){
+        clearInterval(timer);
+        element.setAttribute('visible', false);
+      }
+      element.setAttribute('opacity', op);
+      op -= op * 0.1;
+    }, 50);
+  }
+
   constructor(
     private navigation: NavigationService,
   ) { }
@@ -19,12 +31,16 @@ export class ConfirmationService {
 
           // NgZone ensures correct DOM update
           navigation.setConfirmed();
-          navigation.updateMainSphere(navigation.currentSphere, ['55', '03']);
+          document.getElementById('confirm-point').setAttribute('visible', 'false');
+          navigation.updateMainSphere(navigation.currentSphere, [57]);
+        });
+        this.el.addEventListener('mouseenter', (e) => {
+          navigation.setConfirmed();
+          navigation.updateMainSphere(navigation.currentSphere, [57]);
+          // document.getElementById('entry-point').setAttribute('visible', 'false');
+          ConfirmationService.fade(document.getElementById('entry-point'));
         });
       },
     });
-  }
-  conf(): void {
-
   }
 }

@@ -36,6 +36,7 @@ export class AframeComponent implements OnInit {
     this.media.register();
     this.snow.register();
     this.calc.registerLookAt();
+    this.confirmation.register(this.map, this.nav);
 
     // Aframe stats
     if (!environment.production) {

@@ -40,13 +40,14 @@
     <!-- Media -->
     <img id="img-poster" crossorigin="anonymous" src="assets/media/poster.png" alt="Picture">
     <img id="img-example" crossorigin="anonymous" src="assets/media/Example_Tafel.png" alt="Picture">
+    <img id="img-welcome" crossorigin="anonymous" src="assets/media/additional_pics/Welcome.jpg" alt="Picture">
     <img id="img-tafel1" crossorigin="anonymous" src="assets/media/boards/Tafel_1_map.jpg" alt="Picture">
-    <img id="img-tafel2" crossorigin="anonymous" src="assets/media/boards/Tafel_2_transp.jpg" alt="Picture">
-    <img id="img-tafel3" crossorigin="anonymous" src="assets/media/boards/Tafel_3.jpg" alt="Picture">
-    <img id="img-tafel4" crossorigin="anonymous" src="assets/media/boards/Tafel_4.jpg" alt="Picture">
-    <img id="img-tafel5" crossorigin="anonymous" src="assets/media/boards/Tafel_5.jpg" alt="Picture">
-    <img id="img-tafel6" crossorigin="anonymous" src="assets/media/boards/Tafel_6.jpg" alt="Picture">
-    <img id="img-tafel7" crossorigin="anonymous" src="assets/media/boards/Tafel_7.jpg" alt="Picture">
+    <img id="img-tafel2" crossorigin="anonymous" src="assets/media/boards/Tafel_2_map.jpg" alt="Picture">
+    <img id="img-tafel3" crossorigin="anonymous" src="assets/media/boards/Tafel_3_map.jpg" alt="Picture">
+    <img id="img-tafel4" crossorigin="anonymous" src="assets/media/boards/Tafel_4_map.jpg" alt="Picture">
+    <img id="img-tafel5" crossorigin="anonymous" src="assets/media/boards/Tafel_5_map.jpg" alt="Picture">
+    <img id="img-tafel6" crossorigin="anonymous" src="assets/media/boards/Tafel_6_map.jpg" alt="Picture">
+    <img id="img-tafel7" crossorigin="anonymous" src="assets/media/boards/Tafel_7_map.jpg" alt="Picture">
 
 
     <!-- Mixins -->
@@ -78,10 +79,12 @@
   <a-entity id="sky-55" position="0 0 0" data-text="Start" nav="next: 57" click-nav>
     <a-sky mixin="m-sky" src="#img-01e" rotation="0 225 1"></a-sky>
     <a-entity class="payload">
-      <a-plane class="hover" height=".5" width=".5" position="7 -.1 -2.5" mixin="poster"
+      <a-image id="entry-point" src="#img-welcome" height=".7" width="1.2" position="0 .4 -1"></a-image>
+      <a-plane class="hover" height=".5" width=".5" position="7 -.1 -2.5" mixin="poster" confirm
                analytics="Poster #1" poster="useIcon: true; moveIcon: .9 .7 0">
         <a-image src="#img-tafel1" height="1" width="1.5"></a-image>
       </a-plane>
+
     </a-entity>
   </a-entity>
 
@@ -91,16 +94,9 @@
     </a-entity>
   </a-entity>
 
-  <a-entity id="sky-57" position="0 0 -12.5" data-text="Punkt 2" nav="next: 55">
+  <a-entity id="sky-57" position="0 0 -12.5" data-text="Punkt 2" nav="next: 55, 03">
     <a-sky mixin="m-sky" src="#img-02" rotation="0 220 0"></a-sky>
     <a-entity class="payload">
-      <a-entity
-        id="confirm-point"
-        class="link" position="1 0 -2"
-        button="imageSrc: #icon-confirm"
-        confirm
-        mixin="m-link hover-scale">
-      </a-entity>
     </a-entity>
   </a-entity>
 
