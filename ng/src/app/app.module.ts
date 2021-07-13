@@ -22,6 +22,8 @@ import { AframeForestComponent } from './features/components/aframe-forest/afram
 import { QuizComponent } from './features/pages/quiz/quiz.component';
 import { SurveyComponent} from './features/pages/quiz/survey.component';
 import { TutorialComponent } from './features/pages/tutorial/tutorial.component';
+import { TutorialSwiperComponent } from './features/pages/tutorial-swiper/tutorial-swiper.component';
+import {SwiperModule} from 'swiper/angular';
 
 
 @NgModule({
@@ -35,7 +37,8 @@ import { TutorialComponent } from './features/pages/tutorial/tutorial.component'
     AframeForestComponent,
     QuizComponent,
     SurveyComponent,
-    TutorialComponent
+    TutorialComponent,
+    TutorialSwiperComponent
   ],
   imports: [
     BrowserModule,
@@ -50,6 +53,7 @@ import { TutorialComponent } from './features/pages/tutorial/tutorial.component'
     MatIconModule,
     MatListModule,
     MatProgressSpinnerModule,
+    SwiperModule
   ],
   providers: [],
   bootstrap: [AppComponent],

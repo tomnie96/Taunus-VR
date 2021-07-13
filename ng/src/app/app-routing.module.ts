@@ -7,6 +7,7 @@ import {AframeForestComponent} from './features/components/aframe-forest/aframe-
 import {QuizComponent} from './features/pages/quiz/quiz.component';
 import {SurveyComponent} from './features/pages/quiz/survey.component';
 import {TutorialComponent} from './features/pages/tutorial/tutorial.component';
+import {TutorialSwiperComponent} from './features/pages/tutorial-swiper/tutorial-swiper.component';
 
 const routes: Routes = [
   { path: 'tour', component: AframeForestComponent},

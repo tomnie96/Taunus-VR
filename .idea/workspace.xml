@@ -2,17 +2,16 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="05c4e32d-1cc7-46f4-a56f-6bf94cf823ff" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/ng/src/assets/icons/button_bestaetigen.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ng/src/assets/media/additional_pics/Welcome.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ng/src/assets/media/additional_pics/Gesunder_Wald.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ng/src/app/features/components/aframe-forest/aframe-forest.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/ng/src/app/features/components/aframe-forest/aframe-forest.component.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ng/src/app/features/components/aframe-preloader/aframe-preloader.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/ng/src/app/features/components/aframe-preloader/aframe-preloader.component.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ng/src/app/features/components/aframe-preloader/aframe-preloader.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/ng/src/app/features/components/aframe-preloader/aframe-preloader.component.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ng/src/app/features/components/aframe/aframe.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/ng/src/app/features/components/aframe/aframe.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ng/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/ng/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ng/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/ng/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ng/src/app/app-routing.module.ts" beforeDir="false" afterPath="$PROJECT_DIR$/ng/src/app/app-routing.module.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ng/src/app/app.module.ts" beforeDir="false" afterPath="$PROJECT_DIR$/ng/src/app/app.module.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ng/src/app/features/components/aframe/aframe.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/ng/src/app/features/components/aframe/aframe.component.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ng/src/app/features/pages/welcome/welcome.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/ng/src/app/features/pages/welcome/welcome.component.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ng/src/app/features/services/confirmation.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/ng/src/app/features/services/confirmation.service.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ng/src/app/features/services/navigation.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/ng/src/app/features/services/navigation.service.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ng/src/assets/media/boards/Tafel_1_map.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/ng/src/assets/media/boards/Tafel_1_map.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ng/src/assets/forest_pics/Punkt1_edited.JPG" beforeDir="false" afterPath="$PROJECT_DIR$/ng/src/assets/forest_pics/Punkt1_edited.JPG" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ng/src/styles.css" beforeDir="false" afterPath="$PROJECT_DIR$/ng/src/styles.css" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -38,7 +37,7 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/ng/src/assets/media/additional_pics" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/ng/src/assets/forest_pics" />
     <property name="node.js.detected.package.tslint" value="true" />
     <property name="node.js.path.for.package.tslint" value="project" />
     <property name="node.js.selected.package.tslint" value="(autodetect)" />
@@ -49,18 +48,18 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\tomni\Documents\DXP\dev\taunus-vr\ng\src\assets\forest_pics" />
       <recent name="C:\Users\tomni\Documents\DXP\dev\taunus-vr\ng\src\assets\media\additional_pics" />
       <recent name="C:\Users\tomni\Documents\DXP\dev\taunus-vr\ng\src\assets\icons" />
       <recent name="C:\Users\tomni\Documents\DXP\dev\taunus-vr\ng\src\assets\media\boards" />
       <recent name="C:\Users\tomni\Documents\DXP\dev\taunus-vr\ng\src\assets\media" />
-      <recent name="C:\Users\tomni\Documents\DXP\dev\taunus-vr\ng\src\assets\additional_pics" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\tomni\Documents\DXP\dev\taunus-vr\ng\src\assets\media\additional_pics" />
       <recent name="C:\Users\tomni\Documents\DXP\dev\taunus-vr\ng\src\assets\media" />
       <recent name="C:\Users\tomni\Documents\DXP\dev\taunus-vr\ng\src\assets\additional_pics" />
       <recent name="C:\Users\tomni\Documents\DXP\dev\taunus-vr\ng\src\assets\icons" />
       <recent name="C:\Users\tomni\Documents\DXP\dev\kd2-360\ng\src\assets\forest_pics" />
-      <recent name="C:\Users\tomni\Documents\DXP\dev\kd2-360\ng\src\assets" />
     </key>
   </component>
   <component name="RunManager">
@@ -100,7 +99,11 @@
       <workItem from="1624950253414" duration="18990000" />
       <workItem from="1625481570479" duration="5448000" />
       <workItem from="1625557049869" duration="1529000" />
-      <workItem from="1625576101664" duration="11183000" />
+      <workItem from="1625576101664" duration="11956000" />
+      <workItem from="1625662493865" duration="1256000" />
+      <workItem from="1625681957361" duration="709000" />
+      <workItem from="1626173095629" duration="595000" />
+      <workItem from="1626183337235" duration="6018000" />
     </task>
     <task id="LOCAL-00001" summary="Implemented forest-aframe component with 3 pics">
       <created>1621498750276</created>
@@ -165,7 +168,14 @@
       <option name="project" value="LOCAL" />
       <updated>1625493059738</updated>
     </task>
-    <option name="localTasksCounter" value="10" />
+    <task id="LOCAL-00010" summary="Added final boards and implemented Start">
+      <created>1625604803503</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1625604803503</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -191,7 +201,8 @@
     <MESSAGE value="Added text boards" />
     <MESSAGE value="Implemented Tutorial" />
     <MESSAGE value="New Pictures" />
-    <option name="LAST_COMMIT_MESSAGE" value="New Pictures" />
+    <MESSAGE value="Added final boards and implemented Start" />
+    <option name="LAST_COMMIT_MESSAGE" value="Added final boards and implemented Start" />
   </component>
   <component name="XPathView.XPathProjectComponent">
     <history />
