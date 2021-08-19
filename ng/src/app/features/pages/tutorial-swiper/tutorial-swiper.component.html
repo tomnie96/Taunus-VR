@@ -3,17 +3,27 @@
         [thumbs]="{ swiper: thumbsSwiper }">
   <ng-template swiperSlide>
     <div class="image-container">
-      <img src="../../../../assets/media/additional_pics/Tutorial_1_Desktop.jpg" width="85%">
+      <div *ngIf="vrDevice; else elseBlock">
+        <img src="../../../../assets/media/additional_pics/Tutorial_1_VR.jpg" width="85%" alt="">
+      </div>
+      <ng-template #elseBlock>
+        <img src="../../../../assets/media/additional_pics/Tutorial_1_Desktop.jpg" width="85%" alt="">
+      </ng-template>
     </div>
   </ng-template>
   <ng-template swiperSlide>
     <div class="image-container">
-      <img src="../../../../assets/media/additional_pics/Tutorial_2.jpg" width="85%">
+      <div *ngIf="vrDevice; else elseBlock">
+        <img src="../../../../assets/media/additional_pics/Tutorial_2_VR.jpg" width="85%" alt="">
+      </div>
+      <ng-template #elseBlock>
+        <img src="../../../../assets/media/additional_pics/Tutorial_2_Desktop.jpg" width="85%" alt="">
+      </ng-template>
     </div>
   </ng-template>
   <ng-template swiperSlide>
     <div class="image-container">
-      <img src="../../../../assets/media/additional_pics/Tutorial_3.jpg" width="85%">
+      <img src="../../../../assets/media/additional_pics/Tutorial_3.jpg" width="85%" alt="">
     </div>
   </ng-template>
 

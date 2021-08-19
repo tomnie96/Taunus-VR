@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, ViewChild, OnInit } from '@angular/core';
 import { SwiperComponent } from 'swiper/angular';
 
 // import Swiper core and required components
@@ -13,6 +13,7 @@ import SwiperCore, {
   Thumbs,
   Controller
 } from 'swiper/core';
+import {ActivatedRoute, Router} from '@angular/router';
 
 // install Swiper components
 SwiperCore.use([
@@ -28,42 +29,17 @@ SwiperCore.use([
 ]);
 
 @Component({
-  selector: 'app-swiper-example',
-  styles: [
-    `
-      .bg-yellow {
-        background-color: yellow;
-      }
-      .transition {
-        transition: background 0.25s ease, color 0.25s ease;
-      }
-      .active-slide {
-        background-color: green;
-        color: #fff;
-      }
-      .bg-blue {
-        background-color: blue;
-        color: #fff;
-      }
-    `
-  ],
+  selector: 'app-tutorial-swiper',
   templateUrl: 'tutorial-swiper.component.html',
   styleUrls: ['./tutorial-swiper.component.css']
 })
-export class TutorialSwiperComponent {
-  constructor(private cd: ChangeDetectorRef) {}
+export class TutorialSwiperComponent implements OnInit{
   @ViewChild('swiperRef', { static: false }) swiperRef?: SwiperComponent;
 
   show: boolean;
   thumbs: any;
 
   thumbsSwiper: any;
-  controlledSwiper: any;
-
-  indexNumber = 1;
-  exampleConfig = { slidesPerView: 3 };
-  slidesPerView = 4;
-  pagination: any = false;
 
   slides2 = ['slide 1', 'slide 2', 'slide 3'];
 
@@ -82,48 +58,22 @@ export class TutorialSwiperComponent {
   );
 
   breakPointsToggle: boolean;
-  // tslint:disable-next-line:use-lifecycle-interface
-  ngOnInit(): void {}
-  // tslint:disable-next-line:typedef
-  setThumbsSwiper(swiper) {
-    this.thumbsSwiper = swiper;
+  vrDevice: boolean;
+
+  constructor(private route: ActivatedRoute) {
   }
-  // tslint:disable-next-line:typedef
-  setControlledSwiper(swiper) {
-    this.controlledSwiper = swiper;
+
+  ngOnInit(): void {
+    this.vrDevice = this.route.snapshot.paramMap.get('device') === 'vr';
+    console.log(this.vrDevice);
   }
-  // tslint:disable-next-line:typedef
-  replaceSlides() {
+
+  replaceSlides(): void {
     this.slides2 = ['foo', 'bar'];
   }
 
-  // tslint:disable-next-line:typedef
-  togglePagination() {
-    if (!this.pagination) {
-      this.pagination = { type: 'fraction' };
-    } else {
-      this.pagination = false;
-    }
-  }
-  // tslint:disable-next-line:typedef
-  toggleNavigation() {
-    this.navigation = !this.navigation;
-  }
-  // tslint:disable-next-line:typedef
-  toggleScrollbar() {
-    if (!this.scrollbar) {
-      this.scrollbar = { draggable: true };
-    } else {
-      this.scrollbar = false;
-    }
-  }
 
-  // tslint:disable-next-line:typedef variable-name
-  log(string) {
-    // console.log(string);
-  }
-  // tslint:disable-next-line:typedef
-  breakpointChange() {
+  breakpointChange(): void {
     this.breakPointsToggle = !this.breakPointsToggle;
     this.breakpoints = {
       640: { slidesPerView: 2, spaceBetween: 20 },
@@ -131,4 +81,5 @@ export class TutorialSwiperComponent {
       1024: { slidesPerView: this.breakPointsToggle ? 7 : 5, spaceBetween: 50 }
     };
   }
+
 }

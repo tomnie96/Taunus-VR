@@ -5,8 +5,6 @@
     <audio id="click-sound" crossorigin="anonymous"
            src="assets/media/audio/click.ogg" preload="auto"></audio>
 
-    <img id="img-map" crossorigin="anonymous" src="assets/map.png" alt="Picture">
-    <img id="img-01" crossorigin="anonymous" src="assets/forest_pics/Punkt1.JPG" alt="Picture">
     <img id="img-01e" crossorigin="anonymous" src="assets/forest_pics/Punkt1_edited.JPG" alt="Picture">
     <img id="img-02" crossorigin="anonymous" src="assets/forest_pics/Punkt2_edited.JPG" alt="Picture">
     <img id="img-03" crossorigin="anonymous" src="assets/forest_pics/Punkt3_edited.JPG" alt="Picture">
@@ -27,7 +25,6 @@
 
     <!-- Icons -->
     <img id="icon-signup" crossorigin="anonymous" src="assets/icons/signup.png" alt="Picture">
-    <img id="icon-map" crossorigin="anonymous" src="assets/icons/map.png" alt="Picture">
     <img id="icon-restart" crossorigin="anonymous" src="assets/icons/redo.png" alt="Picture">
     <img id="icon-exit" crossorigin="anonymous" src="assets/icons/leave.png" alt="Picture">
     <img id="icon-minimize" crossorigin="anonymous" src="assets/icons/exit.png" alt="Picture">
@@ -38,8 +35,6 @@
     <img id="icon-confirm" crossorigin="anonymous" src="assets/icons/check-mark.png" alt="Picture">
 
     <!-- Media -->
-    <img id="img-poster" crossorigin="anonymous" src="assets/media/poster.png" alt="Picture">
-    <img id="img-example" crossorigin="anonymous" src="assets/media/Example_Tafel.png" alt="Picture">
     <img id="img-welcome" crossorigin="anonymous" src="assets/media/additional_pics/Welcome.jpg" alt="Picture">
     <img id="img-tafel1" crossorigin="anonymous" src="assets/media/boards/Tafel_1_map.jpg" alt="Picture">
     <img id="img-tafel2" crossorigin="anonymous" src="assets/media/boards/Tafel_2_map.jpg" alt="Picture">
@@ -76,7 +71,7 @@
 
   <!--  Foyer  -->
 
-  <a-entity id="sky-55" position="0 0 0" data-text="Start" nav="next: 57" click-nav>
+  <a-entity id="sky-55" position="0 0 0" data-text="Start" nav="next: (57)" click-nav>
     <a-sky mixin="m-sky" src="#img-01e" rotation="0 225 1"></a-sky>
     <a-entity class="payload">
       <a-image id="entry-point" src="#img-welcome" height=".7" width="1.2" position="0 .4 -1"></a-image>
@@ -88,19 +83,13 @@
     </a-entity>
   </a-entity>
 
-  <a-entity id="sky-01" position="0.5 0 0" data-text="Start unedited" nav="next: 55, 03" click-nav>
-    <a-sky mixin="m-sky" src="#img-01" rotation="0 225 0"></a-sky>
-    <a-entity class="payload">
-    </a-entity>
-  </a-entity>
-
   <a-entity id="sky-57" position="0 0 -12.5" data-text="Punkt 2" nav="next: 55, 03">
     <a-sky mixin="m-sky" src="#img-02" rotation="0 220 0"></a-sky>
     <a-entity class="payload">
     </a-entity>
   </a-entity>
 
-  <a-entity id="sky-03" position="-1 0 -26" data-text="Eingang" nav="next: 57, 04" click-nav>
+  <a-entity id="sky-03" position="-1 0 -26" data-text="Punkt 3" nav="next: 57, 04" click-nav>
     <a-sky mixin="m-sky" src="#img-03" rotation="0 235 0"></a-sky>
     <a-entity class="payload">
       <a-plane class="hover" height=".5" width=".5" position="1.5 -.2 -2.5" mixin="poster"
@@ -290,7 +279,6 @@
     mixin="menu-animations"
     nav-map>
     <a-plane color="#666" height=".5" width=".92" position="0 0 -.02" shader="flat"></a-plane>
-    <a-image src="#img-map" height=".4" width=".8"></a-image>
     <a-circle radius=".3" position="-0.4 .2 .02" color="#AA0000"
               shader="flat"
               animation__blink="property: radius; from: .03; to:0.015; dur: 1000; easing: easeInQuad; startEvents: blink, animationcomplete__blinkback;"

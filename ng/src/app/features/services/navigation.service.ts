@@ -5,6 +5,7 @@ import {MapService} from './map.service';
 import {MenuService} from './menu.service';
 import {AnalyticsService} from './analytics.service';
 import {EventType} from '../models/event-type.enum';
+import {ConfirmationService} from './confirmation.service';
 
 @Injectable({
   providedIn: 'root'
@@ -87,7 +88,8 @@ export class NavigationService {
   updateMainSphere(sphere, neighbourIds): void {
     this.setAllInvisible();
     this.setMainSphere(sphere, neighbourIds);
-    if (sphere.id === 'sky-55') {
+    console.log(neighbourIds);
+    if (sphere.id === ConfirmationService.checkPoint.id) {
       neighbourIds = this.handleConfirmation(neighbourIds);
     }
     neighbourIds.forEach((id) => this.setNeighbour(document.getElementById('sky-' + id)));

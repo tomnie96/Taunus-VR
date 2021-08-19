@@ -50,8 +50,8 @@
           <h2>Tour</h2>
           <h3 *ngIf="!loaded">Zuerst müssen die erforderlichen Daten oben geladen werden.</h3>
           <h3 *ngIf="loaded">Hier geht es weiter zum Tutorial:</h3>
-          <button routerLink="/forest" mat-raised-button color="primary" *ngIf="!loaded" disabled>Starte 360° Tour</button>
-          <button routerLink="/tutorial" mat-raised-button color="primary" *ngIf="loaded">Starte Tutorial</button>
+          <button routerLink="./tutorial" mat-raised-button color="primary" *ngIf="!loaded" disabled>Starte 360° Tour</button>
+          <button routerLink="./tutorial" mat-raised-button color="primary" *ngIf="loaded">Starte Tutorial</button>
         </mat-card>
       </div>
     </div>

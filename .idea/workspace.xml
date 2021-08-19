@@ -2,16 +2,101 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="05c4e32d-1cc7-46f4-a56f-6bf94cf823ff" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/ng/src/assets/media/additional_pics/Gesunder_Wald.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ng/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/ng/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ng/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/ng/package.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ng/src/app/app-routing.module.ts" beforeDir="false" afterPath="$PROJECT_DIR$/ng/src/app/app-routing.module.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ng/src/app/app.module.ts" beforeDir="false" afterPath="$PROJECT_DIR$/ng/src/app/app.module.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ng/src/app/features/components/aframe/aframe.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/ng/src/app/features/components/aframe/aframe.component.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ng/src/app/features/components/aframe-forest/aframe-forest.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/ng/src/app/features/components/aframe-forest/aframe-forest.component.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ng/src/app/features/components/aframe-preloader/aframe-preloader.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/ng/src/app/features/components/aframe-preloader/aframe-preloader.component.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ng/src/app/features/components/aframe-preloader/aframe-preloader.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/ng/src/app/features/components/aframe-preloader/aframe-preloader.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ng/src/app/features/components/aframe/aframe.component.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ng/src/app/features/components/aframe/aframe.component.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ng/src/app/features/components/aframe/aframe.component.spec.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ng/src/app/features/components/aframe/aframe.component.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ng/src/app/features/pages/quiz/quiz.component.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ng/src/app/features/pages/quiz/quiz.component.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ng/src/app/features/pages/quiz/quiz.component.spec.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ng/src/app/features/pages/quiz/quiz.component.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ng/src/app/features/pages/quiz/survey.component.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ng/src/app/features/pages/tutorial-swiper/tutorial-swiper.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/ng/src/app/features/pages/tutorial-swiper/tutorial-swiper.component.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ng/src/app/features/pages/tutorial-swiper/tutorial-swiper.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/ng/src/app/features/pages/tutorial-swiper/tutorial-swiper.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ng/src/app/features/pages/tutorial/tutorial.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/ng/src/app/features/pages/tutorial/tutorial.component.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ng/src/app/features/pages/welcome/welcome.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/ng/src/app/features/pages/welcome/welcome.component.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ng/src/assets/forest_pics/Punkt1_edited.JPG" beforeDir="false" afterPath="$PROJECT_DIR$/ng/src/assets/forest_pics/Punkt1_edited.JPG" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ng/src/styles.css" beforeDir="false" afterPath="$PROJECT_DIR$/ng/src/styles.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ng/src/app/features/services/confirmation.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/ng/src/app/features/services/confirmation.service.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ng/src/app/features/services/navigation.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/ng/src/app/features/services/navigation.service.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ng/src/assets/forest_pics/Punkt1.JPG" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ng/src/assets/forest_pics/Punkt2.JPG" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ng/src/assets/forest_pics/Punkt3.JPG" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ng/src/assets/map.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ng/src/assets/media/Example_Tafel.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ng/src/assets/media/additional_pics/Tutorial_2.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/ng/src/assets/media/additional_pics/Tutorial_2_VR.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ng/src/assets/media/boards/Tafel_1.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ng/src/assets/media/boards/Tafel_2.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ng/src/assets/media/boards/Tafel_2_transp.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ng/src/assets/media/boards/Tafel_3.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ng/src/assets/media/boards/Tafel_4.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ng/src/assets/media/boards/Tafel_5.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ng/src/assets/media/boards/Tafel_6.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ng/src/assets/media/boards/Tafel_7.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ng/src/assets/media/poster.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ng/src/assets/pics/R0010005.JPG" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ng/src/assets/pics/R0010006.JPG" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ng/src/assets/pics/R0010007.JPG" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ng/src/assets/pics/R0010008.JPG" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ng/src/assets/pics/R0010009.JPG" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ng/src/assets/pics/R0010010.JPG" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ng/src/assets/pics/R0010011.JPG" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ng/src/assets/pics/R0010012.JPG" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ng/src/assets/pics/R0010013.JPG" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ng/src/assets/pics/R0010014.JPG" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ng/src/assets/pics/R0010015.JPG" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ng/src/assets/pics/R0010016.JPG" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ng/src/assets/pics/R0010017.JPG" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ng/src/assets/pics/R0010018.JPG" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ng/src/assets/pics/R0010019.JPG" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ng/src/assets/pics/R0010020.JPG" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ng/src/assets/pics/R0010021.JPG" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ng/src/assets/pics/R0010022.JPG" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ng/src/assets/pics/R0010023.JPG" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ng/src/assets/pics/R0010024.JPG" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ng/src/assets/pics/R0010025.JPG" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ng/src/assets/pics/R0010026.JPG" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ng/src/assets/pics/R0010027.JPG" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ng/src/assets/pics/R0010028.JPG" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ng/src/assets/pics/R0010029.JPG" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ng/src/assets/pics/R0010030.JPG" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ng/src/assets/pics/R0010031.JPG" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ng/src/assets/pics/R0010032.JPG" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ng/src/assets/pics/R0010033.JPG" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ng/src/assets/pics/R0010034.JPG" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ng/src/assets/pics/R0010035.JPG" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ng/src/assets/pics/R0010036.JPG" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ng/src/assets/pics/R0010037.JPG" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ng/src/assets/pics/R0010038.JPG" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ng/src/assets/pics/R0010039.JPG" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ng/src/assets/pics/R0010040.JPG" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ng/src/assets/pics/R0010041.JPG" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ng/src/assets/pics/R0010042.JPG" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ng/src/assets/pics/R0010043.JPG" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ng/src/assets/pics/R0010044.JPG" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ng/src/assets/pics/R0010045.JPG" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ng/src/assets/pics/R0010046.JPG" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ng/src/assets/pics/R0010047.JPG" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ng/src/assets/pics/R0010048.JPG" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ng/src/assets/pics/R0010049.JPG" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ng/src/assets/pics/R0010050.JPG" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ng/src/assets/pics/R0010051.JPG" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ng/src/assets/pics/R0010052.JPG" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ng/src/assets/pics/R0010053.JPG" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ng/src/assets/pics/R0010054.JPG" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ng/src/assets/pics/R0010055.JPG" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ng/src/assets/pics/R0010056.JPG" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ng/src/assets/pics/R0010057.JPG" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ng/src/assets/pics/R0010058.JPG" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ng/src/assets/pics/R0010059.JPG" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ng/src/assets/pics/R0010060.JPG" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ng/src/assets/pics/R0010061.JPG" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ng/src/assets/pics/R0010062.JPG" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ng/src/assets/pics/R0010065.JPG" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -37,7 +122,7 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/ng/src/assets/forest_pics" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../kd2-360" />
     <property name="node.js.detected.package.tslint" value="true" />
     <property name="node.js.path.for.package.tslint" value="project" />
     <property name="node.js.selected.package.tslint" value="(autodetect)" />
@@ -103,7 +188,12 @@
       <workItem from="1625662493865" duration="1256000" />
       <workItem from="1625681957361" duration="709000" />
       <workItem from="1626173095629" duration="595000" />
-      <workItem from="1626183337235" duration="6018000" />
+      <workItem from="1626183337235" duration="6145000" />
+      <workItem from="1626858458472" duration="750000" />
+      <workItem from="1626942594706" duration="676000" />
+      <workItem from="1627640289003" duration="761000" />
+      <workItem from="1628772951471" duration="3911000" />
+      <workItem from="1629359017933" duration="14870000" />
     </task>
     <task id="LOCAL-00001" summary="Implemented forest-aframe component with 3 pics">
       <created>1621498750276</created>
@@ -175,7 +265,14 @@
       <option name="project" value="LOCAL" />
       <updated>1625604803503</updated>
     </task>
-    <option name="localTasksCounter" value="11" />
+    <task id="LOCAL-00011" summary="Implemented Tutorial">
+      <created>1626192340656</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1626192340656</updated>
+    </task>
+    <option name="localTasksCounter" value="12" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -199,10 +296,22 @@
     <MESSAGE value="Added End Tour, info text placeholders and adjusted start and end screen" />
     <MESSAGE value="Implemented confirmation functionality" />
     <MESSAGE value="Added text boards" />
-    <MESSAGE value="Implemented Tutorial" />
     <MESSAGE value="New Pictures" />
     <MESSAGE value="Added final boards and implemented Start" />
-    <option name="LAST_COMMIT_MESSAGE" value="Added final boards and implemented Start" />
+    <MESSAGE value="Implemented Tutorial" />
+    <option name="LAST_COMMIT_MESSAGE" value="Implemented Tutorial" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/ng/node_modules/aframe/dist/aframe-master.js</url>
+          <line>85</line>
+          <properties lambdaOrdinal="-1" />
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
   <component name="XPathView.XPathProjectComponent">
     <history />

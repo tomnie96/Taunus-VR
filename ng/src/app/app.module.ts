@@ -15,15 +15,13 @@ import {WelcomeComponent} from './features/pages/welcome/welcome.component';
 import {TourComponent} from './features/pages/tour/tour.component';
 import {DebriefingComponent} from './features/pages/debriefing/debriefing.component';
 import {AppRoutingModule} from './app-routing.module';
-import {AframeComponent} from './features/components/aframe/aframe.component';
 import {AframePreloaderComponent} from './features/components/aframe-preloader/aframe-preloader.component';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import { AframeForestComponent } from './features/components/aframe-forest/aframe-forest.component';
-import { QuizComponent } from './features/pages/quiz/quiz.component';
-import { SurveyComponent} from './features/pages/quiz/survey.component';
 import { TutorialComponent } from './features/pages/tutorial/tutorial.component';
 import { TutorialSwiperComponent } from './features/pages/tutorial-swiper/tutorial-swiper.component';
 import {SwiperModule} from 'swiper/angular';
+import { StartComponent } from './features/pages/start/start.component';
 
 
 @NgModule({
@@ -32,13 +30,11 @@ import {SwiperModule} from 'swiper/angular';
     WelcomeComponent,
     TourComponent,
     DebriefingComponent,
-    AframeComponent,
     AframePreloaderComponent,
     AframeForestComponent,
-    QuizComponent,
-    SurveyComponent,
     TutorialComponent,
-    TutorialSwiperComponent
+    TutorialSwiperComponent,
+    StartComponent
   ],
   imports: [
     BrowserModule,

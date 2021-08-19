@@ -2,11 +2,27 @@ import { Injectable } from '@angular/core';
 import {NavigationService} from './navigation.service';
 import {MapService} from './map.service';
 
+class CheckPoint {
+  id: string;
+  unlockPoint: string;
+  unlocked: boolean;
+
+  constructor(id: string, unlockPoint: string, unlocked: boolean) {
+    this.id = id;
+    this.unlockPoint = unlockPoint;
+    this.unlocked = unlocked;
+  }
+}
+
 @Injectable({
   providedIn: 'root'
 })
-export class ConfirmationService {
 
+
+
+export class ConfirmationService {
+  static checkPoint: CheckPoint;
+  static unlockPoint = 'sky-57';
   static fade(element: any): void {
     let op = 1;  // initial opacity
     const timer = setInterval( () => {
@@ -24,20 +40,13 @@ export class ConfirmationService {
   ) { }
   register(map: MapService, navigation: NavigationService): void {
     this.navigation = navigation;
+    ConfirmationService.checkPoint = new CheckPoint('sky-55', 'sky-57', false);
     AFRAME.registerComponent('confirm', {
 
       init(): void {
-        this.el.addEventListener('click', (e) => {
-
-          // NgZone ensures correct DOM update
-          navigation.setConfirmed();
-          document.getElementById('confirm-point').setAttribute('visible', 'false');
-          navigation.updateMainSphere(navigation.currentSphere, [57]);
-        });
         this.el.addEventListener('mouseenter', (e) => {
           navigation.setConfirmed();
           navigation.updateMainSphere(navigation.currentSphere, [57]);
-          // document.getElementById('entry-point').setAttribute('visible', 'false');
           ConfirmationService.fade(document.getElementById('entry-point'));
         });
       },
