@@ -5,7 +5,6 @@ import {MapService} from './map.service';
 import {MenuService} from './menu.service';
 import {AnalyticsService} from './analytics.service';
 import {EventType} from '../models/event-type.enum';
-import {ConfirmationService} from './confirmation.service';
 
 @Injectable({
   providedIn: 'root'
@@ -17,7 +16,6 @@ export class NavigationService {
   private nav = this;
   private menu;
   private isRegistered = false;
-  private confirmed = false;
 
   private initialized = false; // Program initialized?
   private isTransitioning = false; // Allow only one transition at the same time
@@ -88,30 +86,7 @@ export class NavigationService {
   updateMainSphere(sphere, neighbourIds): void {
     this.setAllInvisible();
     this.setMainSphere(sphere, neighbourIds);
-    console.log(neighbourIds);
-    if (sphere.id === ConfirmationService.checkPoint.id) {
-      neighbourIds = this.handleConfirmation(neighbourIds);
-    }
     neighbourIds.forEach((id) => this.setNeighbour(document.getElementById('sky-' + id)));
-  }
-
-  setConfirmed(): void {
-    this.confirmed = true;
-  }
-
-  // Confirmation handler: Removes unlocked point from list, if not confirmed and part of neighborIds list
-  handleConfirmation(neighbourIds: string[]): string[] {
-    const unlockedPoint = '57';
-    if (!this.confirmed){
-      const index = neighbourIds.indexOf(unlockedPoint);
-      if (index > -1) {
-        neighbourIds.splice(index, 1);
-      }
-    }
-    else if (!neighbourIds.includes(unlockedPoint)){
-      neighbourIds.push(unlockedPoint);
-    }
-    return neighbourIds;
   }
 
   register(map: MapService, menu: MenuService): void {
@@ -134,7 +109,7 @@ export class NavigationService {
             context.initialized = true;
 
             // Set position
-            context.nav.updateMainSphere(this.el, this.data.next);
+            context.nav.updateMainSphere(this.el, []);
             document.querySelector('#cam-rig').setAttribute('position', context.nav.currentSphere.object3D.position);
           }
         }

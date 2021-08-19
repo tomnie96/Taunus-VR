@@ -37,7 +37,7 @@ export class AframeForestComponent implements OnInit {
     this.media.register();
     this.snow.register();
     this.calc.registerLookAt();
-    this.confirmation.register(this.map, this.nav);
+    this.confirmation.register(this.nav);
 
     // Aframe stats
     if (!environment.production) {
